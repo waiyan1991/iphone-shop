@@ -326,7 +326,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 async function loadPhones() {
   document.getElementById('phone-list').innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
   try {
-    const data = await sbFetch('/rest/v1/phones?select=*&order=created_at.desc');
+    const data = await sbFetch('/rest/v1/iphones?select=*&order=created_at.desc');
     allPhones = data || [];
     updateStats(); renderList();
   } catch(e) { toast('Data load မရနိုင်ပါ: '+e.message, 'error'); }
@@ -380,7 +380,7 @@ async function searchIMEI() {
   const btn = document.getElementById('imei-search-btn');
   btn.textContent='...'; btn.disabled=true;
   try {
-    const data = await sbFetch(`/rest/v1/phones?imei=eq.${encodeURIComponent(imei)}&select=*`);
+    const data = await sbFetch(`/rest/v1/iphones?imei=eq.${encodeURIComponent(imei)}&select=*`);
     resultEl.style.display = 'block';
     if (!data || data.length===0) {
       resultEl.className='imei-result not-found';
@@ -414,7 +414,7 @@ document.getElementById('add-phone-btn').addEventListener('click', async () => {
   const payload={imei,model,storage:document.getElementById('add-storage').value,color:document.getElementById('add-color').value.trim(),status:document.getElementById('add-status').value};
   if(dr) payload.date_receive=dr;
   try {
-    await sbFetch('/rest/v1/phones',{method:'POST',body:payload,prefer:'return=minimal'});
+    await sbFetch('/rest/v1/iphones',{method:'POST',body:payload,prefer:'return=minimal'});
     toast('ဖုန်း ထည့်သွင်းပြီးပါပြီ ✓','success');
     clearForm();
   } catch(e) { toast('Error: '+e.message,'error'); }
@@ -447,7 +447,7 @@ document.getElementById('save-edit-btn').addEventListener('click', async () => {
   const ds=document.getElementById('edit-date-sold').value;
   const payload={imei:document.getElementById('edit-imei').value.trim(),model:document.getElementById('edit-model').value.trim(),storage:document.getElementById('edit-storage').value,color:document.getElementById('edit-color').value.trim(),status:document.getElementById('edit-status').value,date_sold:ds||null};
   try {
-    await sbFetch(`/rest/v1/phones?id=eq.${id}`,{method:'PATCH',body:payload,prefer:'return=minimal'});
+    await sbFetch(`/rest/v1/iphones?id=eq.${id}`,{method:'PATCH',body:payload,prefer:'return=minimal'});
     toast('Update လုပ်ပြီးပါပြီ ✓','success');
     document.getElementById('edit-modal').classList.remove('show');
     loadPhones();
