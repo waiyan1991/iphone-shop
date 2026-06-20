@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iPhone Shop Manager</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --surface: #13131a; --surface2: #1c1c28; --border: #2a2a3a;
+      --accent: #6c63ff; --accent2: #a78bfa; --success: #22c55e; --danger: #ef4444;
+      --text: #f0f0ff; --text2: #9090b0; --text3: #5a5a7a;
+      --radius: 14px; --radius-sm: 8px;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+
+    #auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(ellipse at 50% 0%, #2d1f6e22 0%, transparent 70%); }
+    .auth-card { width: 100%; max-width: 380px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 36px 32px; }
+    .auth-logo { text-align: center; margin-bottom: 32px; }
+    .auth-logo .icon { width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 14px; }
+    .auth-logo h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+    .auth-logo p { font-size: 13px; color: var(--text2); margin-top: 4px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus { border-color: var(--accent); }
+    .auth-error { background: #ef444415; border: 1px solid #ef444430; border-radius: var(--radius-sm); padding: 10px 14px; color: var(--danger); font-size: 13px; margin-bottom: 16px; display: none; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), #8b5cf6); color: #fff; width: 100%; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-sm { padding: 7px 14px; font-size: 12px; }
+
+    #app-screen { display: none; min-height: 100vh; }
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .header-left { display: flex; align-items: center; gap: 10px; }
+    .header-logo { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .header h2 { font-size: 15px; font-weight: 700; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .user-badge { font-size: 11px; color: var(--text2); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .main { padding: 20px; max-width: 900px; margin: 0 auto; }
+    .tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px; margin-bottom: 24px; }
+    .tab-btn { flex: 1; padding: 9px 8px; background: none; border: none; border-radius: 10px; color: var(--text2); font-size: 12px; font-weight: 500; font-family: inherit; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .tab-btn.active { background: linear-gradient(135deg, var(--accent), #8b5cf6); color: #fff; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+    .card h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+    .imei-input-row { display: flex; gap: 10px; }
+    .imei-input-row input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-size: 15px; font-family: monospace; font-weight: 500; outline: none; letter-spacing: 1px; transition: border-color 0.2s; }
+    .imei-input-row input:focus { border-color: var(--accent); }
+    .imei-input-row .btn { width: auto; padding: 12px 20px; }
+
+    .imei-result { margin-top: 16px; border-radius: var(--radius-sm); padding: 16px; display: none; }
+    .imei-result.found-sold { background: #ef444410; border: 1px solid #ef444430; }
+    .imei-result.found-in-stock { background: #22c55e10; border: 1px solid #22c55e30; }
+    .imei-result.not-found { background: #6c63ff10; border: 1px solid #6c63ff30; }
+    .result-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .result-icon { font-size: 22px; }
+    .result-title { font-size: 14px; font-weight: 600; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .result-item label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 3px; }
+    .result-item span { font-size: 13px; font-weight: 500; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; }
+    .stat-num { font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+    .stat-num.total { color: var(--accent2); }
+    .stat-num.in-stock { color: var(--success); }
+    .stat-num.sold { color: var(--text2); }
+    .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .search-filter-row { display: flex; gap: 8px; margin-bottom: 14px; }
+    .search-filter-row input, .search-filter-row select { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px; color: var(--text); font-size: 13px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .search-filter-row input { flex: 1; }
+    .search-filter-row input:focus, .search-filter-row select:focus { border-color: var(--accent); }
+
+    .list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .list-header h3 { font-size: 14px; font-weight: 600; }
+    .phone-list { display: flex; flex-direction: column; gap: 8px; }
+    .phone-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; transition: border-color 0.2s; }
+    .phone-card:hover { border-color: var(--accent); }
+    .phone-info { flex: 1; min-width: 0; }
+    .phone-model { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .phone-sub { font-size: 12px; color: var(--text2); display: flex; gap: 10px; flex-wrap: wrap; }
+    .phone-imei { font-family: monospace; font-size: 11px; color: var(--text3); margin-top: 3px; letter-spacing: 0.5px; }
+    .phone-actions { display: flex; gap: 6px; flex-shrink: 0; align-items: center; }
+    .status-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+    .status-badge.available { background: #22c55e15; color: var(--success); border: 1px solid #22c55e25; }
+    .status-badge.sold { background: #ef444415; color: var(--danger); border: 1px solid #ef444425; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-grid .form-group { margin-bottom: 0; }
+    .form-grid .form-group input, .form-grid .form-group select { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; color: var(--text); font-size: 13px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .form-grid .form-group input:focus, .form-grid .form-group select:focus { border-color: var(--accent); }
+    .form-actions { margin-top: 20px; display: flex; gap: 10px; }
+
+    .modal-overlay { position: fixed; inset: 0; background: #00000088; backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 20px; display: none; }
+    .modal-overlay.show { display: flex; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; max-width: 420px; }
+    .modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+    .toast-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 999; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; }
+    .toast { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; font-size: 13px; font-weight: 500; color: var(--text); box-shadow: 0 8px 32px #00000060; animation: slideUp 0.3s ease; white-space: nowrap; }
+    .toast.success { border-color: #22c55e40; color: var(--success); }
+    .toast.error { border-color: #ef444440; color: var(--danger); }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .loading { text-align: center; padding: 40px; color: var(--text2); font-size: 13px; }
+    .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--text3); }
+    .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+    select option { background: #1c1c28; }
+  </style>
+</head>
+<body>
+
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="icon">📱</div>
+      <h1>iPhone Shop</h1>
+      <p>Inventory Manager</p>
+    </div>
+    <div class="auth-error" id="auth-error"></div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="your@email.com" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="••••••••" />
+    </div>
+    <button class="btn btn-primary" id="login-btn">Login</button>
+  </div>
+</div>
+
+<div id="app-screen">
+  <div class="header">
+    <div class="header-left">
+      <div class="header-logo">📱</div>
+      <h2>iPhone Shop</h2>
+    </div>
+    <div class="header-right">
+      <span class="user-badge" id="user-email-display"></span>
+      <button class="btn btn-secondary btn-sm" id="logout-btn">Logout</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="check">🔍 IMEI</button>
+      <button class="tab-btn" data-tab="list">📋 စာရင်း</button>
+      <button class="tab-btn" data-tab="add">➕ ထည့်မည်</button>
+    </div>
+
+    <div id="tab-check">
+      <div class="card">
+        <h3>🔍 IMEI စစ်ဆေးခြင်း</h3>
+        <div class="imei-input-row">
+          <input type="tel" id="imei-search-input" placeholder="IMEI နံပါတ် ထည့်ပါ..." maxlength="15" inputmode="numeric" />
+          <button class="btn btn-primary" id="imei-search-btn">စစ်ဆေး</button>
+        </div>
+        <div class="imei-result" id="imei-result"></div>
+      </div>
+    </div>
+
+    <div id="tab-list" style="display:none">
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-num total" id="stat-total">—</div><div class="stat-label">စုစုပေါင်း</div></div>
+        <div class="stat-card"><div class="stat-num in-stock" id="stat-available">—</div><div class="stat-label">ရောင်းရန်</div></div>
+        <div class="stat-card"><div class="stat-num sold" id="stat-sold">—</div><div class="stat-label">ရောင်းပြီး</div></div>
+      </div>
+      <div class="search-filter-row">
+        <input type="text" id="list-search" placeholder="Model / IMEI ရှာမည်..." />
+        <select id="list-filter">
+          <option value="">အားလုံး</option>
+          <option value="available">ရောင်းရန်</option>
+          <option value="sold">ရောင်းပြီး</option>
+        </select>
+      </div>
+      <div class="list-header">
+        <h3>ဖုန်းစာရင်း</h3>
+        <button class="btn btn-secondary btn-sm" id="refresh-btn">↻ Refresh</button>
+      </div>
+      <div class="phone-list" id="phone-list">
+        <div class="loading"><div class="spinner"></div>Loading...</div>
+      </div>
+    </div>
+
+    <div id="tab-add" style="display:none">
+      <div class="card">
+        <h3>➕ ဖုန်းအသစ်ထည့်မည်</h3>
+        <div class="form-grid">
+          <div class="form-group"><label>IMEI *</label><input type="tel" id="add-imei" placeholder="351234567890123" maxlength="15" inputmode="numeric" /></div>
+          <div class="form-group"><label>Model *</label><input type="text" id="add-model" placeholder="iPhone 15 Pro Max" /></div>
+          <div class="form-group"><label>Storage</label>
+            <select id="add-storage"><option value="">ရွေးချယ်ပါ</option><option>64GB</option><option>128GB</option><option>256GB</option><option>512GB</option><option>1TB</option></select>
+          </div>
+          <div class="form-group"><label>Color</label><input type="text" id="add-color" placeholder="Black Titanium" /></div>
+          <div class="form-group"><label>Status</label>
+            <select id="add-status"><option value="available">ရောင်းရန် (In Stock)</option><option value="sold">ရောင်းပြီး (Sold)</option></select>
+          </div>
+          <div class="form-group"><label>ဝင်ရောက်သောနေ့</label><input type="date" id="add-date-receive" /></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="add-phone-btn" style="width:auto">✓ သိမ်းဆည်းမည်</button>
+          <button class="btn btn-secondary" id="clear-form-btn">ဖျက်မည်</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <h3>✏️ ဖုန်းကို ပြင်မည်</h3>
+    <input type="hidden" id="edit-id" />
+    <div class="form-grid">
+      <div class="form-group"><label>IMEI</label><input type="tel" id="edit-imei" maxlength="15" inputmode="numeric" /></div>
+      <div class="form-group"><label>Model</label><input type="text" id="edit-model" /></div>
+      <div class="form-group"><label>Storage</label>
+        <select id="edit-storage"><option value="">—</option><option>64GB</option><option>128GB</option><option>256GB</option><option>512GB</option><option>1TB</option></select>
+      </div>
+      <div class="form-group"><label>Color</label><input type="text" id="edit-color" /></div>
+      <div class="form-group"><label>Status</label>
+        <select id="edit-status"><option value="available">ရောင်းရန်</option><option value="sold">ရောင်းပြီး</option></select>
+      </div>
+      <div class="form-group"><label>ရောင်းသောနေ့</label><input type="date" id="edit-date-sold" /></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="save-edit-btn" style="width:auto">✓ သိမ်းဆည်း</button>
+      <button class="btn btn-secondary" id="cancel-edit-btn">ပယ်ဖျက်</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+const URL  = 'https://bilowmtnmfymccbgvafz.supabase.co';
+const KEY  = 'sb_publishable_kBWsQDvwBd5oixD5FxLu8w_062sRH_C';
+let ACCESS_TOKEN = '';
+let allPhones = [];
+
+// ── HELPERS ──
+function toast(msg, type='') {
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  document.getElementById('toast-container').appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+async function sbFetch(path, opts={}) {
+  const headers = { 'Content-Type': 'application/json', 'apikey': KEY, 'Authorization': `Bearer ${ACCESS_TOKEN || KEY}` };
+  if (opts.prefer) headers['Prefer'] = opts.prefer;
+  const res = await fetch(`${URL}${path}`, { method: opts.method||'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  if (!res.ok) { const e = await res.json().catch(()=>({message:res.statusText})); throw new Error(e.message||e.error_description||res.statusText); }
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+// ── AUTH ──
+document.getElementById('login-btn').addEventListener('click', async () => {
+  const email = document.getElementById('login-email').value.trim();
+  const pw    = document.getElementById('login-password').value;
+  const errEl = document.getElementById('auth-error');
+  errEl.style.display = 'none';
+  if (!email || !pw) { errEl.textContent = 'Email နှင့် Password ထည့်ပါ'; errEl.style.display='block'; return; }
+  const btn = document.getElementById('login-btn');
+  btn.textContent = 'Logging in...'; btn.disabled = true;
+  try {
+    const res = await fetch(`${URL}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': KEY },
+      body: JSON.stringify({ email, password: pw })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error_description || data.message || 'Login မအောင်မြင်ပါ');
+    ACCESS_TOKEN = data.access_token;
+    localStorage.setItem('sb_token', ACCESS_TOKEN);
+    showApp(email);
+  } catch(e) {
+    errEl.textContent = e.message; errEl.style.display='block';
+  }
+  btn.textContent = 'Login'; btn.disabled = false;
+});
+
+document.getElementById('login-password').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('login-btn').click(); });
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  ACCESS_TOKEN = ''; localStorage.removeItem('sb_token');
+  document.getElementById('app-screen').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+});
+
+function showApp(email) {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'block';
+  document.getElementById('user-email-display').textContent = email;
+  loadPhones();
+}
+
+// ── TABS ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    document.getElementById('tab-check').style.display = tab==='check' ? 'block' : 'none';
+    document.getElementById('tab-list').style.display  = tab==='list'  ? 'block' : 'none';
+    document.getElementById('tab-add').style.display   = tab==='add'   ? 'block' : 'none';
+    if (tab==='list') loadPhones();
+  });
+});
+
+// ── LOAD PHONES ──
+async function loadPhones() {
+  document.getElementById('phone-list').innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
+  try {
+    const data = await sbFetch('/rest/v1/phones?select=*&order=created_at.desc');
+    allPhones = data || [];
+    updateStats(); renderList();
+  } catch(e) { toast('Data load မရနိုင်ပါ: '+e.message, 'error'); }
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent     = allPhones.length;
+  document.getElementById('stat-available').textContent = allPhones.filter(p=>p.status==='available').length;
+  document.getElementById('stat-sold').textContent      = allPhones.filter(p=>p.status==='sold').length;
+}
+
+function renderList() {
+  const search = document.getElementById('list-search').value.toLowerCase();
+  const filter = document.getElementById('list-filter').value;
+  let phones = allPhones;
+  if (filter) phones = phones.filter(p=>p.status===filter);
+  if (search) phones = phones.filter(p=>(p.model||'').toLowerCase().includes(search)||(p.imei||'').includes(search)||(p.color||'').toLowerCase().includes(search));
+  const list = document.getElementById('phone-list');
+  if (!phones.length) { list.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>ဖုန်းမတွေ့ပါ</p></div>'; return; }
+  list.innerHTML = phones.map(p=>`
+    <div class="phone-card">
+      <div class="phone-info">
+        <div class="phone-model">${p.model||'—'}</div>
+        <div class="phone-sub">
+          <span>${p.storage||'—'}</span><span>${p.color||'—'}</span>
+          ${p.date_receive?`<span>ဝင်: ${p.date_receive}</span>`:''}
+          ${p.date_sold?`<span>ရောင်း: ${p.date_sold}</span>`:''}
+        </div>
+        <div class="phone-imei">IMEI: ${p.imei||'—'}</div>
+      </div>
+      <div class="phone-actions">
+        <span class="status-badge ${p.status==='sold'?'sold':'available'}">${p.status==='sold'?'● ရောင်းပြီး':'● ရောင်းရန်'}</span>
+        <button class="btn btn-secondary btn-sm" onclick='openEdit(${JSON.stringify(p)})'>✏️</button>
+      </div>
+    </div>`).join('');
+}
+
+document.getElementById('list-search').addEventListener('input', renderList);
+document.getElementById('list-filter').addEventListener('change', renderList);
+document.getElementById('refresh-btn').addEventListener('click', loadPhones);
+
+// ── IMEI SEARCH ──
+document.getElementById('imei-search-btn').addEventListener('click', searchIMEI);
+document.getElementById('imei-search-input').addEventListener('keydown', e=>{ if(e.key==='Enter') searchIMEI(); });
+
+async function searchIMEI() {
+  const imei = document.getElementById('imei-search-input').value.trim();
+  const resultEl = document.getElementById('imei-result');
+  if (!imei) { toast('IMEI ထည့်ပါ','error'); return; }
+  resultEl.style.display = 'none';
+  const btn = document.getElementById('imei-search-btn');
+  btn.textContent='...'; btn.disabled=true;
+  try {
+    const data = await sbFetch(`/rest/v1/phones?imei=eq.${encodeURIComponent(imei)}&select=*`);
+    resultEl.style.display = 'block';
+    if (!data || data.length===0) {
+      resultEl.className='imei-result not-found';
+      resultEl.innerHTML=`<div class="result-header"><span class="result-icon">❓</span><div><div class="result-title" style="color:var(--accent2)">ဆိုင်မှာ မပါဝင်ဖူးပါ</div><div style="font-size:12px;color:var(--text2);margin-top:3px">IMEI ${imei} — မှတ်တမ်းတွင် မတွေ့ပါ</div></div></div>`;
+    } else {
+      const p=data[0], sold=p.status==='sold';
+      resultEl.className=`imei-result ${sold?'found-sold':'found-in-stock'}`;
+      resultEl.innerHTML=`<div class="result-header"><span class="result-icon">${sold?'🔴':'🟢'}</span><div><div class="result-title" style="color:${sold?'var(--danger)':'var(--success)'}">${sold?'ဆိုင်မှ ရောင်းလိုက်ပြီ':'ဆိုင်တွင် ရှိနေသည်'}</div><div style="font-size:12px;color:var(--text2);margin-top:3px">${sold?'ဒီဖုန်းကို ဆိုင်မှ ရောင်းချထားပြီးဖြစ်သည်':'ဒီဖုန်းသည် ဆိုင်တွင် ရှိနေဆဲဖြစ်သည်'}</div></div></div>
+      <div class="result-grid">
+        <div class="result-item"><label>Model</label><span>${p.model||'—'}</span></div>
+        <div class="result-item"><label>Storage</label><span>${p.storage||'—'}</span></div>
+        <div class="result-item"><label>Color</label><span>${p.color||'—'}</span></div>
+        <div class="result-item"><label>Status</label><span>${sold?'ရောင်းပြီး':'ရောင်းရန်ရှိ'}</span></div>
+        ${p.date_receive?`<div class="result-item"><label>ဝင်ရောက်သောနေ့</label><span>${p.date_receive}</span></div>`:''}
+        ${p.date_sold?`<div class="result-item"><label>ရောင်းသောနေ့</label><span>${p.date_sold}</span></div>`:''}
+      </div>`;
+    }
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  btn.textContent='စစ်ဆေး'; btn.disabled=false;
+}
+
+// ── ADD PHONE ──
+document.getElementById('add-phone-btn').addEventListener('click', async () => {
+  const imei=document.getElementById('add-imei').value.trim();
+  const model=document.getElementById('add-model').value.trim();
+  if (!imei||!model) { toast('IMEI နှင့် Model ထည့်ပါ','error'); return; }
+  if (imei.length<14) { toast('IMEI မှားနေပါသည်','error'); return; }
+  const btn=document.getElementById('add-phone-btn');
+  btn.textContent='Saving...'; btn.disabled=true;
+  const dr=document.getElementById('add-date-receive').value;
+  const payload={imei,model,storage:document.getElementById('add-storage').value,color:document.getElementById('add-color').value.trim(),status:document.getElementById('add-status').value};
+  if(dr) payload.date_receive=dr;
+  try {
+    await sbFetch('/rest/v1/phones',{method:'POST',body:payload,prefer:'return=minimal'});
+    toast('ဖုန်း ထည့်သွင်းပြီးပါပြီ ✓','success');
+    clearForm();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  btn.textContent='✓ သိမ်းဆည်းမည်'; btn.disabled=false;
+});
+
+document.getElementById('clear-form-btn').addEventListener('click', clearForm);
+function clearForm() {
+  ['add-imei','add-model','add-color','add-date-receive'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('add-storage').value='';
+  document.getElementById('add-status').value='available';
+}
+
+// ── EDIT ──
+function openEdit(p) {
+  document.getElementById('edit-id').value=p.id;
+  document.getElementById('edit-imei').value=p.imei||'';
+  document.getElementById('edit-model').value=p.model||'';
+  document.getElementById('edit-storage').value=p.storage||'';
+  document.getElementById('edit-color').value=p.color||'';
+  document.getElementById('edit-status').value=p.status||'available';
+  document.getElementById('edit-date-sold').value=p.date_sold||'';
+  document.getElementById('edit-modal').classList.add('show');
+}
+document.getElementById('cancel-edit-btn').addEventListener('click',()=>document.getElementById('edit-modal').classList.remove('show'));
+document.getElementById('edit-modal').addEventListener('click',e=>{ if(e.target===document.getElementById('edit-modal')) document.getElementById('edit-modal').classList.remove('show'); });
+
+document.getElementById('save-edit-btn').addEventListener('click', async () => {
+  const id=document.getElementById('edit-id').value;
+  const ds=document.getElementById('edit-date-sold').value;
+  const payload={imei:document.getElementById('edit-imei').value.trim(),model:document.getElementById('edit-model').value.trim(),storage:document.getElementById('edit-storage').value,color:document.getElementById('edit-color').value.trim(),status:document.getElementById('edit-status').value,date_sold:ds||null};
+  try {
+    await sbFetch(`/rest/v1/phones?id=eq.${id}`,{method:'PATCH',body:payload,prefer:'return=minimal'});
+    toast('Update လုပ်ပြီးပါပြီ ✓','success');
+    document.getElementById('edit-modal').classList.remove('show');
+    loadPhones();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+});
+
+// ── INIT ──
+const saved = localStorage.getItem('sb_token');
+if (saved) { ACCESS_TOKEN=saved; showApp('...'); }
+</script>
+</body>
+</html>
