@@ -225,7 +225,7 @@
           </div>
           <div class="form-group"><label>ဝင်ရောက်သောနေ့</label><input type="date" id="add-date-received" /></div>
           <div class="form-group"><label>ရောင်းစျေး (Ks)</label><input type="number" id="add-sell-price" placeholder="950000" /></div>
-          <div class="form-group form-full"><label>Remark / မှတ်ချက်</label><textarea id="add-remark" placeholder="ဥပမာ - battery 85%"></textarea></div>
+          <div class="form-group form-full"><label>Remark / မှတ်ချက်</label><textarea id="add-remark" placeholder="ဥပမာ - battery 85%, ကြောင်မရှိ..."></textarea></div>
         </div>
         <div class="form-actions">
           <button class="btn btn-primary" id="add-phone-btn" style="width:auto">✓ သိမ်းဆည်းမည်</button>
@@ -286,11 +286,9 @@ function fmt(num) {
 }
 
 async function sbFetch(path, opts={}) {
-  const headers = { 'Content-Type': 'application/json', 'apikey': KEY, 'Authorization': `Bearer ${ACCESS_TOKEN || KEY}` };
-  if (opts.prefer) headers['Prefer'] = opts.prefer;
+  const headers = { 'Content-Type': 'application/json', 'apikey': KEY, 'Authorization': `Bearer ${ACCESS_TOKEN || KEY}`, 'Prefer': 'return=representation' };
   const res = await fetch(`${SURL}${path}`, { method: opts.method||'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
   if (!res.ok) { const e = await res.json().catch(()=>({message:res.statusText})); throw new Error(e.message||e.error_description||res.statusText); }
-  if (res.status === 204 || res.headers.get('content-length')==='0') return null;
   const text = await res.text();
   return text ? JSON.parse(text) : null;
 }
