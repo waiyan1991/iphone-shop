@@ -290,8 +290,9 @@ async function sbFetch(path, opts={}) {
   if (opts.prefer) headers['Prefer'] = opts.prefer;
   const res = await fetch(`${SURL}${path}`, { method: opts.method||'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
   if (!res.ok) { const e = await res.json().catch(()=>({message:res.statusText})); throw new Error(e.message||e.error_description||res.statusText); }
-  if (res.status === 204) return null;
-  return res.json();
+  if (res.status === 204 || res.headers.get('content-length')==='0') return null;
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
 }
 
 // AUTH
