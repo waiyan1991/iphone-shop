@@ -10,7 +10,7 @@
     :root {
       --bg: #0a0a0f; --surface: #13131a; --surface2: #1c1c28; --border: #2a2a3a;
       --accent: #6c63ff; --accent2: #a78bfa; --success: #22c55e; --danger: #ef4444;
-      --text: #f0f0ff; --text2: #9090b0; --text3: #5a5a7a;
+      --warning: #f59e0b; --text: #f0f0ff; --text2: #9090b0; --text3: #5a5a7a;
       --radius: 14px; --radius-sm: 8px;
     }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
@@ -43,7 +43,7 @@
     .header-right { display: flex; align-items: center; gap: 10px; }
     .user-badge { font-size: 11px; color: var(--text2); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    .main { padding: 20px; max-width: 900px; margin: 0 auto; }
+    .main { padding: 20px; max-width: 1000px; margin: 0 auto; }
     .tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px; margin-bottom: 24px; }
     .tab-btn { flex: 1; padding: 9px 8px; background: none; border: none; border-radius: 10px; color: var(--text2); font-size: 12px; font-weight: 500; font-family: inherit; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px; }
     .tab-btn.active { background: linear-gradient(135deg, var(--accent), #8b5cf6); color: #fff; }
@@ -75,35 +75,46 @@
     .stat-num.sold { color: var(--text2); }
     .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .search-filter-row { display: flex; gap: 8px; margin-bottom: 14px; }
+    .search-filter-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
     .search-filter-row input, .search-filter-row select { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px; color: var(--text); font-size: 13px; font-family: inherit; outline: none; transition: border-color 0.2s; }
-    .search-filter-row input { flex: 1; }
+    .search-filter-row input { flex: 1; min-width: 140px; }
     .search-filter-row input:focus, .search-filter-row select:focus { border-color: var(--accent); }
 
     .list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
     .list-header h3 { font-size: 14px; font-weight: 600; }
-    .phone-list { display: flex; flex-direction: column; gap: 8px; }
-    .phone-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; transition: border-color 0.2s; }
-    .phone-card:hover { border-color: var(--accent); }
-    .phone-info { flex: 1; min-width: 0; }
-    .phone-model { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-    .phone-sub { font-size: 12px; color: var(--text2); display: flex; gap: 10px; flex-wrap: wrap; }
-    .phone-imei { font-family: monospace; font-size: 11px; color: var(--text3); margin-top: 3px; letter-spacing: 0.5px; }
-    .phone-actions { display: flex; gap: 6px; flex-shrink: 0; align-items: center; }
-    .status-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+
+    /* TABLE STYLE LIST */
+    .phone-table { width: 100%; border-collapse: collapse; }
+    .phone-table th { background: var(--surface2); color: var(--text3); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .phone-table th:first-child { border-radius: 8px 0 0 0; }
+    .phone-table th:last-child { border-radius: 0 8px 0 0; }
+    .phone-table td { padding: 12px 12px; border-bottom: 1px solid #1a1a28; font-size: 13px; vertical-align: middle; }
+    .phone-table tr:hover td { background: #1a1a28; }
+    .phone-table tr:last-child td { border-bottom: none; }
+    .no-num { color: var(--text3); font-size: 12px; font-weight: 600; }
+    .imei-cell { font-family: monospace; font-size: 11px; color: var(--text2); letter-spacing: 0.5px; }
+    .model-cell { font-weight: 600; }
+    .price-cell { font-weight: 600; color: var(--warning); }
+    .sell-price-cell { font-weight: 600; color: var(--success); }
+    .remark-cell { color: var(--text2); font-size: 12px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .table-wrap { overflow-x: auto; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); }
+
+    .status-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
     .status-badge.available { background: #22c55e15; color: var(--success); border: 1px solid #22c55e25; }
     .status-badge.sold { background: #ef444415; color: var(--danger); border: 1px solid #ef444425; }
 
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     @media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
     .form-grid .form-group { margin-bottom: 0; }
-    .form-grid .form-group input, .form-grid .form-group select { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; color: var(--text); font-size: 13px; font-family: inherit; outline: none; transition: border-color 0.2s; }
-    .form-grid .form-group input:focus, .form-grid .form-group select:focus { border-color: var(--accent); }
+    .form-grid .form-group input, .form-grid .form-group select, .form-grid .form-group textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; color: var(--text); font-size: 13px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .form-grid .form-group input:focus, .form-grid .form-group select:focus, .form-grid .form-group textarea:focus { border-color: var(--accent); }
+    .form-grid .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-full { grid-column: 1 / -1; }
     .form-actions { margin-top: 20px; display: flex; gap: 10px; }
 
-    .modal-overlay { position: fixed; inset: 0; background: #00000088; backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 20px; display: none; }
+    .modal-overlay { position: fixed; inset: 0; background: #00000088; backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 20px; display: none; overflow-y: auto; }
     .modal-overlay.show { display: flex; }
-    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; max-width: 420px; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; max-width: 480px; margin: auto; }
     .modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 20px; }
     .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 
@@ -161,6 +172,7 @@
       <button class="tab-btn" data-tab="add">➕ ထည့်မည်</button>
     </div>
 
+    <!-- TAB: IMEI CHECK -->
     <div id="tab-check">
       <div class="card">
         <h3>🔍 IMEI စစ်ဆေးခြင်း</h3>
@@ -172,6 +184,7 @@
       </div>
     </div>
 
+    <!-- TAB: LIST -->
     <div id="tab-list" style="display:none">
       <div class="stats-row">
         <div class="stat-card"><div class="stat-num total" id="stat-total">—</div><div class="stat-label">စုစုပေါင်း</div></div>
@@ -179,7 +192,7 @@
         <div class="stat-card"><div class="stat-num sold" id="stat-sold">—</div><div class="stat-label">ရောင်းပြီး</div></div>
       </div>
       <div class="search-filter-row">
-        <input type="text" id="list-search" placeholder="Model / IMEI ရှာမည်..." />
+        <input type="text" id="list-search" placeholder="Model / IMEI / Color ရှာမည်..." />
         <select id="list-filter">
           <option value="">အားလုံး</option>
           <option value="available">ရောင်းရန်</option>
@@ -190,11 +203,12 @@
         <h3>ဖုန်းစာရင်း</h3>
         <button class="btn btn-secondary btn-sm" id="refresh-btn">↻ Refresh</button>
       </div>
-      <div class="phone-list" id="phone-list">
-        <div class="loading"><div class="spinner"></div>Loading...</div>
+      <div class="table-wrap">
+        <div id="phone-list"><div class="loading"><div class="spinner"></div>Loading...</div></div>
       </div>
     </div>
 
+    <!-- TAB: ADD -->
     <div id="tab-add" style="display:none">
       <div class="card">
         <h3>➕ ဖုန်းအသစ်ထည့်မည်</h3>
@@ -205,10 +219,13 @@
             <select id="add-storage"><option value="">ရွေးချယ်ပါ</option><option>64GB</option><option>128GB</option><option>256GB</option><option>512GB</option><option>1TB</option></select>
           </div>
           <div class="form-group"><label>Color</label><input type="text" id="add-color" placeholder="Black Titanium" /></div>
+          <div class="form-group"><label>ဝယ်စျေး (Ks) *</label><input type="number" id="add-buy-price" placeholder="850000" /></div>
           <div class="form-group"><label>Status</label>
             <select id="add-status"><option value="available">ရောင်းရန် (In Stock)</option><option value="sold">ရောင်းပြီး (Sold)</option></select>
           </div>
-          <div class="form-group"><label>ဝင်ရောက်သောနေ့</label><input type="date" id="add-date-receive" /></div>
+          <div class="form-group"><label>ဝင်ရောက်သောနေ့</label><input type="date" id="add-date-received" /></div>
+          <div class="form-group"><label>ရောင်းစျေး (Ks)</label><input type="number" id="add-sell-price" placeholder="950000" /></div>
+          <div class="form-group form-full"><label>Remark / မှတ်ချက်</label><textarea id="add-remark" placeholder="ဥပမာ - battery 85%, ကြောင်မရှိ..."></textarea></div>
         </div>
         <div class="form-actions">
           <button class="btn btn-primary" id="add-phone-btn" style="width:auto">✓ သိမ်းဆည်းမည်</button>
@@ -219,6 +236,7 @@
   </div>
 </div>
 
+<!-- EDIT MODAL -->
 <div class="modal-overlay" id="edit-modal">
   <div class="modal">
     <h3>✏️ ဖုန်းကို ပြင်မည်</h3>
@@ -230,10 +248,14 @@
         <select id="edit-storage"><option value="">—</option><option>64GB</option><option>128GB</option><option>256GB</option><option>512GB</option><option>1TB</option></select>
       </div>
       <div class="form-group"><label>Color</label><input type="text" id="edit-color" /></div>
+      <div class="form-group"><label>ဝယ်စျေး (Ks)</label><input type="number" id="edit-buy-price" /></div>
+      <div class="form-group"><label>ရောင်းစျေး (Ks)</label><input type="number" id="edit-sell-price" /></div>
       <div class="form-group"><label>Status</label>
         <select id="edit-status"><option value="available">ရောင်းရန်</option><option value="sold">ရောင်းပြီး</option></select>
       </div>
+      <div class="form-group"><label>ဝင်ရောက်သောနေ့</label><input type="date" id="edit-date-received" /></div>
       <div class="form-group"><label>ရောင်းသောနေ့</label><input type="date" id="edit-date-sold" /></div>
+      <div class="form-group form-full"><label>Remark</label><textarea id="edit-remark"></textarea></div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-primary" id="save-edit-btn" style="width:auto">✓ သိမ်းဆည်း</button>
@@ -245,12 +267,11 @@
 <div class="toast-container" id="toast-container"></div>
 
 <script>
-const URL  = 'https://bilowmtnmfymccbgvafz.supabase.co';
+const SURL = 'https://bilowmtnmfymccbgvafz.supabase.co';
 const KEY  = 'sb_publishable_kBWsQDvwBd5oixD5FxLu8w_062sRH_C';
 let ACCESS_TOKEN = '';
 let allPhones = [];
 
-// ── HELPERS ──
 function toast(msg, type='') {
   const t = document.createElement('div');
   t.className = `toast ${type}`;
@@ -259,16 +280,21 @@ function toast(msg, type='') {
   setTimeout(() => t.remove(), 3000);
 }
 
+function fmt(num) {
+  if (!num && num !== 0) return '—';
+  return Number(num).toLocaleString() + ' Ks';
+}
+
 async function sbFetch(path, opts={}) {
   const headers = { 'Content-Type': 'application/json', 'apikey': KEY, 'Authorization': `Bearer ${ACCESS_TOKEN || KEY}` };
   if (opts.prefer) headers['Prefer'] = opts.prefer;
-  const res = await fetch(`${URL}${path}`, { method: opts.method||'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  const res = await fetch(`${SURL}${path}`, { method: opts.method||'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
   if (!res.ok) { const e = await res.json().catch(()=>({message:res.statusText})); throw new Error(e.message||e.error_description||res.statusText); }
   if (res.status === 204) return null;
   return res.json();
 }
 
-// ── AUTH ──
+// AUTH
 document.getElementById('login-btn').addEventListener('click', async () => {
   const email = document.getElementById('login-email').value.trim();
   const pw    = document.getElementById('login-password').value;
@@ -278,9 +304,8 @@ document.getElementById('login-btn').addEventListener('click', async () => {
   const btn = document.getElementById('login-btn');
   btn.textContent = 'Logging in...'; btn.disabled = true;
   try {
-    const res = await fetch(`${URL}/auth/v1/token?grant_type=password`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'apikey': KEY },
+    const res = await fetch(`${SURL}/auth/v1/token?grant_type=password`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': KEY },
       body: JSON.stringify({ email, password: pw })
     });
     const data = await res.json();
@@ -288,9 +313,7 @@ document.getElementById('login-btn').addEventListener('click', async () => {
     ACCESS_TOKEN = data.access_token;
     localStorage.setItem('sb_token', ACCESS_TOKEN);
     showApp(email);
-  } catch(e) {
-    errEl.textContent = e.message; errEl.style.display='block';
-  }
+  } catch(e) { errEl.textContent = e.message; errEl.style.display='block'; }
   btn.textContent = 'Login'; btn.disabled = false;
 });
 
@@ -309,7 +332,7 @@ function showApp(email) {
   loadPhones();
 }
 
-// ── TABS ──
+// TABS
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -322,7 +345,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// ── LOAD PHONES ──
+// LOAD
 async function loadPhones() {
   document.getElementById('phone-list').innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
   try {
@@ -343,32 +366,56 @@ function renderList() {
   const filter = document.getElementById('list-filter').value;
   let phones = allPhones;
   if (filter) phones = phones.filter(p=>p.status===filter);
-  if (search) phones = phones.filter(p=>(p.model||'').toLowerCase().includes(search)||(p.imei||'').includes(search)||(p.color||'').toLowerCase().includes(search));
+  if (search) phones = phones.filter(p=>
+    (p.model||'').toLowerCase().includes(search)||
+    (p.imei||'').includes(search)||
+    (p.color||'').toLowerCase().includes(search)||
+    (p.remark||'').toLowerCase().includes(search)
+  );
   const list = document.getElementById('phone-list');
-  if (!phones.length) { list.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>ဖုန်းမတွေ့ပါ</p></div>'; return; }
-  list.innerHTML = phones.map(p=>`
-    <div class="phone-card">
-      <div class="phone-info">
-        <div class="phone-model">${p.model||'—'}</div>
-        <div class="phone-sub">
-          <span>${p.storage||'—'}</span><span>${p.color||'—'}</span>
-          ${p.date_receive?`<span>ဝင်: ${p.date_receive}</span>`:''}
-          ${p.date_sold?`<span>ရောင်း: ${p.date_sold}</span>`:''}
-        </div>
-        <div class="phone-imei">IMEI: ${p.imei||'—'}</div>
-      </div>
-      <div class="phone-actions">
-        <span class="status-badge ${p.status==='sold'?'sold':'available'}">${p.status==='sold'?'● ရောင်းပြီး':'● ရောင်းရန်'}</span>
-        <button class="btn btn-secondary btn-sm" onclick='openEdit(${JSON.stringify(p)})'>✏️</button>
-      </div>
-    </div>`).join('');
+  if (!phones.length) {
+    list.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>ဖုန်းမတွေ့ပါ</p></div>';
+    return;
+  }
+  list.innerHTML = `<table class="phone-table">
+    <thead><tr>
+      <th>No.</th>
+      <th>Model</th>
+      <th>Storage</th>
+      <th>Color</th>
+      <th>IMEI</th>
+      <th>ဝယ်စျေး</th>
+      <th>ရောင်းစျေး</th>
+      <th>ဝင်နေ့</th>
+      <th>ရောင်းနေ့</th>
+      <th>Remark</th>
+      <th>Status</th>
+      <th></th>
+    </tr></thead>
+    <tbody>
+    ${phones.map((p,i)=>`<tr>
+      <td class="no-num">${i+1}</td>
+      <td class="model-cell">${p.model||'—'}</td>
+      <td>${p.storage||'—'}</td>
+      <td>${p.color||'—'}</td>
+      <td class="imei-cell">${p.imei||'—'}</td>
+      <td class="price-cell">${fmt(p.buy_price)}</td>
+      <td class="sell-price-cell">${p.status==='sold'?fmt(p.sell_price):'—'}</td>
+      <td style="font-size:12px;color:var(--text2)">${p.date_received||'—'}</td>
+      <td style="font-size:12px;color:var(--text2)">${p.date_sold||'—'}</td>
+      <td class="remark-cell" title="${p.remark||''}">${p.remark||'—'}</td>
+      <td><span class="status-badge ${p.status==='sold'?'sold':'available'}">${p.status==='sold'?'● ရောင်းပြီး':'● ရောင်းရန်'}</span></td>
+      <td><button class="btn btn-secondary btn-sm" onclick='openEdit(${JSON.stringify(p).replace(/'/g,"&#39;")})'>✏️</button></td>
+    </tr>`).join('')}
+    </tbody>
+  </table>`;
 }
 
 document.getElementById('list-search').addEventListener('input', renderList);
 document.getElementById('list-filter').addEventListener('change', renderList);
 document.getElementById('refresh-btn').addEventListener('click', loadPhones);
 
-// ── IMEI SEARCH ──
+// IMEI SEARCH
 document.getElementById('imei-search-btn').addEventListener('click', searchIMEI);
 document.getElementById('imei-search-input').addEventListener('keydown', e=>{ if(e.key==='Enter') searchIMEI(); });
 
@@ -388,31 +435,52 @@ async function searchIMEI() {
     } else {
       const p=data[0], sold=p.status==='sold';
       resultEl.className=`imei-result ${sold?'found-sold':'found-in-stock'}`;
-      resultEl.innerHTML=`<div class="result-header"><span class="result-icon">${sold?'🔴':'🟢'}</span><div><div class="result-title" style="color:${sold?'var(--danger)':'var(--success)'}">${sold?'ဆိုင်မှ ရောင်းလိုက်ပြီ':'ဆိုင်တွင် ရှိနေသည်'}</div><div style="font-size:12px;color:var(--text2);margin-top:3px">${sold?'ဒီဖုန်းကို ဆိုင်မှ ရောင်းချထားပြီးဖြစ်သည်':'ဒီဖုန်းသည် ဆိုင်တွင် ရှိနေဆဲဖြစ်သည်'}</div></div></div>
-      <div class="result-grid">
-        <div class="result-item"><label>Model</label><span>${p.model||'—'}</span></div>
-        <div class="result-item"><label>Storage</label><span>${p.storage||'—'}</span></div>
-        <div class="result-item"><label>Color</label><span>${p.color||'—'}</span></div>
-        <div class="result-item"><label>Status</label><span>${sold?'ရောင်းပြီး':'ရောင်းရန်ရှိ'}</span></div>
-        ${p.date_receive?`<div class="result-item"><label>ဝင်ရောက်သောနေ့</label><span>${p.date_receive}</span></div>`:''}
-        ${p.date_sold?`<div class="result-item"><label>ရောင်းသောနေ့</label><span>${p.date_sold}</span></div>`:''}
-      </div>`;
+      resultEl.innerHTML=`
+        <div class="result-header">
+          <span class="result-icon">${sold?'🔴':'🟢'}</span>
+          <div>
+            <div class="result-title" style="color:${sold?'var(--danger)':'var(--success)'}">${sold?'ဆိုင်မှ ရောင်းလိုက်ပြီ':'ဆိုင်တွင် ရှိနေသည်'}</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:3px">${sold?'ဒီဖုန်းကို ဆိုင်မှ ရောင်းချထားပြီးဖြစ်သည်':'ဒီဖုန်းသည် ဆိုင်တွင် ရှိနေဆဲဖြစ်သည်'}</div>
+          </div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item"><label>Model</label><span>${p.model||'—'}</span></div>
+          <div class="result-item"><label>Storage</label><span>${p.storage||'—'}</span></div>
+          <div class="result-item"><label>Color</label><span>${p.color||'—'}</span></div>
+          <div class="result-item"><label>Status</label><span>${sold?'ရောင်းပြီး':'ရောင်းရန်ရှိ'}</span></div>
+          <div class="result-item"><label>ဝယ်စျေး</label><span>${fmt(p.buy_price)}</span></div>
+          ${sold?`<div class="result-item"><label>ရောင်းစျေး</label><span>${fmt(p.sell_price)}</span></div>`:''}
+          ${p.date_received?`<div class="result-item"><label>ဝင်ရောက်သောနေ့</label><span>${p.date_received}</span></div>`:''}
+          ${p.date_sold?`<div class="result-item"><label>ရောင်းသောနေ့</label><span>${p.date_sold}</span></div>`:''}
+          ${p.remark?`<div class="result-item" style="grid-column:1/-1"><label>Remark</label><span>${p.remark}</span></div>`:''}
+        </div>`;
     }
   } catch(e) { toast('Error: '+e.message,'error'); }
   btn.textContent='စစ်ဆေး'; btn.disabled=false;
 }
 
-// ── ADD PHONE ──
+// ADD PHONE
 document.getElementById('add-phone-btn').addEventListener('click', async () => {
   const imei=document.getElementById('add-imei').value.trim();
   const model=document.getElementById('add-model').value.trim();
+  const buy_price=document.getElementById('add-buy-price').value;
   if (!imei||!model) { toast('IMEI နှင့် Model ထည့်ပါ','error'); return; }
   if (imei.length<14) { toast('IMEI မှားနေပါသည်','error'); return; }
+  if (!buy_price) { toast('ဝယ်စျေး ထည့်ပါ','error'); return; }
   const btn=document.getElementById('add-phone-btn');
   btn.textContent='Saving...'; btn.disabled=true;
-  const dr=document.getElementById('add-date-receive').value;
-  const payload={imei,model,storage:document.getElementById('add-storage').value,color:document.getElementById('add-color').value.trim(),status:document.getElementById('add-status').value};
-  if(dr) payload.date_receive=dr;
+  const dr=document.getElementById('add-date-received').value;
+  const sp=document.getElementById('add-sell-price').value;
+  const payload={
+    imei, model,
+    storage: document.getElementById('add-storage').value,
+    color: document.getElementById('add-color').value.trim(),
+    status: document.getElementById('add-status').value,
+    buy_price: Number(buy_price),
+    remark: document.getElementById('add-remark').value.trim() || null,
+  };
+  if(dr) payload.date_received=dr;
+  if(sp) payload.sell_price=Number(sp);
   try {
     await sbFetch('/rest/v1/iphones',{method:'POST',body:payload,prefer:'return=minimal'});
     toast('ဖုန်း ထည့်သွင်းပြီးပါပြီ ✓','success');
@@ -423,12 +491,12 @@ document.getElementById('add-phone-btn').addEventListener('click', async () => {
 
 document.getElementById('clear-form-btn').addEventListener('click', clearForm);
 function clearForm() {
-  ['add-imei','add-model','add-color','add-date-receive'].forEach(id=>document.getElementById(id).value='');
+  ['add-imei','add-model','add-color','add-date-received','add-buy-price','add-sell-price','add-remark'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('add-storage').value='';
   document.getElementById('add-status').value='available';
 }
 
-// ── EDIT ──
+// EDIT
 function openEdit(p) {
   document.getElementById('edit-id').value=p.id;
   document.getElementById('edit-imei').value=p.imei||'';
@@ -436,7 +504,11 @@ function openEdit(p) {
   document.getElementById('edit-storage').value=p.storage||'';
   document.getElementById('edit-color').value=p.color||'';
   document.getElementById('edit-status').value=p.status||'available';
+  document.getElementById('edit-date-received').value=p.date_received||'';
   document.getElementById('edit-date-sold').value=p.date_sold||'';
+  document.getElementById('edit-buy-price').value=p.buy_price||'';
+  document.getElementById('edit-sell-price').value=p.sell_price||'';
+  document.getElementById('edit-remark').value=p.remark||'';
   document.getElementById('edit-modal').classList.add('show');
 }
 document.getElementById('cancel-edit-btn').addEventListener('click',()=>document.getElementById('edit-modal').classList.remove('show'));
@@ -445,7 +517,21 @@ document.getElementById('edit-modal').addEventListener('click',e=>{ if(e.target=
 document.getElementById('save-edit-btn').addEventListener('click', async () => {
   const id=document.getElementById('edit-id').value;
   const ds=document.getElementById('edit-date-sold').value;
-  const payload={imei:document.getElementById('edit-imei').value.trim(),model:document.getElementById('edit-model').value.trim(),storage:document.getElementById('edit-storage').value,color:document.getElementById('edit-color').value.trim(),status:document.getElementById('edit-status').value,date_sold:ds||null};
+  const dr=document.getElementById('edit-date-received').value;
+  const bp=document.getElementById('edit-buy-price').value;
+  const sp=document.getElementById('edit-sell-price').value;
+  const payload={
+    imei: document.getElementById('edit-imei').value.trim(),
+    model: document.getElementById('edit-model').value.trim(),
+    storage: document.getElementById('edit-storage').value,
+    color: document.getElementById('edit-color').value.trim(),
+    status: document.getElementById('edit-status').value,
+    date_sold: ds||null,
+    date_received: dr||null,
+    buy_price: bp?Number(bp):null,
+    sell_price: sp?Number(sp):null,
+    remark: document.getElementById('edit-remark').value.trim()||null,
+  };
   try {
     await sbFetch(`/rest/v1/iphones?id=eq.${id}`,{method:'PATCH',body:payload,prefer:'return=minimal'});
     toast('Update လုပ်ပြီးပါပြီ ✓','success');
@@ -454,7 +540,7 @@ document.getElementById('save-edit-btn').addEventListener('click', async () => {
   } catch(e) { toast('Error: '+e.message,'error'); }
 });
 
-// ── INIT ──
+// INIT
 const saved = localStorage.getItem('sb_token');
 if (saved) { ACCESS_TOKEN=saved; showApp('...'); }
 </script>
