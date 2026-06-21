@@ -483,7 +483,7 @@ document.getElementById('add-phone-btn').addEventListener('click', async () => {
   if(dr) payload.date_received=dr;
   if(sp) payload.sell_price=Number(sp);
   try {
-    await sbFetch('/rest/v1/iphones',{method:'POST',body:payload,prefer:'return=minimal'});
+    await sbFetch('/rest/v1/iphones',{method:'POST',body:payload});
     toast('ဖုန်း ထည့်သွင်းပြီးပါပြီ ✓','success');
     clearForm();
   } catch(e) { toast('Error: '+e.message,'error'); }
@@ -534,7 +534,7 @@ document.getElementById('save-edit-btn').addEventListener('click', async () => {
     remark: document.getElementById('edit-remark').value.trim()||null,
   };
   try {
-    await sbFetch(`/rest/v1/iphones?id=eq.${id}`,{method:'PATCH',body:payload,prefer:'return=minimal'});
+    await sbFetch(`/rest/v1/iphones?id=eq.${id}`,{method:'PATCH',body:payload});
     toast('Update လုပ်ပြီးပါပြီ ✓','success');
     document.getElementById('edit-modal').classList.remove('show');
     loadPhones();
