@@ -68,7 +68,9 @@
     .result-item span { font-size: 13px; font-weight: 500; }
 
     .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
-    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+    .stat-card:hover { border-color: var(--accent); }
+    .stat-card.active { border-color: var(--accent); background: #6c63ff15; }
     .stat-num { font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
     .stat-num.total { color: var(--accent2); }
     .stat-num.in-stock { color: var(--success); }
@@ -187,9 +189,9 @@
     <!-- TAB: LIST -->
     <div id="tab-list" style="display:none">
       <div class="stats-row">
-        <div class="stat-card"><div class="stat-num total" id="stat-total">—</div><div class="stat-label">စုစုပေါင်း</div></div>
-        <div class="stat-card"><div class="stat-num in-stock" id="stat-available">—</div><div class="stat-label">ရောင်းရန်</div></div>
-        <div class="stat-card"><div class="stat-num sold" id="stat-sold">—</div><div class="stat-label">ရောင်းပြီး</div></div>
+        <div class="stat-card active" id="sc-all" onclick="filterByStat('')"><div class="stat-num total" id="stat-total">—</div><div class="stat-label">စုစုပေါင်း</div></div>
+        <div class="stat-card" id="sc-available" onclick="filterByStat('available')"><div class="stat-num in-stock" id="stat-available">—</div><div class="stat-label">ရောင်းရန်</div></div>
+        <div class="stat-card" id="sc-sold" onclick="filterByStat('sold')"><div class="stat-num sold" id="stat-sold">—</div><div class="stat-label">ရောင်းပြီး</div></div>
       </div>
       <div class="search-filter-row">
         <input type="text" id="list-search" placeholder="Model / IMEI / Color ရှာမည်..." />
@@ -410,6 +412,13 @@ function renderList() {
   </table>`;
 }
 
+function filterByStat(val) {
+  document.getElementById('list-filter').value = val;
+  ['sc-all','sc-available','sc-sold'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  const map = {'':'sc-all','available':'sc-available','sold':'sc-sold'};
+  document.getElementById(map[val]).classList.add('active');
+  renderList();
+}
 document.getElementById('list-search').addEventListener('input', renderList);
 document.getElementById('list-filter').addEventListener('change', renderList);
 document.getElementById('refresh-btn').addEventListener('click', loadPhones);
