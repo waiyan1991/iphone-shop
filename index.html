@@ -554,6 +554,14 @@ document.getElementById('save-edit-btn').addEventListener('click', async () => {
   const id=document.getElementById('edit-id').value;
   const ds=document.getElementById('edit-date-sold').value;
   const dr=document.getElementById('edit-date-received').value;
+  const status=document.getElementById('edit-status').value;
+  if (status==='sold' && !ds) {
+    toast('ရောင်းပြီး status ဆိုရင် ရောင်းသောနေ့ ထည့်ပါ','error');
+    document.getElementById('edit-date-sold').style.borderColor='var(--danger)';
+    document.getElementById('edit-date-sold').focus();
+    return;
+  }
+  document.getElementById('edit-date-sold').style.borderColor='';
   const bp=document.getElementById('edit-buy-price').value;
   const sp=document.getElementById('edit-sell-price').value;
   const payload={
