@@ -133,6 +133,16 @@
     .empty-state { text-align: center; padding: 40px 20px; color: var(--text3); }
     .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
     select option { background: #1c1c28; }
+    .summary-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+    .summary-card { border-radius: var(--radius); padding: 18px; text-align: center; }
+    .summary-card.buy { background: #f59e0b10; border: 1px solid #f59e0b30; }
+    .summary-card.sell { background: #22c55e10; border: 1px solid #22c55e30; }
+    .summary-card.profit { background: #6c63ff10; border: 1px solid #6c63ff30; }
+    .summary-card .amt { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .summary-card.buy .amt { color: var(--warning); }
+    .summary-card.sell .amt { color: var(--success); }
+    .summary-card.profit .amt { color: var(--accent2); }
+    .summary-card .lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
   </style>
 </head>
 <body>
@@ -173,6 +183,7 @@
       <button class="tab-btn active" data-tab="check">🔍 IMEI</button>
       <button class="tab-btn" data-tab="list">📋 စာရင်း</button>
       <button class="tab-btn" data-tab="add">➕ ထည့်မည်</button>
+      <button class="tab-btn" data-tab="summary">📊 လချုပ်</button>
     </div>
 
     <!-- TAB: IMEI CHECK -->
@@ -211,6 +222,18 @@
       </div>
       <div class="table-wrap">
         <div id="phone-list"><div class="loading"><div class="spinner"></div>Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- TAB: SUMMARY -->
+    <div id="tab-summary" style="display:none">
+      <div class="card">
+        <h3>📊 လချုပ်စာရင်း</h3>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+          <input type="month" id="summary-month" style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text);font-family:inherit;font-size:14px;outline:none" />
+          <button class="btn btn-primary" style="width:auto" onclick="loadSummary()">ကြည့်မည်</button>
+        </div>
+        <div id="summary-content"></div>
       </div>
     </div>
 
@@ -343,10 +366,12 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const tab = btn.dataset.tab;
-    document.getElementById('tab-check').style.display = tab==='check' ? 'block' : 'none';
-    document.getElementById('tab-list').style.display  = tab==='list'  ? 'block' : 'none';
-    document.getElementById('tab-add').style.display   = tab==='add'   ? 'block' : 'none';
+    document.getElementById('tab-check').style.display   = tab==='check'   ? 'block' : 'none';
+    document.getElementById('tab-list').style.display    = tab==='list'    ? 'block' : 'none';
+    document.getElementById('tab-add').style.display     = tab==='add'     ? 'block' : 'none';
+    document.getElementById('tab-summary').style.display = tab==='summary' ? 'block' : 'none';
     if (tab==='list') loadPhones();
+    if (tab==='summary') initSummary();
   });
 });
 
@@ -583,6 +608,79 @@ document.getElementById('save-edit-btn').addEventListener('click', async () => {
     loadPhones();
   } catch(e) { toast('Error: '+e.message,'error'); }
 });
+
+// SUMMARY
+function initSummary() {
+  const now = new Date();
+  const mon = document.getElementById('summary-month');
+  if (!mon.value) {
+    mon.value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+  }
+  loadSummary();
+}
+
+async function loadSummary() {
+  const month = document.getElementById('summary-month').value;
+  if (!month) { toast('လကို ရွေးပါ','error'); return; }
+  const [year, mon] = month.split('-');
+  const from = `${year}-${mon}-01`;
+  const lastDay = new Date(year, mon, 0).getDate();
+  const to = `${year}-${mon}-${lastDay}`;
+
+  document.getElementById('summary-content').innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
+
+  try {
+    // sold phones this month
+    const sold = await sbFetch(`/rest/v1/iphones?status=eq.sold&date_sold=gte.${from}&date_sold=lte.${to}&select=*`);
+    // received phones this month
+    const received = await sbFetch(`/rest/v1/iphones?date_received=gte.${from}&date_received=lte.${to}&select=*`);
+
+    const totalSell = (sold||[]).reduce((s,p)=>s+(Number(p.sell_price)||0),0);
+    const totalBuy  = (sold||[]).reduce((s,p)=>s+(Number(p.buy_price)||0),0);
+    const profit    = totalSell - totalBuy;
+    const totalInvest = (received||[]).reduce((s,p)=>s+(Number(p.buy_price)||0),0);
+
+    const soldCount = (sold||[]).length;
+    const recCount  = (received||[]).length;
+
+    document.getElementById('summary-content').innerHTML = `
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">
+        ${year} ခုနှစ် ${mon} လ — ဝင်လာသောဖုန်း <b style="color:var(--text)">${recCount} လုံး</b> / ရောင်းပြီးသောဖုန်း <b style="color:var(--text)">${soldCount} လုံး</b>
+      </div>
+      <div class="summary-stats">
+        <div class="summary-card buy">
+          <div class="amt">${fmt(totalBuy)}</div>
+          <div class="lbl">ရင်းနှီးငွေ (ရောင်းပြီးဖုန်း)</div>
+        </div>
+        <div class="summary-card sell">
+          <div class="amt">${fmt(totalSell)}</div>
+          <div class="lbl">ရောင်းရငွေ စုစုပေါင်း</div>
+        </div>
+        <div class="summary-card profit">
+          <div class="amt">${fmt(profit)}</div>
+          <div class="lbl">အမြတ်ငွေ</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:10px;font-weight:600">ရောင်းပြီးဖုန်းစာရင်း</div>
+      ${soldCount===0 ? '<div class="empty-state"><div class="icon">📭</div><p>ဒီလမှာ ရောင်းထားသောဖုန်း မရှိပါ</p></div>' :
+        `<div class="table-wrap"><table class="phone-table">
+          <thead><tr><th>No.</th><th>Model</th><th>Storage</th><th>Color</th><th>IMEI</th><th>ဝယ်စျေး</th><th>ရောင်းစျေး</th><th>အမြတ်</th><th>ရောင်းနေ့</th></tr></thead>
+          <tbody>${(sold||[]).map((p,i)=>`<tr>
+            <td class="no-num">${i+1}</td>
+            <td class="model-cell">${p.model||'—'}</td>
+            <td>${p.storage||'—'}</td>
+            <td>${p.color||'—'}</td>
+            <td class="imei-cell">${p.imei||'—'}</td>
+            <td class="price-cell">${fmt(p.buy_price)}</td>
+            <td class="sell-price-cell">${fmt(p.sell_price)}</td>
+            <td style="color:var(--accent2);font-weight:600">${fmt((Number(p.sell_price)||0)-(Number(p.buy_price)||0))}</td>
+            <td style="font-size:12px;color:var(--text2)">${p.date_sold||'—'}</td>
+          </tr>`).join('')}</tbody>
+        </table></div>`
+      }
+    `;
+  } catch(e) { toast('Error: '+e.message,'error'); }
+}
 
 // INIT
 const saved = localStorage.getItem('sb_token');
