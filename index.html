@@ -183,6 +183,9 @@
           <input type="tel" id="imei-search-input" placeholder="IMEI နံပါတ် ထည့်ပါ..." maxlength="15" inputmode="numeric" />
           <button class="btn btn-primary" id="imei-search-btn">စစ်ဆေး</button>
         </div>
+        <div style="margin-top:10px;display:none" id="imei-clear-row">
+          <button class="btn btn-secondary btn-sm" onclick="clearIMEI()">↺ ထပ်စစ်မည်</button>
+        </div>
         <div class="imei-result" id="imei-result"></div>
       </div>
     </div>
@@ -224,11 +227,11 @@
           <div class="form-group"><label>Color</label><input type="text" id="add-color" placeholder="Black Titanium" /></div>
           <div class="form-group"><label>ဝယ်စျေး (Ks) *</label><input type="number" id="add-buy-price" placeholder="850000" /></div>
           <div class="form-group"><label>Status</label>
-            <select id="add-status"><option value="available">ရောင်းရန် (In Stock)</option><option value="sold">ရောင်းပြီး (Sold)</option></select>
+            <select id="add-status" onchange="toggleSellPrice(this.value)"><option value="available">ရောင်းရန် (In Stock)</option><option value="sold">ရောင်းပြီး (Sold)</option></select>
           </div>
           <div class="form-group"><label>ဝင်ရောက်သောနေ့</label><input type="date" id="add-date-received" /></div>
-          <div class="form-group"><label>ရောင်းစျေး (Ks)</label><input type="number" id="add-sell-price" placeholder="950000" /></div>
-          <div class="form-group form-full"><label>Remark / မှတ်ချက်</label><textarea id="add-remark" placeholder="ဥပမာ - battery 85%,"></textarea></div>
+          <div class="form-group"><label>ရောင်းစျေး (Ks)</label><input type="number" id="add-sell-price" placeholder="ရောင်းမှသာ ထည့်ပါ" disabled style="opacity:0.4;cursor:not-allowed" /></div>
+          <div class="form-group form-full"><label>Remark / မှတ်ချက်</label><textarea id="add-remark" placeholder="ဥပမာ - battery 85%, ကြောင်မရှိ..."></textarea></div>
         </div>
         <div class="form-actions">
           <button class="btn btn-primary" id="add-phone-btn" style="width:auto">✓ သိမ်းဆည်းမည်</button>
@@ -466,6 +469,30 @@ async function searchIMEI() {
     }
   } catch(e) { toast('Error: '+e.message,'error'); }
   btn.textContent='စစ်ဆေး'; btn.disabled=false;
+  document.getElementById('imei-clear-row').style.display = 'block';
+}
+
+function toggleSellPrice(val) {
+  const sp = document.getElementById('add-sell-price');
+  if (val === 'sold') {
+    sp.disabled = false;
+    sp.style.opacity = '1';
+    sp.style.cursor = 'text';
+    sp.placeholder = '900000';
+  } else {
+    sp.disabled = true;
+    sp.value = '';
+    sp.style.opacity = '0.4';
+    sp.style.cursor = 'not-allowed';
+    sp.placeholder = 'ရောင်းမှသာ ထည့်ပါ';
+  }
+}
+
+function clearIMEI() {
+  document.getElementById('imei-search-input').value = '';
+  document.getElementById('imei-result').style.display = 'none';
+  document.getElementById('imei-clear-row').style.display = 'none';
+  document.getElementById('imei-search-input').focus();
 }
 
 // ADD PHONE
