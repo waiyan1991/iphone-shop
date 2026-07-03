@@ -272,7 +272,7 @@
           </div>
           <div class="form-group"><label>ဝင်ရောက်သောနေ့</label><input type="date" id="add-date-received" /></div>
           <div class="form-group"><label>ရောင်းစျေး (Ks)</label><input type="number" id="add-sell-price" placeholder="ရောင်းမှသာ ထည့်ပါ" disabled style="opacity:0.4;cursor:not-allowed" /></div>
-          <div class="form-group form-full"><label>Remark / မှတ်ချက်</label><textarea id="add-remark" placeholder="ဥပမာ - ကြောင်မရှိ, original box ပါ..."></textarea></div>
+          <div class="form-group form-full"><label>Remark / မှတ်ချက်</label><textarea id="add-remark" placeholder="ဥပမာ - original box ပါ..."></textarea></div>
         </div>
         <div class="form-actions">
           <button class="btn btn-primary" id="add-phone-btn" style="width:auto">✓ သိမ်းဆည်းမည်</button>
@@ -308,6 +308,14 @@
       <div class="form-group"><label>ဝင်ရောက်သောနေ့</label><input type="date" id="edit-date-received" /></div>
       <div class="form-group"><label>ရောင်းသောနေ့</label><input type="date" id="edit-date-sold" /></div>
       <div class="form-group form-full"><label>Remark</label><textarea id="edit-remark"></textarea></div>
+      <div class="form-group form-full">
+        <label>Invoice Image</label>
+        <input type="file" id="edit-invoice" accept="image/*" style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;color:var(--text);font-size:13px;cursor:pointer;" />
+        <div id="edit-invoice-preview" style="margin-top:10px;display:none">
+          <img id="edit-invoice-img" src="" style="max-width:100%;border-radius:8px;border:1px solid var(--border);" />
+          <button type="button" onclick="removeInvoice()" class="btn btn-secondary btn-sm" style="margin-top:8px">🗑 Invoice ဖျက်မည်</button>
+        </div>
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-primary" id="save-edit-btn" style="width:auto">✓ သိမ်းဆည်း</button>
@@ -537,6 +545,13 @@ function toggleSellPrice(val) {
   }
 }
 
+function removeInvoice() {
+  document.getElementById('edit-invoice-preview').style.display='none';
+  document.getElementById('edit-invoice-img').src='';
+  document.getElementById('edit-invoice-img').dataset.existing='';
+  document.getElementById('edit-invoice').value='';
+}
+
 function clearIMEI() {
   document.getElementById('imei-search-input').value = '';
   document.getElementById('imei-result').style.display = 'none';
@@ -602,6 +617,16 @@ function openEdit(p) {
   document.getElementById('edit-battery').value=p.battery_health||'';
   document.getElementById('edit-region').value=p.region||'';
   document.getElementById('edit-purchased-by').value=p.purchased_by||'';
+  document.getElementById('edit-invoice').value='';
+  if (p.invoice_url) {
+    document.getElementById('edit-invoice-preview').style.display='block';
+    document.getElementById('edit-invoice-img').src=p.invoice_url;
+    document.getElementById('edit-invoice-img').dataset.existing=p.invoice_url;
+  } else {
+    document.getElementById('edit-invoice-preview').style.display='none';
+    document.getElementById('edit-invoice-img').src='';
+    document.getElementById('edit-invoice-img').dataset.existing='';
+  }
   document.getElementById('edit-modal').classList.add('show');
 }
 document.getElementById('cancel-edit-btn').addEventListener('click',()=>document.getElementById('edit-modal').classList.remove('show'));
@@ -637,6 +662,20 @@ document.getElementById('save-edit-btn').addEventListener('click', async () => {
     region: document.getElementById('edit-region').value.trim()||null,
     purchased_by: document.getElementById('edit-purchased-by').value||null,
   };
+  // Handle invoice upload
+  const invoiceFile = document.getElementById('edit-invoice').files[0];
+  if (invoiceFile) {
+    const ext = invoiceFile.name.split('.').pop();
+    const fileName = `invoice_${id}_${Date.now()}.${ext}`;
+    const uploadRes = await fetch(`${SURL}/storage/v1/object/invoices/${fileName}`, {
+      method: 'POST',
+      headers: { 'apikey': KEY, 'Authorization': `Bearer ${ACCESS_TOKEN}`, 'Content-Type': invoiceFile.type },
+      body: invoiceFile
+    });
+    if (uploadRes.ok) {
+      payload.invoice_url = `${SURL}/storage/v1/object/public/invoices/${fileName}`;
+    }
+  }
   try {
     await sbFetch(`/rest/v1/iphones?id=eq.${id}`,{method:'PATCH',body:payload});
     toast('Update လုပ်ပြီးပါပြီ ✓','success');
