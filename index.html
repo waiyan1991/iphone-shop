@@ -288,6 +288,8 @@
   <div class="modal">
     <h3>✏️ ဖုန်းကို ပြင်မည်</h3>
     <input type="hidden" id="edit-id" />
+    <input type="hidden" id="edit-invoice-original" />
+    <input type="hidden" id="edit-invoice-removed" value="0" />
     <div class="form-grid">
       <div class="form-group"><label>IMEI</label><input type="tel" id="edit-imei" maxlength="15" inputmode="numeric" /></div>
       <div class="form-group"><label>Model</label><input type="text" id="edit-model" /></div>
@@ -358,6 +360,33 @@ async function sbFetch(path, opts={}) {
   if (!res.ok) { const e = await res.json().catch(()=>({message:res.statusText})); throw new Error(e.message||e.error_description||res.statusText); }
   const text = await res.text();
   return text ? JSON.parse(text) : null;
+}
+
+// Extracts the storage object path (e.g. "invoice_123_456.jpg") from a full public URL
+function invoicePathFromUrl(url) {
+  if (!url) return null;
+  const marker = '/storage/v1/object/public/invoices/';
+  const idx = url.indexOf(marker);
+  if (idx === -1) return null;
+  return url.slice(idx + marker.length);
+}
+
+async function deleteInvoiceFromStorage(url) {
+  const path = invoicePathFromUrl(url);
+  if (!path) return;
+  try {
+    const res = await fetch(`${SURL}/storage/v1/object/invoices/${path}`, {
+      method: 'DELETE',
+      headers: { 'apikey': KEY, 'Authorization': `Bearer ${ACCESS_TOKEN}` }
+    });
+    if (!res.ok) {
+      const errText = await res.text().catch(()=> '');
+      console.error('Storage delete failed:', res.status, errText);
+      toast('Storage ထဲက image ဖျက်၍မရပါ (policy စစ်ပါ)', 'error');
+    }
+  } catch (e) {
+    console.error('Storage delete error:', e);
+  }
 }
 
 // AUTH
@@ -550,6 +579,8 @@ function removeInvoice() {
   document.getElementById('edit-invoice-img').src='';
   document.getElementById('edit-invoice-img').dataset.existing='';
   document.getElementById('edit-invoice').value='';
+  // mark for deletion; actual delete happens on Save so a cancel doesn't remove real data
+  document.getElementById('edit-invoice-removed').value = '1';
 }
 
 function clearIMEI() {
@@ -618,6 +649,9 @@ function openEdit(p) {
   document.getElementById('edit-region').value=p.region||'';
   document.getElementById('edit-purchased-by').value=p.purchased_by||'';
   document.getElementById('edit-invoice').value='';
+  // track original invoice url + reset removal flag every time modal opens
+  document.getElementById('edit-invoice-original').value = p.invoice_url || '';
+  document.getElementById('edit-invoice-removed').value = '0';
   if (p.invoice_url) {
     document.getElementById('edit-invoice-preview').style.display='block';
     document.getElementById('edit-invoice-img').src=p.invoice_url;
@@ -662,26 +696,44 @@ document.getElementById('save-edit-btn').addEventListener('click', async () => {
     region: document.getElementById('edit-region').value.trim()||null,
     purchased_by: document.getElementById('edit-purchased-by').value||null,
   };
-  // Handle invoice upload
-  const invoiceFile = document.getElementById('edit-invoice').files[0];
-  if (invoiceFile) {
-    const ext = invoiceFile.name.split('.').pop();
-    const fileName = `invoice_${id}_${Date.now()}.${ext}`;
-    const uploadRes = await fetch(`${SURL}/storage/v1/object/invoices/${fileName}`, {
-      method: 'POST',
-      headers: { 'apikey': KEY, 'Authorization': `Bearer ${ACCESS_TOKEN}`, 'Content-Type': invoiceFile.type },
-      body: invoiceFile
-    });
-    if (uploadRes.ok) {
-      payload.invoice_url = `${SURL}/storage/v1/object/public/invoices/${fileName}`;
-    }
-  }
+
+  const saveBtn = document.getElementById('save-edit-btn');
+  saveBtn.textContent = 'Saving...'; saveBtn.disabled = true;
+
+  const invoiceFile   = document.getElementById('edit-invoice').files[0];
+  const originalUrl   = document.getElementById('edit-invoice-original').value;
+  const wasRemoved    = document.getElementById('edit-invoice-removed').value === '1';
+
   try {
+    if (invoiceFile) {
+      // New file selected -> upload it, then point payload at the new url
+      const ext = invoiceFile.name.split('.').pop();
+      const fileName = `invoice_${id}_${Date.now()}.${ext}`;
+      const uploadRes = await fetch(`${SURL}/storage/v1/object/invoices/${fileName}`, {
+        method: 'POST',
+        headers: { 'apikey': KEY, 'Authorization': `Bearer ${ACCESS_TOKEN}`, 'Content-Type': invoiceFile.type },
+        body: invoiceFile
+      });
+      if (!uploadRes.ok) {
+        const errText = await uploadRes.text().catch(()=> '');
+        throw new Error('Invoice upload မအောင်မြင်ပါ: ' + errText);
+      }
+      payload.invoice_url = `${SURL}/storage/v1/object/public/invoices/${fileName}`;
+      // clean up the old file in Storage, if there was one
+      if (originalUrl) await deleteInvoiceFromStorage(originalUrl);
+    } else if (wasRemoved && originalUrl) {
+      // User pressed "delete invoice" and did not pick a replacement
+      await deleteInvoiceFromStorage(originalUrl);
+      payload.invoice_url = null;
+    }
+
     await sbFetch(`/rest/v1/iphones?id=eq.${id}`,{method:'PATCH',body:payload});
     toast('Update လုပ်ပြီးပါပြီ ✓','success');
     document.getElementById('edit-modal').classList.remove('show');
     loadPhones();
   } catch(e) { toast('Error: '+e.message,'error'); }
+
+  saveBtn.textContent = '✓ သိမ်းဆည်း'; saveBtn.disabled = false;
 });
 
 // SUMMARY
