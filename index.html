@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>iCrave</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="manifest" href="data:application/json,{%22name%22:%22iPhone+Shop%22,%22short_name%22:%22iCrave%22,%22display%22:%22standalone%22,%22background_color%22:%22%230a0a0f%22,%22theme_color%22:%22%236c63ff%22,%22icons%22:[{%22src%22:%22/icon.svg%22,%22sizes%22:%22any%22,%22type%22:%22image/svg+xml%22}]}" />
+  <link rel="manifest" href="data:application/json,{%22name%22:%22iCrave%22,%22short_name%22:%22iCrave%22,%22display%22:%22standalone%22,%22background_color%22:%22%230a0a0f%22,%22theme_color%22:%22%236c63ff%22,%22icons%22:[{%22src%22:%22/favicon.png%22,%22sizes%22:%22any%22,%22type%22:%22image/png%22}]}" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="iCrave" />
@@ -25,13 +25,13 @@
     #auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(ellipse at 50% 0%, #2d1f6e22 0%, transparent 70%); }
     .auth-card { width: 100%; max-width: 380px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 36px 32px; }
     .auth-logo { text-align: center; margin-bottom: 32px; }
-    .auth-logo .icon { width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 14px; }
+    .auth-logo .icon { width: 56px; height: 56px; border-radius: 16px; display: inline-block; margin-bottom: 14px; object-fit: cover; }
     .auth-logo h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
     .auth-logo p { font-size: 13px; color: var(--text2); margin-top: 4px; }
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .form-group input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; }
-    .form-group input:focus { border-color: var(--accent); }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
     .auth-error { background: #ef444415; border: 1px solid #ef444430; border-radius: var(--radius-sm); padding: 10px 14px; color: var(--danger); font-size: 13px; margin-bottom: 16px; display: none; }
 
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; transition: all 0.2s; }
@@ -45,7 +45,7 @@
     #app-screen { display: none; min-height: 100vh; }
     .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
     .header-left { display: flex; align-items: center; gap: 10px; }
-    .header-logo { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .header-logo { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; }
     .header h2 { font-size: 15px; font-weight: 700; }
     .header-right { display: flex; align-items: center; gap: 10px; }
     .user-badge { font-size: 11px; color: var(--text2); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -95,13 +95,11 @@
     .list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
     .list-header h3 { font-size: 14px; font-weight: 600; }
 
-    /* TABLE STYLE LIST */
     .phone-table { width: 100%; border-collapse: collapse; }
     .phone-table th { background: var(--surface2); color: var(--text3); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
     .phone-table td { padding: 10px 8px; border-bottom: 1px solid #1a1a28; font-size: 12px; vertical-align: middle; white-space: nowrap; }
     .phone-table th:first-child { border-radius: 8px 0 0 0; }
     .phone-table th:last-child { border-radius: 0 8px 0 0; }
-
     .phone-table tr:hover td { background: #1a1a28; }
     .phone-table tr:last-child td { border-bottom: none; }
     .no-num { color: var(--text3); font-size: 12px; font-weight: 600; }
@@ -111,6 +109,10 @@
     .sell-price-cell { font-weight: 600; color: var(--success); }
     .remark-cell { color: var(--text2); font-size: 12px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .table-wrap { overflow-x: auto; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); }
+    .battery-cell { font-weight: 600; }
+    .battery-high { color: var(--success); }
+    .battery-mid { color: var(--warning); }
+    .battery-low { color: var(--danger); }
 
     .status-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
     .status-badge.available { background: #22c55e15; color: var(--success); border: 1px solid #22c55e25; }
@@ -127,7 +129,7 @@
 
     .modal-overlay { position: fixed; inset: 0; background: #00000088; backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 20px; display: none; overflow-y: auto; }
     .modal-overlay.show { display: flex; }
-    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; max-width: 480px; margin: auto; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; max-width: 520px; margin: auto; }
     .modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 20px; }
     .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 
@@ -161,9 +163,8 @@
 <div id="auth-screen">
   <div class="auth-card">
     <div class="auth-logo">
-      <!-- <div class="icon">📱</div> -->
-           <img class="icon" src="favicon.png" alt="iCrave" />
-      <h1>iPhone Shop</h1>
+      <img class="icon" src="/favicon.png" alt="iCrave" />
+      <h1>iCrave</h1>
       <p>Inventory Manager</p>
     </div>
     <div class="auth-error" id="auth-error"></div>
@@ -182,8 +183,7 @@
 <div id="app-screen">
   <div class="header">
     <div class="header-left">
-      <!-- <div class="header-logo">📱</div> -->
-        <img class="header-logo" src="favicon.png" alt="iCrave" />
+      <img class="header-logo" src="/favicon.png" alt="iCrave" />
       <h2>iCrave</h2>
     </div>
     <div class="header-right">
@@ -261,13 +261,18 @@
             <select id="add-storage"><option value="">ရွေးချယ်ပါ</option><option>64GB</option><option>128GB</option><option>256GB</option><option>512GB</option><option>1TB</option></select>
           </div>
           <div class="form-group"><label>Color</label><input type="text" id="add-color" placeholder="Black Titanium" /></div>
+          <div class="form-group"><label>Battery Health (%)</label><input type="number" id="add-battery" placeholder="85" min="1" max="100" /></div>
+          <div class="form-group"><label>Region</label><input type="text" id="add-region" placeholder="HK / TH / SG / MM" /></div>
+          <div class="form-group"><label>ဝယ်သောသူ</label>
+            <select id="add-purchased-by"><option value="">ရွေးချယ်ပါ</option><option>Wai Yan</option><option>Staff 2</option></select>
+          </div>
           <div class="form-group"><label>ဝယ်စျေး (Ks) *</label><input type="number" id="add-buy-price" placeholder="850000" /></div>
           <div class="form-group"><label>Status</label>
             <select id="add-status" onchange="toggleSellPrice(this.value)"><option value="available">ရောင်းရန် (In Stock)</option><option value="sold">ရောင်းပြီး (Sold)</option></select>
           </div>
           <div class="form-group"><label>ဝင်ရောက်သောနေ့</label><input type="date" id="add-date-received" /></div>
           <div class="form-group"><label>ရောင်းစျေး (Ks)</label><input type="number" id="add-sell-price" placeholder="ရောင်းမှသာ ထည့်ပါ" disabled style="opacity:0.4;cursor:not-allowed" /></div>
-          <div class="form-group form-full"><label>Remark / မှတ်ချက်</label><textarea id="add-remark" placeholder="ဥပမာ - battery 85%, ကြောင်မရှိ..."></textarea></div>
+          <div class="form-group form-full"><label>Remark / မှတ်ချက်</label><textarea id="add-remark" placeholder="ဥပမာ - ကြောင်မရှိ, original box ပါ..."></textarea></div>
         </div>
         <div class="form-actions">
           <button class="btn btn-primary" id="add-phone-btn" style="width:auto">✓ သိမ်းဆည်းမည်</button>
@@ -290,6 +295,11 @@
         <select id="edit-storage"><option value="">—</option><option>64GB</option><option>128GB</option><option>256GB</option><option>512GB</option><option>1TB</option></select>
       </div>
       <div class="form-group"><label>Color</label><input type="text" id="edit-color" /></div>
+      <div class="form-group"><label>Battery Health (%)</label><input type="number" id="edit-battery" min="1" max="100" /></div>
+      <div class="form-group"><label>Region</label><input type="text" id="edit-region" /></div>
+      <div class="form-group"><label>ဝယ်သောသူ</label>
+        <select id="edit-purchased-by"><option value="">—</option><option>Wai Yan</option><option>Staff 2</option></select>
+      </div>
       <div class="form-group"><label>ဝယ်စျေး (Ks)</label><input type="number" id="edit-buy-price" /></div>
       <div class="form-group"><label>ရောင်းစျေး (Ks)</label><input type="number" id="edit-sell-price" /></div>
       <div class="form-group"><label>Status</label>
@@ -325,6 +335,13 @@ function toast(msg, type='') {
 function fmt(num) {
   if (!num && num !== 0) return '—';
   return Number(num).toLocaleString() + ' Ks';
+}
+
+function batteryClass(b) {
+  if (!b) return '';
+  if (b >= 85) return 'battery-high';
+  if (b >= 70) return 'battery-mid';
+  return 'battery-low';
 }
 
 async function sbFetch(path, opts={}) {
@@ -413,6 +430,8 @@ function renderList() {
     (p.model||'').toLowerCase().includes(search)||
     (p.imei||'').includes(search)||
     (p.color||'').toLowerCase().includes(search)||
+    (p.region||'').toLowerCase().includes(search)||
+    (p.purchased_by||'').toLowerCase().includes(search)||
     (p.remark||'').toLowerCase().includes(search)
   );
   const list = document.getElementById('phone-list');
@@ -422,18 +441,11 @@ function renderList() {
   }
   list.innerHTML = `<table class="phone-table">
     <thead><tr>
-      <th>No.</th>
-      <th>Model</th>
-      <th>Storage</th>
-      <th>Color</th>
-      <th>IMEI</th>
-      <th>ဝယ်စျေး</th>
-      <th>ရောင်းစျေး</th>
-      <th>ဝင်နေ့</th>
-      <th>ရောင်းနေ့</th>
-      <th>Remark</th>
-      <th>Status</th>
-      <th></th>
+      <th>No.</th><th>Model</th><th>Storage</th><th>Color</th><th>IMEI</th>
+      <th>Battery</th><th>Region</th><th>ဝယ်သူ</th>
+      <th>ဝယ်စျေး</th><th>ရောင်းစျေး</th>
+      <th>ဝင်နေ့</th><th>ရောင်းနေ့</th>
+      <th>Remark</th><th>Status</th><th></th>
     </tr></thead>
     <tbody>
     ${phones.map((p,i)=>`<tr>
@@ -442,6 +454,9 @@ function renderList() {
       <td>${p.storage||'—'}</td>
       <td>${p.color||'—'}</td>
       <td class="imei-cell">${p.imei||'—'}</td>
+      <td class="battery-cell ${batteryClass(p.battery_health)}">${p.battery_health?p.battery_health+'%':'—'}</td>
+      <td>${p.region||'—'}</td>
+      <td>${p.purchased_by||'—'}</td>
       <td class="price-cell">${fmt(p.buy_price)}</td>
       <td class="sell-price-cell">${p.status==='sold'?fmt(p.sell_price):'—'}</td>
       <td style="font-size:12px;color:var(--text2)">${p.date_received||'—'}</td>
@@ -497,6 +512,9 @@ async function searchIMEI() {
           <div class="result-item"><label>Model</label><span>${p.model||'—'}</span></div>
           <div class="result-item"><label>Storage</label><span>${p.storage||'—'}</span></div>
           <div class="result-item"><label>Color</label><span>${p.color||'—'}</span></div>
+          <div class="result-item"><label>Battery</label><span class="${batteryClass(p.battery_health)}">${p.battery_health?p.battery_health+'%':'—'}</span></div>
+          <div class="result-item"><label>Region</label><span>${p.region||'—'}</span></div>
+          <div class="result-item"><label>ဝယ်သောသူ</label><span>${p.purchased_by||'—'}</span></div>
           <div class="result-item"><label>Status</label><span>${sold?'ရောင်းပြီး':'ရောင်းရန်ရှိ'}</span></div>
           <div class="result-item"><label>ဝယ်စျေး</label><span>${fmt(p.buy_price)}</span></div>
           ${sold?`<div class="result-item"><label>ရောင်းစျေး</label><span>${fmt(p.sell_price)}</span></div>`:''}
@@ -513,16 +531,9 @@ async function searchIMEI() {
 function toggleSellPrice(val) {
   const sp = document.getElementById('add-sell-price');
   if (val === 'sold') {
-    sp.disabled = false;
-    sp.style.opacity = '1';
-    sp.style.cursor = 'text';
-    sp.placeholder = '900000';
+    sp.disabled = false; sp.style.opacity = '1'; sp.style.cursor = 'text'; sp.placeholder = '900000';
   } else {
-    sp.disabled = true;
-    sp.value = '';
-    sp.style.opacity = '0.4';
-    sp.style.cursor = 'not-allowed';
-    sp.placeholder = 'ရောင်းမှသာ ထည့်ပါ';
+    sp.disabled = true; sp.value = ''; sp.style.opacity = '0.4'; sp.style.cursor = 'not-allowed'; sp.placeholder = 'ရောင်းမှသာ ထည့်ပါ';
   }
 }
 
@@ -545,16 +556,20 @@ document.getElementById('add-phone-btn').addEventListener('click', async () => {
   btn.textContent='Saving...'; btn.disabled=true;
   const dr=document.getElementById('add-date-received').value;
   const sp=document.getElementById('add-sell-price').value;
+  const bat=document.getElementById('add-battery').value;
   const payload={
     imei, model,
     storage: document.getElementById('add-storage').value,
     color: document.getElementById('add-color').value.trim(),
     status: document.getElementById('add-status').value,
     buy_price: Number(buy_price),
-    remark: document.getElementById('add-remark').value.trim() || null,
+    region: document.getElementById('add-region').value.trim()||null,
+    purchased_by: document.getElementById('add-purchased-by').value||null,
+    remark: document.getElementById('add-remark').value.trim()||null,
   };
   if(dr) payload.date_received=dr;
   if(sp) payload.sell_price=Number(sp);
+  if(bat) payload.battery_health=Number(bat);
   try {
     await sbFetch('/rest/v1/iphones',{method:'POST',body:payload});
     toast('ဖုန်း ထည့်သွင်းပြီးပါပြီ ✓','success');
@@ -565,9 +580,10 @@ document.getElementById('add-phone-btn').addEventListener('click', async () => {
 
 document.getElementById('clear-form-btn').addEventListener('click', clearForm);
 function clearForm() {
-  ['add-imei','add-model','add-color','add-date-received','add-buy-price','add-sell-price','add-remark'].forEach(id=>document.getElementById(id).value='');
+  ['add-imei','add-model','add-color','add-date-received','add-buy-price','add-sell-price','add-remark','add-battery','add-region'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('add-storage').value='';
   document.getElementById('add-status').value='available';
+  document.getElementById('add-purchased-by').value='';
 }
 
 // EDIT
@@ -583,6 +599,9 @@ function openEdit(p) {
   document.getElementById('edit-buy-price').value=p.buy_price||'';
   document.getElementById('edit-sell-price').value=p.sell_price||'';
   document.getElementById('edit-remark').value=p.remark||'';
+  document.getElementById('edit-battery').value=p.battery_health||'';
+  document.getElementById('edit-region').value=p.region||'';
+  document.getElementById('edit-purchased-by').value=p.purchased_by||'';
   document.getElementById('edit-modal').classList.add('show');
 }
 document.getElementById('cancel-edit-btn').addEventListener('click',()=>document.getElementById('edit-modal').classList.remove('show'));
@@ -602,17 +621,21 @@ document.getElementById('save-edit-btn').addEventListener('click', async () => {
   document.getElementById('edit-date-sold').style.borderColor='';
   const bp=document.getElementById('edit-buy-price').value;
   const sp=document.getElementById('edit-sell-price').value;
+  const bat=document.getElementById('edit-battery').value;
   const payload={
     imei: document.getElementById('edit-imei').value.trim(),
     model: document.getElementById('edit-model').value.trim(),
     storage: document.getElementById('edit-storage').value,
     color: document.getElementById('edit-color').value.trim(),
-    status: document.getElementById('edit-status').value,
+    status,
     date_sold: ds||null,
     date_received: dr||null,
     buy_price: bp?Number(bp):null,
     sell_price: sp?Number(sp):null,
     remark: document.getElementById('edit-remark').value.trim()||null,
+    battery_health: bat?Number(bat):null,
+    region: document.getElementById('edit-region').value.trim()||null,
+    purchased_by: document.getElementById('edit-purchased-by').value||null,
   };
   try {
     await sbFetch(`/rest/v1/iphones?id=eq.${id}`,{method:'PATCH',body:payload});
@@ -626,9 +649,7 @@ document.getElementById('save-edit-btn').addEventListener('click', async () => {
 function initSummary() {
   const now = new Date();
   const mon = document.getElementById('summary-month');
-  if (!mon.value) {
-    mon.value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
-  }
+  if (!mon.value) mon.value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
   loadSummary();
 }
 
@@ -639,50 +660,32 @@ async function loadSummary() {
   const from = `${year}-${mon}-01`;
   const lastDay = new Date(year, mon, 0).getDate();
   const to = `${year}-${mon}-${lastDay}`;
-
   document.getElementById('summary-content').innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
-
   try {
-    // sold phones this month
     const sold = await sbFetch(`/rest/v1/iphones?status=eq.sold&date_sold=gte.${from}&date_sold=lte.${to}&select=*`);
-    // received phones this month
     const received = await sbFetch(`/rest/v1/iphones?date_received=gte.${from}&date_received=lte.${to}&select=*`);
-
     const totalSell = (sold||[]).reduce((s,p)=>s+(Number(p.sell_price)||0),0);
     const totalBuy  = (sold||[]).reduce((s,p)=>s+(Number(p.buy_price)||0),0);
     const profit    = totalSell - totalBuy;
-    const totalInvest = (received||[]).reduce((s,p)=>s+(Number(p.buy_price)||0),0);
-
     const soldCount = (sold||[]).length;
     const recCount  = (received||[]).length;
-
     document.getElementById('summary-content').innerHTML = `
       <div style="font-size:13px;color:var(--text2);margin-bottom:14px">
         ${year} ခုနှစ် ${mon} လ — ဝင်လာသောဖုန်း <b style="color:var(--text)">${recCount} လုံး</b> / ရောင်းပြီးသောဖုန်း <b style="color:var(--text)">${soldCount} လုံး</b>
       </div>
       <div class="summary-stats">
-        <div class="summary-card buy">
-          <div class="amt">${fmt(totalBuy)}</div>
-          <div class="lbl">ရင်းနှီးငွေ (ရောင်းပြီးဖုန်း)</div>
-        </div>
-        <div class="summary-card sell">
-          <div class="amt">${fmt(totalSell)}</div>
-          <div class="lbl">ရောင်းရငွေ စုစုပေါင်း</div>
-        </div>
-        <div class="summary-card profit">
-          <div class="amt">${fmt(profit)}</div>
-          <div class="lbl">အမြတ်ငွေ</div>
-        </div>
+        <div class="summary-card buy"><div class="amt">${fmt(totalBuy)}</div><div class="lbl">ရင်းနှီးငွေ</div></div>
+        <div class="summary-card sell"><div class="amt">${fmt(totalSell)}</div><div class="lbl">ရောင်းရငွေ</div></div>
+        <div class="summary-card profit"><div class="amt">${fmt(profit)}</div><div class="lbl">အမြတ်ငွေ</div></div>
       </div>
       <div style="font-size:13px;color:var(--text2);margin-bottom:10px;font-weight:600">ရောင်းပြီးဖုန်းစာရင်း</div>
       ${soldCount===0 ? '<div class="empty-state"><div class="icon">📭</div><p>ဒီလမှာ ရောင်းထားသောဖုန်း မရှိပါ</p></div>' :
         `<div class="table-wrap"><table class="phone-table">
-          <thead><tr><th>No.</th><th>Model</th><th>Storage</th><th>Color</th><th>IMEI</th><th>ဝယ်စျေး</th><th>ရောင်းစျေး</th><th>အမြတ်</th><th>ရောင်းနေ့</th></tr></thead>
+          <thead><tr><th>No.</th><th>Model</th><th>Storage</th><th>IMEI</th><th>ဝယ်စျေး</th><th>ရောင်းစျေး</th><th>အမြတ်</th><th>ရောင်းနေ့</th></tr></thead>
           <tbody>${(sold||[]).map((p,i)=>`<tr>
             <td class="no-num">${i+1}</td>
             <td class="model-cell">${p.model||'—'}</td>
             <td>${p.storage||'—'}</td>
-            <td>${p.color||'—'}</td>
             <td class="imei-cell">${p.imei||'—'}</td>
             <td class="price-cell">${fmt(p.buy_price)}</td>
             <td class="sell-price-cell">${fmt(p.sell_price)}</td>
@@ -690,8 +693,7 @@ async function loadSummary() {
             <td style="font-size:12px;color:var(--text2)">${p.date_sold||'—'}</td>
           </tr>`).join('')}</tbody>
         </table></div>`
-      }
-    `;
+      }`;
   } catch(e) { toast('Error: '+e.message,'error'); }
 }
 
