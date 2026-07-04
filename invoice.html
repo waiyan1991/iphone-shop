@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="my">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iCrave — Invoice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f0f5;
+            min-height: 100vh;
+            color: #111;
+        }
+
+        .app-bar {
+            background: #fff;
+            border-bottom: 1px solid #e5e5ea;
+            padding: 0 20px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .app-bar img {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .app-bar span {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 16px;
+        }
+
+        .search-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .search-card h2 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 14px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .input-row input {
+            flex: 1;
+            background: #f5f5fa;
+            border: 1.5px solid #e5e5ea;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 15px;
+            font-family: monospace;
+            font-weight: 600;
+            color: #111;
+            outline: none;
+            letter-spacing: 1px;
+            transition: border-color 0.2s;
+        }
+
+        .input-row input:focus {
+            border-color: #6c63ff;
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-search:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .buyer-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .buyer-row input {
+            background: #f5f5fa;
+            border: 1.5px solid #e5e5ea;
+            border-radius: 10px;
+            padding: 11px 13px;
+            font-size: 13px;
+            font-family: inherit;
+            color: #111;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .buyer-row input:focus {
+            border-color: #6c63ff;
+        }
+
+        .error-msg {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* INVOICE */
+        .invoice-wrap {
+            display: none;
+        }
+
+        .print-btn-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-reset {
+            background: #fff;
+            color: #6c63ff;
+            border: 1.5px solid #6c63ff;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        /* INVOICE PAPER */
+        .invoice-paper {
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .inv-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #6c63ff;
+        }
+
+        .inv-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .inv-brand img {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .inv-brand-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #6c63ff;
+            letter-spacing: -0.5px;
+        }
+
+        .inv-brand-sub {
+            font-size: 11px;
+            color: #999;
+            margin-top: 1px;
+        }
+
+        .inv-title-box {
+            text-align: right;
+        }
+
+        .inv-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #6c63ff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .inv-no {
+            font-size: 12px;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        .inv-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .inv-meta-box {
+            background: #f8f8ff;
+            border: 1px solid #ebebff;
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .inv-meta-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #aaa;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .inv-meta-val {
+            font-size: 13px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .inv-section-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .inv-phone-box {
+            background: #f8f8ff;
+            border: 1px solid #ebebff;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .inv-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 7px;
+            font-size: 13px;
+        }
+
+        .inv-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .inv-row .lbl {
+            color: #888;
+            font-weight: 400;
+        }
+
+        .inv-row .val {
+            font-weight: 700;
+            color: #222;
+        }
+
+        .inv-imei-row {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e0e0f0;
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .inv-imei-val {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+            background: #f0f0f8;
+            padding: 4px 8px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 3px;
+            letter-spacing: 0.5px;
+        }
+
+        .inv-price-box {
+            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            border-radius: 12px;
+            padding: 16px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .inv-price-label {
+            font-size: 13px;
+            opacity: 0.85;
+            font-weight: 500;
+        }
+
+        .inv-price-amt {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .inv-buyer-box {
+            background: #f8f8ff;
+            border: 1px solid #ebebff;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .inv-footer {
+            text-align: center;
+            padding-top: 14px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .inv-footer p {
+            font-size: 11px;
+            color: #bbb;
+            line-height: 1.8;
+        }
+
+        .inv-footer .brand {
+            font-size: 13px;
+            font-weight: 700;
+            color: #6c63ff;
+            margin-top: 6px;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            display: none;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e5e5ea;
+            border-top-color: #6c63ff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .app-bar,
+            .search-card,
+            .print-btn-row {
+                display: none !important;
+            }
+
+            .invoice-wrap {
+                display: block !important;
+            }
+
+            .invoice-paper {
+                box-shadow: none;
+                border-radius: 0;
+                padding: 20px;
+            }
+
+            .container {
+                padding: 0;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-bar">
+        <img src="/favicon.png" alt="iCrave" />
+        <span>iCrave — Invoice</span>
+    </div>
+
+    <div class="container">
+        <div class="search-card">
+            <h2>🧾 Invoice ထုတ်မည်</h2>
+            <div class="input-row">
+                <input type="tel" id="imei-input" placeholder="IMEI ထည့်ပါ..." maxlength="15" inputmode="numeric" />
+                <button class="btn-search" id="search-btn" onclick="searchPhone()">ရှာမည်</button>
+            </div>
+            <div class="buyer-row">
+                <input type="text" id="buyer-name" placeholder="ဝယ်သူအမည်..." />
+                <input type="text" id="buyer-phone" placeholder="ဖုန်းနံပါတ်..." />
+            </div>
+            <div class="error-msg" id="error-msg"></div>
+        </div>
+
+        <div class="loading-spinner" id="loading">
+            <div class="spinner"></div>
+            Loading...
+        </div>
+
+        <div class="invoice-wrap" id="invoice-wrap">
+            <div class="print-btn-row">
+                <button class="btn-print" onclick="window.print()">🖨️ Print လုပ်မည်</button>
+                <button class="btn-reset" onclick="resetForm()">↺ အသစ်ထုတ်မည်</button>
+            </div>
+            <div class="invoice-paper" id="invoice-paper"></div>
+        </div>
+    </div>
+
+    <script>
+        const SURL = 'https://bilowmtnmfymccbgvafz.supabase.co';
+        const KEY = 'sb_publishable_kBWsQDvwBd5oixD5FxLu8w_062sRH_C';
+
+        function fmt(num) {
+            if (!num && num !== 0) return '—';
+            return Number(num).toLocaleString() + ' Ks';
+        }
+
+        document.getElementById('imei-input').addEventListener('keydown', e => {
+            if (e.key === 'Enter') searchPhone();
+        });
+
+        async function searchPhone() {
+            const imei = document.getElementById('imei-input').value.trim();
+            const errEl = document.getElementById('error-msg');
+            errEl.style.display = 'none';
+
+            if (!imei) { showError('IMEI ထည့်ပါ'); return; }
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('invoice-wrap').style.display = 'none';
+            document.getElementById('search-btn').disabled = true;
+
+            try {
+                const res = await fetch(`${SURL}/rest/v1/iphones?imei=eq.${encodeURIComponent(imei)}&select=*`, {
+                    headers: { 'apikey': KEY, 'Authorization': `Bearer ${KEY}` }
+                });
+                const data = await res.json();
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('search-btn').disabled = false;
+
+                if (!data || data.length === 0) {
+                    showError('ဒီ IMEI နဲ့ ဖုန်း မတွေ့ပါ');
+                    return;
+                }
+
+                renderInvoice(data[0]);
+            } catch (e) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('search-btn').disabled = false;
+                showError('Error: ' + e.message);
+            }
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('error-msg');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        function renderInvoice(p) {
+            const buyer = document.getElementById('buyer-name').value.trim() || '—';
+            const buyerPhone = document.getElementById('buyer-phone').value.trim() || '—';
+            const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            const invNo = 'INV-' + Date.now().toString().slice(-6);
+
+            document.getElementById('invoice-paper').innerHTML = `
+    <div class="inv-header">
+      <div class="inv-brand">
+        <img src="/favicon.png" alt="iCrave" />
+        <div>
+          <div class="inv-brand-name">iCrave</div>
+          <div class="inv-brand-sub">Premium Second Hand iPhones</div>
+        </div>
+      </div>
+      <div class="inv-title-box">
+        <div class="inv-title">Sales Invoice</div>
+        <div class="inv-no">#${invNo}</div>
+      </div>
+    </div>
+
+    <div class="inv-meta">
+      <div class="inv-meta-box">
+        <div class="inv-meta-label">ရောင်းသောနေ့</div>
+        <div class="inv-meta-val">${p.date_sold || today}</div>
+      </div>
+      <div class="inv-meta-box">
+        <div class="inv-meta-label">Status</div>
+        <div class="inv-meta-val" style="color:${p.status === 'sold' ? '#ef4444' : '#22c55e'}">${p.status === 'sold' ? 'ရောင်းပြီး' : 'ရောင်းရန်'}</div>
+      </div>
+    </div>
+
+    <div class="inv-section-title">ဝယ်သူ အချက်အလက်</div>
+    <div class="inv-buyer-box" style="margin-bottom:16px">
+      <div class="inv-row"><span class="lbl">အမည်</span><span class="val">${buyer}</span></div>
+      <div class="inv-row"><span class="lbl">ဖုန်းနံပါတ်</span><span class="val">${buyerPhone}</span></div>
+    </div>
+
+    <div class="inv-section-title">ဖုန်း အချက်အလက်</div>
+    <div class="inv-phone-box">
+      <div class="inv-row"><span class="lbl">Model</span><span class="val">${p.model || '—'}</span></div>
+      <div class="inv-row"><span class="lbl">Storage</span><span class="val">${p.storage || '—'}</span></div>
+      <div class="inv-row"><span class="lbl">Color</span><span class="val">${p.color || '—'}</span></div>
+      ${p.battery_health ? `<div class="inv-row"><span class="lbl">Battery Health</span><span class="val">${p.battery_health}%</span></div>` : ''}
+      ${p.region ? `<div class="inv-row"><span class="lbl">Region</span><span class="val">${p.region}</span></div>` : ''}
+      <div class="inv-imei-row">
+        IMEI
+        <div class="inv-imei-val">${p.imei || '—'}</div>
+      </div>
+    </div>
+
+    <div class="inv-price-box">
+      <div class="inv-price-label">စုစုပေါင်း ရောင်းစျေး</div>
+      <div class="inv-price-amt">${fmt(p.sell_price || p.buy_price)}</div>
+    </div>
+
+    ${p.remark ? `<div style="font-size:11px;color:#999;margin-bottom:14px;padding:10px;background:#f8f8ff;border-radius:8px"><b>မှတ်ချက်:</b> ${p.remark}</div>` : ''}
+
+    <div class="inv-footer">
+      <p>ဝယ်ပြီးသောဖုန်းကို ပြန်မလဲပါ<br>မေးမြန်းရန် — 09xxxxxxxxx</p>
+      <div class="brand">iCrave — Thank you! 🙏</div>
+    </div>
+  `;
+
+            document.getElementById('invoice-wrap').style.display = 'block';
+            document.getElementById('invoice-wrap').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            document.getElementById('imei-input').value = '';
+            document.getElementById('buyer-name').value = '';
+            document.getElementById('buyer-phone').value = '';
+            document.getElementById('error-msg').style.display = 'none';
+            document.getElementById('invoice-wrap').style.display = 'none';
+            document.getElementById('imei-input').focus();
+        }
+    </script>
+</body>
+
+</html>
