@@ -197,6 +197,8 @@
             position: relative;
             overflow: hidden;
             z-index: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .page-tag {
@@ -224,7 +226,7 @@
             z-index: -1;
         }
 
-        /* FRONT PAGE — plain voucher style */
+        /* FRONT PAGE — plain voucher style (matches shop's hand-written format) */
         .voucher-header {
             display: flex;
             align-items: center;
@@ -235,10 +237,10 @@
         }
 
         .voucher-logo {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            border: 1.5px solid #222;
+            width: 52px;
+            height: 52px;
+            border-radius: 0;
+            border: none;
             object-fit: cover;
         }
 
@@ -281,36 +283,62 @@
             grid-column: 1 / -1;
         }
 
+        /* Invoice No / Date / Time — brighter, bolder so they read clearly */
+        .voucher-top-row .voucher-field .val {
+            color: #000;
+            font-weight: 800;
+            font-size: 12.5px;
+            border-bottom: 1.5px solid #6c63ff;
+        }
+
+        .voucher-top-row .voucher-field .lbl {
+            color: #6c63ff;
+            font-weight: 700;
+        }
+
         .voucher-cust-row {
             display: grid;
             grid-template-columns: 1fr;
             margin-bottom: 8px;
         }
 
-        .voucher-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Item list — plain rows, no table borders, grey highlighted header */
+        .item-list {
             margin: 14px 0 10px;
             font-size: 11px;
+            border-radius: 6px;
+            overflow: hidden;
         }
 
-        .voucher-table th,
-        .voucher-table td {
-            border: 1px solid #222;
-            padding: 6px 6px;
+        .item-list .item-list-head,
+        .item-list .item-list-row {
+            display: grid;
+            grid-template-columns: 0.5fr 2fr 2fr 1fr 0.6fr 1fr;
+            gap: 4px;
+            padding: 7px 6px;
+            align-items: center;
             text-align: left;
         }
 
-        .voucher-table th {
-            background: #f4f4f4;
+        .item-list .item-list-head {
+            background: #ececec;
             font-size: 9.5px;
             text-transform: uppercase;
             letter-spacing: 0.4px;
             color: #333;
+            font-weight: 700;
         }
 
-        .voucher-table td.num,
-        .voucher-table th.num {
+        .item-list .item-list-row {
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-list .item-list-row.foc {
+            color: #6c63ff;
+            font-weight: 700;
+        }
+
+        .item-list .num {
             text-align: right;
         }
 
@@ -342,6 +370,10 @@
             color: #111;
         }
 
+        .voucher-body {
+            flex: 1 0 auto;
+        }
+
         .voucher-sign-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -349,6 +381,7 @@
             margin-top: 30px;
             font-size: 11px;
             color: #555;
+            text-align: left;
         }
 
         .voucher-sign-row .line {
@@ -358,21 +391,13 @@
         }
 
         .voucher-footer {
-            margin-top: 22px;
+            margin-top: auto;
             padding-top: 12px;
             border-top: 1px solid #eee;
             font-size: 10px;
             color: #888;
             line-height: 1.7;
-        }
-
-        .inv-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 2px solid #6c63ff;
+            text-align: left;
         }
 
         .inv-brand {
@@ -401,134 +426,6 @@
             margin-top: 1px;
         }
 
-        .inv-title-box {
-            text-align: right;
-        }
-
-        .inv-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: #6c63ff;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        .inv-no {
-            font-size: 11px;
-            color: #999;
-            margin-top: 2px;
-        }
-
-        .inv-strip {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            font-size: 11px;
-            margin-bottom: 14px;
-        }
-
-        .inv-strip-item .k {
-            color: #aaa;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .inv-strip-item .v {
-            color: #222;
-            font-weight: 700;
-            font-size: 12px;
-        }
-
-        .inv-section-title {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #aaa;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .inv-buyer-box {
-            background: #f8f8ff;
-            border: 1px solid #ebebff;
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin-bottom: 14px;
-        }
-
-        .item-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 4px;
-            font-size: 11px;
-        }
-
-        .item-table th {
-            text-align: left;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #aaa;
-            font-weight: 700;
-            padding: 6px 4px;
-            border-bottom: 1.5px solid #ebebff;
-        }
-
-        .item-table td {
-            padding: 8px 4px;
-            border-bottom: 1px solid #f2f2f8;
-            vertical-align: top;
-            color: #333;
-        }
-
-        .item-table .item-name {
-            font-weight: 700;
-            color: #111;
-        }
-
-        .item-table .item-opts {
-            font-size: 10px;
-            color: #888;
-            margin-top: 2px;
-        }
-
-        .item-table .item-serial {
-            font-size: 9.5px;
-            color: #aaa;
-            font-family: monospace;
-            margin-top: 4px;
-        }
-
-        .item-table .num {
-            text-align: right;
-            white-space: nowrap;
-        }
-
-        .totals-box {
-            margin-top: 10px;
-            margin-bottom: 16px;
-        }
-
-        .totals-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            padding: 4px 0;
-            color: #555;
-        }
-
-        .totals-row.grand {
-            border-top: 1.5px solid #ebebff;
-            margin-top: 4px;
-            padding-top: 10px;
-            font-size: 15px;
-            font-weight: 800;
-            color: #111;
-        }
-
         .paid-stamp {
             display: inline-block;
             border: 3px solid #6c63ff;
@@ -543,55 +440,21 @@
             margin: 10px 0 16px;
         }
 
-        .sign-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 24px;
-            font-size: 10px;
-            color: #999;
-        }
-
-        .sign-row .line {
-            border-top: 1px solid #ddd;
-            margin-top: 30px;
-            padding-top: 4px;
-        }
-
-        .inv-footer {
-            text-align: center;
-            padding-top: 14px;
-            margin-top: 10px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .inv-footer p {
-            font-size: 10px;
-            color: #bbb;
-            line-height: 1.7;
-        }
-
-        .inv-footer .brand {
-            font-size: 12px;
-            font-weight: 700;
-            color: #6c63ff;
-            margin-top: 5px;
-        }
-
         /* BACK PAGE — terms & conditions */
         .terms-header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 16px;
             padding-bottom: 10px;
             border-bottom: 2px solid #6c63ff;
         }
 
         .terms-header img {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
+            width: 52px;
+            height: 52px;
+            border-radius: 0;
+            border: none;
             object-fit: cover;
         }
 
@@ -607,14 +470,19 @@
             color: #aaa;
         }
 
+        .terms-body {
+            flex: 1 0 auto;
+        }
+
         .terms-section {
             margin-bottom: 14px;
+            text-align: left;
         }
 
         .terms-section h4 {
-            font-size: 11px;
-            font-weight: 700;
-            color: #6c63ff;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #1a4fe0;
             margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -623,6 +491,7 @@
         .terms-section ol,
         .terms-section ul {
             padding-left: 18px;
+            text-align: left;
         }
 
         .terms-section li {
@@ -630,19 +499,21 @@
             line-height: 1.6;
             color: #444;
             margin-bottom: 5px;
+            text-align: left;
         }
 
         .terms-ack {
-            margin-top: 18px;
+            margin-top: auto;
             padding-top: 14px;
             border-top: 1px dashed #ddd;
         }
 
-        .terms-ack p {
-            font-size: 11px;
-            color: #666;
+        .terms-ack p.ack-note {
+            font-size: 10px;
+            color: #1a4fe0;
+            font-weight: 700;
+            text-align: center;
             margin-bottom: 16px;
-            font-weight: 600;
         }
 
         .terms-sign-row {
@@ -651,6 +522,7 @@
             gap: 16px;
             font-size: 10.5px;
             color: #888;
+            text-align: left;
         }
 
         .terms-sign-row .line {
@@ -714,8 +586,10 @@
                 max-width: 100%;
                 padding: 0;
                 margin: 0;
+                min-height: 273mm;
             }
 
+            /* front page ends, back page (terms) starts on a fresh sheet */
             .a4-page.front {
                 page-break-after: always;
             }
@@ -757,6 +631,9 @@
                 <input type="number" id="paid-qr" placeholder="Paid by QR (Ks)" />
                 <input type="number" id="paid-banking" placeholder="Paid by Banking (Ks)" />
             </div>
+            <div class="buyer-row" style="margin-top:8px">
+                <input type="text" id="foc-item" placeholder="FOC ပါ Item (ဥပမာ - Case, Screen Protector)" />
+            </div>
             <div class="error-msg" id="error-msg"></div>
         </div>
 
@@ -793,6 +670,7 @@
         const SHOP_ADDRESS = 'No.6, Paw Taw Mu 2<sup>nd</sup> Street, 2 Quarter, Thamine Junction, Mayangone Township, Yangon.';
         const SHOP_HOTLINE = '09789156464';
         const SHOP_CS_NUMBERS = ['09789156464', '09256423922', '09975038285', '09420158811'];
+        // ------------------------------------
 
         function fmt(num) {
             if (!num && num !== 0) return '—';
@@ -856,6 +734,7 @@
             const refundPct      = blank(document.getElementById('refund-pct').value.trim());
             const exchangePct    = blank(document.getElementById('exchange-pct').value.trim());
             const ceirNumber     = document.getElementById('ceir-number').value.trim();
+            const focItem        = document.getElementById('foc-item').value.trim();
 
             const discount = Number(document.getElementById('discount-amount').value) || 0;
             const paidMMK  = Number(document.getElementById('paid-mmk').value) || 0;
@@ -870,6 +749,7 @@
             document.getElementById('invoice-front').innerHTML = `
     <div class="page-tag">FRONT — A4</div>
     <div class="watermark">${SHOP_NAME}</div>
+    <div class="voucher-body">
     <div class="voucher-header">
       <img class="voucher-logo" src="/favicon.png" alt="${SHOP_NAME}" />
       <div class="voucher-shopname">${SHOP_NAME}</div>
@@ -888,21 +768,28 @@
       <div class="voucher-field wide"><span class="lbl">Mobile</span><span class="val">${buyerPhone}</span></div>
     </div>
 
-    <table class="voucher-table">
-      <thead>
-        <tr><th>No</th><th>Model</th><th>IMEI 1/2</th><th>CEIR</th><th class="num">Qty</th><th class="num">Unit Price</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>${p.model || '—'}${p.storage ? ' ' + p.storage : ''}${p.color ? ' / ' + p.color : ''}</td>
-          <td style="font-family:monospace;font-size:10px">${p.imei || '—'}</td>
-          <td>${ceirNumber || '—'}</td>
-          <td class="num">1</td>
-          <td class="num">${ks(price)}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="item-list">
+      <div class="item-list-head">
+        <span>No</span><span>Model</span><span>IMEI</span><span>CEIR</span><span class="num">Qty</span><span class="num">Unit Price</span>
+      </div>
+      <div class="item-list-row">
+        <span>1</span>
+        <span>${p.model || '—'}${p.storage ? ' ' + p.storage : ''}${p.color ? ' / ' + p.color : ''}</span>
+        <span style="font-family:monospace;font-size:10px">${p.imei || '—'}</span>
+        <span>${ceirNumber || '—'}</span>
+        <span class="num">1</span>
+        <span class="num">${ks(price)}</span>
+      </div>
+      ${focItem ? `
+      <div class="item-list-row foc">
+        <span>2</span>
+        <span>${focItem}</span>
+        <span>—</span>
+        <span>—</span>
+        <span class="num">1</span>
+        <span class="num">FOC</span>
+      </div>` : ''}
+    </div>
 
     <div class="voucher-totals">
       <div class="row"><span>Product Cost</span><span>Ks ${ks(price)}</span></div>
@@ -922,6 +809,7 @@
       <div><div class="line">Invoice issued by</div></div>
       <div><div class="line">Received by</div></div>
     </div>
+    </div>
 
     <div class="voucher-footer">
       Address : ${SHOP_ADDRESS}<br>
@@ -934,21 +822,14 @@
             document.getElementById('invoice-back').innerHTML = `
     <div class="page-tag">BACK — A4</div>
     <div class="watermark">${SHOP_NAME}</div>
-    <div class="terms-header" style="flex-direction:column;align-items:flex-start;gap:6px">
-      <div style="display:flex;align-items:center;gap:8px;width:100%">
-        <img src="/favicon.png" alt="${SHOP_NAME}" />
-        <div class="t">${SHOP_NAME}</div>
-        <div class="d">#${invNo}</div>
-      </div>
-      <div style="font-size:10px;color:#888;line-height:1.6">
-        Address : ${SHOP_ADDRESS}<br>
-        Phone No. : Hotline ${SHOP_HOTLINE}<br>
-        Customer Service ${SHOP_CS_NUMBERS.join(', ')}
-      </div>
+    <div class="terms-body">
+    <div class="terms-header">
+      <img src="/favicon.png" alt="${SHOP_NAME}" />
+      <div class="t">Warranty Terms and Conditions</div>
+      <div class="d">#${invNo}</div>
     </div>
 
     <div class="terms-section">
-      <h4>Warranty Terms and Conditions</h4>
       <p style="font-size:11.5px;line-height:1.6;color:#444;margin-bottom:10px">
         ${SHOP_NAME} သည် Customer များ နစ်နာမှုမရှိရလေအောင် ${SHOP_NAME} မှ ဝယ်ယူထားသော Products များအပေါ် အောက်ပါ အာမခံစနစ်များအတိုင်း ရောင်းချပေးပါသည်။
       </p>
@@ -964,18 +845,17 @@
     </div>
 
     <div class="terms-section">
-      <h4 style="color:#2563eb">Warranty ကိစ္စများဆောင်ရွက်ရာတွင် Customer ဘက်မှလည်း အောက်ပါအချက်အလက်များကို မဖြစ်မနေ လိုက်နာပေးရပါမည်။</h4>
+      <h4>Warranty ကိစ္စများဆောင်ရွက်ရာတွင် Customer ဘက်မှလည်း အောက်ပါအချက်အလက်များကို မဖြစ်မနေ လိုက်နာပေးရပါမည်။</h4>
       <ol>
         <li>Device အတွင်းရှိ မိမိ Data များကို Backup လုပ်ထားပေးပါရန်။ ဆုံးရှုံးမှုများ ဖြစ်ပေါ်လာပါက ${SHOP_NAME} မှ တာဝန်ယူမည် မဟုတ်ပါ။</li>
         <li>အမျိုးအစားတူ အသစ်တစ်လုံး လဲပေးရာတွင် ပစ္စည်း ပြတ်လပ်မှုရှိနေပါက လဲလှယ်ပေးမည့်အချိန်ကို Customer ဘက်မှ စောင့်ဆိုင်းပေးရပါမည်။ ထိုသို့ မဟုတ်ပါက ဝယ်ယူစဉ်ကအတိုင်း ပစ္စည်းဖိုးငွေ အပြည့် ပြန်အမ်းပေးပါသည်။</li>
         <li><b>User Fault</b> ဆိုသည်မှာ Customer ပေါ့ဆမှုကြောင့် မှန်ကွဲခြင်း၊ လွတ်ကျခြင်း၊ ရေဝင်ခြင်း၊ ရေငွေ့ရိုက်ခြင်း၊ Shock ဖြစ်ခြင်း၊ မီးလောင်ခြင်းနှင့် ရာသီဥတုကြောင့် ဖြစ်ပေါ်လာသော ချို့ယွင်းချက်များ စသည်တို့ ဖြစ်ပါသည်။ </li>
       </ol>
-      <p style="font-size:11.5px;line-height:1.6;color:#444;margin-bottom:10px">
-        အထက်ပါ Warranty ဆိုင်ရာ စည်းကမ်းချက်များကို နားလည်လက်ခံပါသည်။
-      </p>
+    </div>
     </div>
 
     <div class="terms-ack">
+      <p class="ack-note">အထက်ပါ Warranty ဆိုင်ရာ စည်းကမ်းချက်များကို နားလည်လက်ခံပါသည်။</p>
       <div class="terms-sign-row">
         <div><div class="line">Customer Name — ${buyer}</div></div>
         <div><div class="line">Customer Sign</div></div>
@@ -999,8 +879,10 @@
             document.getElementById('paid-mmk').value = '';
             document.getElementById('paid-qr').value = '';
             document.getElementById('paid-banking').value = '';
-            document.getElementById('invoice-wrap').style.display = 'none';
+            document.getElementById('foc-item').value = '';
             document.getElementById('error-msg').style.display = 'none';
+            document.getElementById('invoice-wrap').style.display = 'none';
+            document.getElementById('imei-input').focus();
         }
     </script>
 </body>
