@@ -185,20 +185,176 @@
             cursor: pointer;
         }
 
-        /* INVOICE PAPER */
-        .invoice-paper {
+        /* A4 PAGE — shared by front (invoice) & back (terms) */
+        .a4-page {
             background: #fff;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto 20px;
             border-radius: 16px;
-            padding: 28px 24px;
+            padding: 24px 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
         }
 
-        .inv-header {
+        .page-tag {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 10px;
+            color: #ccc;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* FRONT PAGE — plain voucher style (matches shop's hand-written format) */
+        .voucher-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1.5px solid #222;
+        }
+
+        .voucher-logo {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1.5px solid #222;
+            object-fit: cover;
+        }
+
+        .voucher-shopname {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .voucher-top-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .voucher-field {
+            font-size: 11px;
+        }
+
+        .voucher-field .lbl {
+            display: block;
+            color: #888;
+            font-size: 9.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 3px;
+        }
+
+        .voucher-field .val {
+            display: block;
+            font-weight: 700;
+            color: #111;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 4px;
+            min-height: 16px;
+        }
+
+        .voucher-field.wide {
+            grid-column: 1 / -1;
+        }
+
+        .voucher-cust-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            margin-bottom: 8px;
+        }
+
+        .voucher-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0 10px;
+            font-size: 11px;
+        }
+
+        .voucher-table th,
+        .voucher-table td {
+            border: 1px solid #222;
+            padding: 6px 6px;
+            text-align: left;
+        }
+
+        .voucher-table th {
+            background: #f4f4f4;
+            font-size: 9.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #333;
+        }
+
+        .voucher-table td.num,
+        .voucher-table th.num {
+            text-align: right;
+        }
+
+        .voucher-totals {
+            margin: 10px 0 18px;
+        }
+
+        .voucher-totals .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 5px 0;
+            border-bottom: 1px dashed #e2e2e2;
+        }
+
+        .voucher-totals .row.sub {
+            padding-left: 14px;
+            color: #888;
+            font-size: 11px;
+        }
+
+        .voucher-totals .row.grand {
+            border-top: 1.5px solid #222;
+            border-bottom: none;
+            margin-top: 4px;
+            padding-top: 10px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #111;
+        }
+
+        .voucher-sign-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        .voucher-sign-row .line {
+            border-top: 1px solid #999;
+            margin-top: 34px;
+            padding-top: 5px;
+        }
+
+        .voucher-footer {
+            margin-top: 22px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+            font-size: 10px;
+            color: #888;
+            line-height: 1.7;
+        }
+
+
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
             border-bottom: 2px solid #6c63ff;
         }
 
@@ -209,21 +365,21 @@
         }
 
         .inv-brand img {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 9px;
             object-fit: cover;
         }
 
         .inv-brand-name {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
             color: #6c63ff;
             letter-spacing: -0.5px;
         }
 
         .inv-brand-sub {
-            font-size: 11px;
+            font-size: 10px;
             color: #999;
             margin-top: 1px;
         }
@@ -233,46 +389,41 @@
         }
 
         .inv-title {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: #6c63ff;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .inv-no {
-            font-size: 12px;
+            font-size: 11px;
             color: #999;
-            margin-top: 3px;
+            margin-top: 2px;
         }
 
-        .inv-meta {
+        /* top meta strip — mimics the iSure "Invoice Date / Ref / Invoice No / Branch" row */
+        .inv-strip {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 18px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 11px;
+            margin-bottom: 14px;
         }
 
-        .inv-meta-box {
-            background: #f8f8ff;
-            border: 1px solid #ebebff;
-            border-radius: 10px;
-            padding: 12px;
-        }
-
-        .inv-meta-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
+        .inv-strip-item .k {
             color: #aaa;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
-        .inv-meta-val {
-            font-size: 13px;
-            font-weight: 700;
+        .inv-strip-item .v {
             color: #222;
+            font-weight: 700;
+            font-size: 12px;
         }
 
         .inv-section-title {
@@ -284,103 +435,213 @@
             margin-bottom: 8px;
         }
 
-        .inv-phone-box {
-            background: #f8f8ff;
-            border: 1px solid #ebebff;
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 16px;
-        }
-
-        .inv-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 7px;
-            font-size: 13px;
-        }
-
-        .inv-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .inv-row .lbl {
-            color: #888;
-            font-weight: 400;
-        }
-
-        .inv-row .val {
-            font-weight: 700;
-            color: #222;
-        }
-
-        .inv-imei-row {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #e0e0f0;
-            font-size: 11px;
-            color: #aaa;
-        }
-
-        .inv-imei-val {
-            font-family: monospace;
-            font-size: 12px;
-            color: #666;
-            background: #f0f0f8;
-            padding: 4px 8px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 3px;
-            letter-spacing: 0.5px;
-        }
-
-        .inv-price-box {
-            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
-            border-radius: 12px;
-            padding: 16px 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #fff;
-            margin-bottom: 16px;
-        }
-
-        .inv-price-label {
-            font-size: 13px;
-            opacity: 0.85;
-            font-weight: 500;
-        }
-
-        .inv-price-amt {
-            font-size: 24px;
-            font-weight: 800;
-        }
-
         .inv-buyer-box {
             background: #f8f8ff;
             border: 1px solid #ebebff;
             border-radius: 12px;
-            padding: 14px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+        }
+
+        /* item table — mimics SKU / Brand / Item / Options / Qty / Price columns */
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+
+        .item-table th {
+            text-align: left;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #aaa;
+            font-weight: 700;
+            padding: 6px 4px;
+            border-bottom: 1.5px solid #ebebff;
+        }
+
+        .item-table td {
+            padding: 8px 4px;
+            border-bottom: 1px solid #f2f2f8;
+            vertical-align: top;
+            color: #333;
+        }
+
+        .item-table .item-name {
+            font-weight: 700;
+            color: #111;
+        }
+
+        .item-table .item-opts {
+            font-size: 10px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .item-table .item-serial {
+            font-size: 9.5px;
+            color: #aaa;
+            font-family: monospace;
+            margin-top: 4px;
+        }
+
+        .item-table .num {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .totals-box {
+            margin-top: 10px;
             margin-bottom: 16px;
+        }
+
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 4px 0;
+            color: #555;
+        }
+
+        .totals-row.grand {
+            border-top: 1.5px solid #ebebff;
+            margin-top: 4px;
+            padding-top: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #111;
+        }
+
+        .paid-stamp {
+            display: inline-block;
+            border: 3px solid #6c63ff;
+            color: #6c63ff;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 2px;
+            padding: 6px 16px;
+            border-radius: 8px;
+            transform: rotate(-6deg);
+            opacity: 0.85;
+            margin: 10px 0 16px;
+        }
+
+        .sign-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 24px;
+            font-size: 10px;
+            color: #999;
+        }
+
+        .sign-row .line {
+            border-top: 1px solid #ddd;
+            margin-top: 30px;
+            padding-top: 4px;
         }
 
         .inv-footer {
             text-align: center;
             padding-top: 14px;
+            margin-top: 10px;
             border-top: 1px solid #f0f0f0;
         }
 
         .inv-footer p {
-            font-size: 11px;
+            font-size: 10px;
             color: #bbb;
-            line-height: 1.8;
+            line-height: 1.7;
         }
 
         .inv-footer .brand {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: #6c63ff;
-            margin-top: 6px;
+            margin-top: 5px;
+        }
+
+        /* BACK PAGE — terms & conditions */
+        .terms-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #6c63ff;
+        }
+
+        .terms-header img {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .terms-header .t {
+            font-size: 14px;
+            font-weight: 800;
+            color: #6c63ff;
+        }
+
+        .terms-header .d {
+            margin-left: auto;
+            font-size: 10px;
+            color: #aaa;
+        }
+
+        .terms-section {
+            margin-bottom: 14px;
+        }
+
+        .terms-section h4 {
+            font-size: 11px;
+            font-weight: 700;
+            color: #6c63ff;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .terms-section ol,
+        .terms-section ul {
+            padding-left: 18px;
+        }
+
+        .terms-section li {
+            font-size: 11.5px;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 5px;
+        }
+
+        .terms-ack {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .terms-ack p {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .terms-sign-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            font-size: 10.5px;
+            color: #888;
+        }
+
+        .terms-sign-row .line {
+            border-top: 1px solid #ccc;
+            margin-top: 28px;
+            padding-top: 4px;
         }
 
         .loading-spinner {
@@ -407,13 +668,19 @@
         }
 
         @media print {
+            @page {
+                size: A4;
+                margin: 12mm;
+            }
+
             body {
                 background: white;
             }
 
             .app-bar,
             .search-card,
-            .print-btn-row {
+            .print-btn-row,
+            .page-tag {
                 display: none !important;
             }
 
@@ -421,15 +688,22 @@
                 display: block !important;
             }
 
-            .invoice-paper {
-                box-shadow: none;
-                border-radius: 0;
-                padding: 20px;
-            }
-
             .container {
                 padding: 0;
                 max-width: 100%;
+            }
+
+            .a4-page {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            /* front page ends, back page (terms) starts on a fresh sheet */
+            .a4-page.front {
+                page-break-after: always;
             }
         }
     </style>
@@ -453,6 +727,22 @@
                 <input type="text" id="buyer-name" placeholder="ဝယ်သူအမည်..." />
                 <input type="text" id="buyer-phone" placeholder="ဖုန်းနံပါတ်..." />
             </div>
+            <div class="buyer-row" style="margin-top:8px">
+                <input type="text" id="warranty-period" placeholder="Warranty ကာလ (ဥပမာ - 3 လ)" />
+                <input type="text" id="refund-pct" placeholder="ပြန်ရောင်း နုတ်ရမည့် % (ဥပမာ - 10)" />
+            </div>
+            <div class="buyer-row" style="margin-top:8px">
+                <input type="text" id="exchange-pct" placeholder="အလဲအထပ် နုတ်ရမည့် % (ဥပမာ - 5)" />
+                <input type="text" id="ceir-number" placeholder="CEIR (ရှိပါက)" />
+            </div>
+            <div class="buyer-row" style="margin-top:8px">
+                <input type="number" id="discount-amount" placeholder="Discount (Ks)" />
+                <input type="number" id="paid-mmk" placeholder="Total Paid MMK (Ks)" />
+            </div>
+            <div class="buyer-row" style="margin-top:8px">
+                <input type="number" id="paid-qr" placeholder="Paid by QR (Ks)" />
+                <input type="number" id="paid-banking" placeholder="Paid by Banking (Ks)" />
+            </div>
             <div class="error-msg" id="error-msg"></div>
         </div>
 
@@ -463,16 +753,33 @@
 
         <div class="invoice-wrap" id="invoice-wrap">
             <div class="print-btn-row">
-                <button class="btn-print" onclick="window.print()">🖨️ Print လုပ်မည်</button>
+                <button class="btn-print" onclick="window.print()">🖨️ Print လုပ်မည် (Front + Back)</button>
                 <button class="btn-reset" onclick="resetForm()">↺ အသစ်ထုတ်မည်</button>
             </div>
-            <div class="invoice-paper" id="invoice-paper"></div>
+
+            <!-- FRONT: invoice details -->
+            <div class="a4-page front" id="invoice-front">
+                <div class="page-tag">FRONT — A4</div>
+            </div>
+
+            <!-- BACK: terms & conditions -->
+            <div class="a4-page back" id="invoice-back">
+                <div class="page-tag">BACK — A4</div>
+            </div>
         </div>
     </div>
 
     <script>
         const SURL = 'https://bilowmtnmfymccbgvafz.supabase.co';
         const KEY = 'sb_publishable_kBWsQDvwBd5oixD5FxLu8w_062sRH_C';
+
+        // ---- SHOP INFO ----
+        const SHOP_NAME    = 'iCrave';
+        const SHOP_SUB     = 'Premium Second Hand iPhones';
+        const SHOP_ADDRESS = 'No.6, Paw Taw Mu 2nd Street, 2 Quarter, Thamine Junction, Mayangone Township, Yangon.';
+        const SHOP_HOTLINE = '09789156464';
+        const SHOP_CS_NUMBERS = ['09789156464', '09256423922', '09975038285', '09420158811'];
+        // ------------------------------------
 
         function fmt(num) {
             if (!num && num !== 0) return '—';
@@ -525,64 +832,125 @@
         function renderInvoice(p) {
             const buyer = document.getElementById('buyer-name').value.trim() || '—';
             const buyerPhone = document.getElementById('buyer-phone').value.trim() || '—';
-            const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            const now = new Date();
+            const today = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            const timeNow = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
             const invNo = 'INV-' + Date.now().toString().slice(-6);
+            const price = Number(p.sell_price || p.buy_price || 0);
 
-            document.getElementById('invoice-paper').innerHTML = `
-    <div class="inv-header">
-      <div class="inv-brand">
-        <img src="/favicon.png" alt="iCrave" />
-        <div>
-          <div class="inv-brand-name">iCrave</div>
-          <div class="inv-brand-sub">Premium Second Hand iPhones</div>
-        </div>
-      </div>
-      <div class="inv-title-box">
-        <div class="inv-title">Sales Invoice</div>
-        <div class="inv-no">#${invNo}</div>
-      </div>
+            const blank = (v) => v ? v : '_______';
+            const warrantyPeriod = blank(document.getElementById('warranty-period').value.trim());
+            const refundPct      = blank(document.getElementById('refund-pct').value.trim());
+            const exchangePct    = blank(document.getElementById('exchange-pct').value.trim());
+            const ceirNumber     = document.getElementById('ceir-number').value.trim();
+
+            const discount = Number(document.getElementById('discount-amount').value) || 0;
+            const paidMMK  = Number(document.getElementById('paid-mmk').value) || 0;
+            const paidQR   = Number(document.getElementById('paid-qr').value) || 0;
+            const paidBank = Number(document.getElementById('paid-banking').value) || 0;
+            const paidSum  = paidMMK + paidQR + paidBank;
+            const totalReceived = paidSum > 0 ? paidSum : (price - discount);
+
+            const ks = (n) => n ? Number(n).toLocaleString() : '—';
+
+            // ---- FRONT PAGE ----
+            document.getElementById('invoice-front').innerHTML = `
+    <div class="page-tag">FRONT — A4</div>
+    <div class="voucher-header">
+      <img class="voucher-logo" src="/favicon.png" alt="${SHOP_NAME}" />
+      <div class="voucher-shopname">${SHOP_NAME} ဆိုင်ခွဲ</div>
     </div>
 
-    <div class="inv-meta">
-      <div class="inv-meta-box">
-        <div class="inv-meta-label">ရောင်းသောနေ့</div>
-        <div class="inv-meta-val">${p.date_sold || today}</div>
-      </div>
-      <div class="inv-meta-box">
-        <div class="inv-meta-label">Status</div>
-        <div class="inv-meta-val" style="color:${p.status === 'sold' ? '#ef4444' : '#22c55e'}">${p.status === 'sold' ? 'ရောင်းပြီး' : 'ရောင်းရန်'}</div>
-      </div>
+    <div class="voucher-top-row">
+      <div class="voucher-field"><span class="lbl">Invoice No</span><span class="val">${invNo}</span></div>
+      <div class="voucher-field"><span class="lbl">Invoice Date</span><span class="val">${today}</span></div>
+      <div class="voucher-field"><span class="lbl">Invoice Time</span><span class="val">${timeNow}</span></div>
     </div>
 
-    <div class="inv-section-title">ဝယ်သူ အချက်အလက်</div>
-    <div class="inv-buyer-box" style="margin-bottom:16px">
-      <div class="inv-row"><span class="lbl">အမည်</span><span class="val">${buyer}</span></div>
-      <div class="inv-row"><span class="lbl">ဖုန်းနံပါတ်</span><span class="val">${buyerPhone}</span></div>
+    <div class="voucher-cust-row">
+      <div class="voucher-field wide"><span class="lbl">Customer Name</span><span class="val">${buyer}</span></div>
+    </div>
+    <div class="voucher-cust-row">
+      <div class="voucher-field wide"><span class="lbl">Mobile</span><span class="val">${buyerPhone}</span></div>
     </div>
 
-    <div class="inv-section-title">ဖုန်း အချက်အလက်</div>
-    <div class="inv-phone-box">
-      <div class="inv-row"><span class="lbl">Model</span><span class="val">${p.model || '—'}</span></div>
-      <div class="inv-row"><span class="lbl">Storage</span><span class="val">${p.storage || '—'}</span></div>
-      <div class="inv-row"><span class="lbl">Color</span><span class="val">${p.color || '—'}</span></div>
-      ${p.battery_health ? `<div class="inv-row"><span class="lbl">Battery Health</span><span class="val">${p.battery_health}%</span></div>` : ''}
-      ${p.region ? `<div class="inv-row"><span class="lbl">Region</span><span class="val">${p.region}</span></div>` : ''}
-      <div class="inv-imei-row">
-        IMEI
-        <div class="inv-imei-val">${p.imei || '—'}</div>
-      </div>
-    </div>
+    <table class="voucher-table">
+      <thead>
+        <tr><th>No</th><th>Model</th><th>IMEI 1/2</th><th>CEIR</th><th class="num">Qty</th><th class="num">Unit Price</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>${p.model || '—'}${p.storage ? ' ' + p.storage : ''}${p.color ? ' / ' + p.color : ''}</td>
+          <td style="font-family:monospace;font-size:10px">${p.imei || '—'}</td>
+          <td>${ceirNumber || '—'}</td>
+          <td class="num">1</td>
+          <td class="num">${ks(price)}</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <div class="inv-price-box">
-      <div class="inv-price-label">စုစုပေါင်း ရောင်းစျေး</div>
-      <div class="inv-price-amt">${fmt(p.sell_price || p.buy_price)}</div>
+    <div class="voucher-totals">
+      <div class="row"><span>Product Cost</span><span>Ks ${ks(price)}</span></div>
+      <div class="row"><span>Discount</span><span>${discount ? 'Ks ' + ks(discount) : '—'}</span></div>
+      <div class="row"><span>Total Paid (MMK)</span><span>${paidMMK ? 'Ks ' + ks(paidMMK) : '—'}</span></div>
+      <div class="row sub"><span>(MMK QR)</span><span>${paidQR ? 'Ks ' + ks(paidQR) : '—'}</span></div>
+      <div class="row sub"><span>(Banking)</span><span>${paidBank ? 'Ks ' + ks(paidBank) : '—'}</span></div>
+      <div class="row grand"><span>Total received</span><span>Ks ${ks(totalReceived)}</span></div>
     </div>
 
     ${p.remark ? `<div style="font-size:11px;color:#999;margin-bottom:14px;padding:10px;background:#f8f8ff;border-radius:8px"><b>မှတ်ချက်:</b> ${p.remark}</div>` : ''}
 
-    <div class="inv-footer">
-      <p>ဝယ်ပြီးသောဖုန်းကို ပြန်မလဲပါ<br>မေးမြန်းရန် — 09xxxxxxxxx</p>
-      <div class="brand">iCrave — Thank you! 🙏</div>
+    <div class="voucher-sign-row">
+      <div><div class="line">Invoice issued by</div></div>
+      <div><div class="line">Received by</div></div>
+    </div>
+
+    <div class="voucher-footer">
+      Address : ${SHOP_ADDRESS}<br>
+      Phone No. : Hotline ${SHOP_HOTLINE}<br>
+      Customer Service ${SHOP_CS_NUMBERS.join(', ')}
+    </div>
+  `;
+
+            // ---- BACK PAGE: terms & conditions ----
+            document.getElementById('invoice-back').innerHTML = `
+    <div class="page-tag">BACK — A4</div>
+    <div class="terms-header" style="flex-direction:column;align-items:flex-start;gap:6px">
+      <div style="display:flex;align-items:center;gap:8px;width:100%">
+        <img src="/favicon.png" alt="${SHOP_NAME}" />
+        <div class="t">${SHOP_NAME} Voucher</div>
+        <div class="d">#${invNo}</div>
+      </div>
+      <div style="font-size:10px;color:#888;line-height:1.6">
+        Address : ${SHOP_ADDRESS}<br>
+        Phone No. : Hotline ${SHOP_HOTLINE}<br>
+        Customer Service ${SHOP_CS_NUMBERS.join(', ')}
+      </div>
+    </div>
+
+    <div class="terms-section">
+      <h4>Warranty Terms and Conditions</h4>
+      <p style="font-size:11.5px;line-height:1.6;color:#444;margin-bottom:10px">
+        ${SHOP_NAME} မှ ဝယ်ယူထားသော Apple Product (Brand New & Second) များအား သတ်မှတ်ထားသော Warranty (<b>${warrantyPeriod}</b>) ကာလအတွင်း Factory Fault များ ဖြစ်ပေါ်လာခဲ့ပါက ဆိုင်ဘက်မှ အာမခံ အပြည့်အဝ ပေးပါသည်။ ${SHOP_NAME} သည် Customer များ နစ်နာမှုမရှိရလေအောင် ${SHOP_NAME} မှ ဝယ်ယူထားသော Products များအပေါ် အောက်ပါ အာမခံစနစ်များအတိုင်း ရောင်းချပေးပါသည်။
+      </p>
+      <ol>
+        <li>ဝယ်ယူပြီး တစ်ပတ်အတွင်း Factory Error ဖြစ်ပါက အမျိုးအစားတူ နောက်ထပ်တစ်လုံး လဲပေးပါသည် (သို့မဟုတ်) ငွေအပြည့် ပြန်အမ်းပေးပါမည်။</li>
+        <li>ဝယ်ယူပြီး တစ်ပတ်ကျော်သွားသည့် အချိန် Warranty ကာလ (<b>${warrantyPeriod}</b>) အတွင်း Factory Error ဖြစ်ပါက Error ဖြစ်သည့် Parts အား အခမဲ့ ပြန်လည်ပြုပြင်ပေးပါသည်။ အချိန်ယူ၍ စစ်ဆေးရသောကြောင့် (3 ရက် - 7 ရက်) ခန့် ကြာမြင့်နိုင်ပါသည်။</li>
+        <li>System Update ကြောင့် ဖြစ်ပေါ်လာသော (Software & Hardware) Error များအား ဆိုင်မှ အာမခံပေးမည် မဟုတ်ပါ။</li>
+        <li>Touch, LCD, Display ကို မိမိစိတ်ကြိုက် စစ်ဆေး၍ ဝယ်ယူနိုင်ပါသည်။ Display ပျက်ခြင်း၊ Touch ပျက်ခြင်းများအတွက် ဆိုင်မှ အာမခံပေးမည် မဟုတ်ပါ။</li>
+        <li>Warranty ကိစ္စများ ဆောင်ရွက်ရာတွင် Customer ဘက်မှလည်း အောက်ပါအချက်များကို မဖြစ်မနေ လိုက်နာပေးရပါမည် — Device အတွင်းရှိ မိမိ Data များကို Backup လုပ်ထားပေးပါရန်၊ ဆုံးရှုံးမှုများ ဖြစ်ပေါ်လာပါက ${SHOP_NAME} မှ တာဝန်ယူမည် မဟုတ်ပါ။ အမျိုးအစားတူ အသစ်တစ်လုံး လဲပေးရာတွင် ပစ္စည်း ပြတ်လပ်မှုရှိနေပါက လဲလှယ်ပေးမည့်အချိန်ကို Customer ဘက်မှ စောင့်ဆိုင်းပေးရပါမည်။ ထိုသို့ မဟုတ်ပါက ဝယ်ယူစဉ်ကအတိုင်း ပစ္စည်းဖိုးငွေ အပြည့် ပြန်အမ်းပေးပါသည်။</li>
+        <li>Warranty (<b>${warrantyPeriod}</b>) ကာလအတွင်း ပြန်လည် ရောင်းချလိုပါက <b>${refundPct}%</b> နုတ်၍ ပြန်လည် ဝယ်ယူပေးပါသည်။ အလဲအထပ် လုပ်မည်ဆိုပါက <b>${exchangePct}%</b> နုတ်၍ လဲလှယ်ပေးပါသည်။</li>
+        <li>Warranty ကာလအတွင်း User Fault ကြောင့် ဖြစ်ပေါ်လာသော Error များကို ဆိုင်မှ တာဝန်ယူ ဖြေရှင်းပေးမည် မဟုတ်ပါ။ ဆိုင်မှ ကပ်ပေးထားသော အာမခံစည်း၊ တံဆိပ်စည်း ပျက်စီးသွားလျှင်၊ Warranty ရက် ကျော်လွန်သွားလျှင် ဆိုင်မှ တာဝန်ယူမည် မဟုတ်ပါ။ (<b>User Fault</b> ဆိုသည်မှာ — Customer ပေါ့ဆမှုကြောင့် မှန်ကွဲခြင်း၊ လွတ်ကျခြင်း၊ ရေဝင်ခြင်း၊ ရေငွေ့ရိုက်ခြင်း၊ Shock ဖြစ်ခြင်း၊ မီးလောင်ခြင်းနှင့် ရာသီဥတုကြောင့် ဖြစ်ပေါ်လာသော ချို့ယွင်းချက်များ စသည်တို့ကို ဆိုလိုပါသည်။)</li>
+      </ol>
+    </div>
+
+    <div class="terms-ack">
+      <p>အထက်ပါ Warranty ဆိုင်ရာ စည်းကမ်းချက်များကို နားလည်လက်ခံပါသည်။</p>
+      <div class="terms-sign-row">
+        <div><div class="line">Customer Name — ${buyer}</div></div>
+        <div><div class="line">Customer Sign</div></div>
+      </div>
     </div>
   `;
 
@@ -594,6 +962,14 @@
             document.getElementById('imei-input').value = '';
             document.getElementById('buyer-name').value = '';
             document.getElementById('buyer-phone').value = '';
+            document.getElementById('warranty-period').value = '';
+            document.getElementById('refund-pct').value = '';
+            document.getElementById('exchange-pct').value = '';
+            document.getElementById('ceir-number').value = '';
+            document.getElementById('discount-amount').value = '';
+            document.getElementById('paid-mmk').value = '';
+            document.getElementById('paid-qr').value = '';
+            document.getElementById('paid-banking').value = '';
             document.getElementById('error-msg').style.display = 'none';
             document.getElementById('invoice-wrap').style.display = 'none';
             document.getElementById('imei-input').focus();
