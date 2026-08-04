@@ -195,6 +195,7 @@
             padding: 24px 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             position: relative;
+            overflow: hidden;
         }
 
         .page-tag {
@@ -205,6 +206,21 @@
             color: #ccc;
             font-weight: 600;
             letter-spacing: 0.5px;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-32deg);
+            font-size: 78px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: rgba(108, 99, 255, 0.07);
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            z-index: -1;
         }
 
         /* FRONT PAGE — plain voucher style (matches shop's hand-written format) */
@@ -856,6 +872,7 @@
             // ---- FRONT PAGE ----
             document.getElementById('invoice-front').innerHTML = `
     <div class="page-tag">FRONT — A4</div>
+    <div class="watermark">${SHOP_NAME}</div>
     <div class="voucher-header">
       <img class="voucher-logo" src="/favicon.png" alt="${SHOP_NAME}" />
       <div class="voucher-shopname">${SHOP_NAME} ဆိုင်ခွဲ</div>
@@ -919,6 +936,7 @@
             // ---- BACK PAGE: terms & conditions ----
             document.getElementById('invoice-back').innerHTML = `
     <div class="page-tag">BACK — A4</div>
+    <div class="watermark">${SHOP_NAME}</div>
     <div class="terms-header" style="flex-direction:column;align-items:flex-start;gap:6px">
       <div style="display:flex;align-items:center;gap:8px;width:100%">
         <img src="/favicon.png" alt="${SHOP_NAME}" />
