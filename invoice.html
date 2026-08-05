@@ -136,6 +136,34 @@
             border-color: #6c63ff;
         }
 
+        .foc-check-row {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            background: #f5f5fa;
+            border: 1.5px solid #e5e5ea;
+            border-radius: 10px;
+            padding: 11px 13px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .foc-check-row label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .foc-check-row input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            accent-color: #6c63ff;
+            cursor: pointer;
+        }
+
         .error-msg {
             background: #fef2f2;
             border: 1px solid #fecaca;
@@ -185,14 +213,14 @@
             cursor: pointer;
         }
 
-        /* A4 PAGE — shared by front (invoice) & back (terms) */
+        /* A4 PAGE — Shared by Screen and Print */
         .a4-page {
             background: #fff;
             width: 100%;
             max-width: 480px;
             margin: 0 auto 20px;
             border-radius: 16px;
-            padding: 24px 20px;
+            padding: 28px 22px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             position: relative;
             overflow: hidden;
@@ -206,7 +234,7 @@
             top: 10px;
             right: 14px;
             font-size: 10px;
-            color: #ccc;
+            color: #999;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
@@ -226,86 +254,82 @@
             z-index: -1;
         }
 
-        /* FRONT PAGE — plain voucher style (matches shop's hand-written format) */
+        /* FRONT PAGE — typography matched to back page scale */
         .voucher-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-            padding-bottom: 10px;
+            justify-content: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
             border-bottom: 1.5px solid #222;
         }
 
         .voucher-logo {
-            width: 52px;
-            height: 52px;
+            width: 68px;
+            height: 68px;
             border-radius: 0;
             border: none;
             object-fit: cover;
         }
 
-        .voucher-shopname {
-            font-size: 16px;
-            font-weight: 700;
-            color: #111;
-        }
-
         .voucher-top-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .voucher-field {
-            font-size: 11px;
+            font-size: 12.5px;
+            line-height: 1.75;
         }
 
         .voucher-field .lbl {
             display: block;
-            color: #888;
-            font-size: 9.5px;
+            color: #666;
+            font-size: 10.5px;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.4px;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         .voucher-field .val {
             display: block;
             font-weight: 700;
-            color: #111;
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 4px;
-            min-height: 16px;
+            color: #222;
+            border-bottom: 1px dashed #bbb;
+            padding-bottom: 5px;
+            min-height: 18px;
         }
 
         .voucher-field.wide {
-            grid-column: 1 / -1;
+            width: 100%;
         }
 
-        /* Invoice No / Date / Time — brighter, bolder so they read clearly */
         .voucher-top-row .voucher-field .val {
-            color: #000;
+            color: #333;
             font-weight: 800;
-            font-size: 12.5px;
-            border-bottom: 1.5px solid #6c63ff;
+            font-size: 13px;
+            border-bottom: 1.5px solid #666;
         }
 
         .voucher-top-row .voucher-field .lbl {
-            color: #6c63ff;
+            color: #555;
             font-weight: 700;
         }
 
         .voucher-cust-row {
             display: grid;
             grid-template-columns: 1fr;
-            margin-bottom: 8px;
+            margin-bottom: 14px;
         }
 
-        /* Item list — plain rows, no table borders, grey highlighted header */
         .item-list {
-            margin: 14px 0 10px;
-            font-size: 11px;
+            margin: 20px 0 16px;
+            font-size: 12.5px;
+            line-height: 1.75;
             border-radius: 6px;
             overflow: hidden;
         }
@@ -315,17 +339,17 @@
             display: grid;
             grid-template-columns: 0.5fr 2fr 2fr 1fr 0.6fr 1fr;
             gap: 4px;
-            padding: 7px 6px;
+            padding: 9px 6px;
             align-items: center;
             text-align: left;
         }
 
         .item-list .item-list-head {
             background: #ececec;
-            font-size: 9.5px;
+            font-size: 10.5px;
             text-transform: uppercase;
             letter-spacing: 0.4px;
-            color: #333;
+            color: #222;
             font-weight: 700;
         }
 
@@ -334,8 +358,16 @@
         }
 
         .item-list .item-list-row.foc {
-            color: #6c63ff;
+            color: #111;
             font-weight: 700;
+        }
+
+        .item-list .item-opts {
+            display: block;
+            font-size: 10px;
+            color: #888;
+            font-weight: 400;
+            margin-top: 2px;
         }
 
         .item-list .num {
@@ -343,198 +375,174 @@
         }
 
         .voucher-totals {
-            margin: 10px 0 18px;
+            margin: 16px 0 24px;
+            font-size: 12.5px;
+            line-height: 1.75;
         }
 
         .voucher-totals .row {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            padding: 5px 0;
+            font-size: 12.5px;
+            padding: 6px 0;
             border-bottom: 1px dashed #e2e2e2;
         }
 
         .voucher-totals .row.sub {
             padding-left: 14px;
-            color: #888;
-            font-size: 11px;
+            color: #666;
+            font-size: 11.5px;
         }
 
         .voucher-totals .row.grand {
             border-top: 1.5px solid #222;
             border-bottom: none;
-            margin-top: 4px;
-            padding-top: 10px;
+            margin-top: 6px;
+            padding-top: 12px;
             font-size: 14px;
             font-weight: 800;
             color: #111;
         }
 
         .voucher-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             flex: 1 0 auto;
+        }
+
+        .voucher-remark-section {
+            margin-top: 10px;
+            margin-bottom: 20px;
         }
 
         .voucher-sign-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-            margin-top: 30px;
-            font-size: 11px;
-            color: #555;
+            margin-top: auto;
+            padding-top: 20px;
+            padding-bottom: 12px;
+            font-size: 12.5px;
+            line-height: 1.75;
+            color: #333;
             text-align: left;
         }
 
         .voucher-sign-row .line {
-            border-top: 1px solid #999;
-            margin-top: 34px;
+            border-top: 1px solid #777;
+            margin-top: 36px;
             padding-top: 5px;
         }
 
         .voucher-footer {
-            margin-top: auto;
-            padding-top: 12px;
-            border-top: 1px solid #eee;
-            font-size: 10px;
-            color: #888;
-            line-height: 1.7;
+            margin-top: 0;
+            padding-top: 14px;
+            border-top: 1px solid #ddd;
+            font-size: 11.5px;
+            color: #555;
+            line-height: 1.75;
             text-align: left;
         }
 
-        .inv-brand {
+        /* BACK PAGE — EXPANDED TO FILL FULL A4 */
+        .terms-header-row {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
 
-        .inv-brand img {
-            width: 40px;
-            height: 40px;
-            border-radius: 9px;
+        .terms-header-row img {
+            width: 75px;
+            height: 75px;
             object-fit: cover;
         }
 
-        .inv-brand-name {
-            font-size: 20px;
+        .terms-header-row .inv-num {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .terms-main-title {
+            font-size: 17px;
             font-weight: 800;
-            color: #6c63ff;
-            letter-spacing: -0.5px;
-        }
-
-        .inv-brand-sub {
-            font-size: 10px;
-            color: #999;
-            margin-top: 1px;
-        }
-
-        .paid-stamp {
-            display: inline-block;
-            border: 3px solid #6c63ff;
-            color: #6c63ff;
-            font-weight: 800;
-            font-size: 18px;
-            letter-spacing: 2px;
-            padding: 6px 16px;
-            border-radius: 8px;
-            transform: rotate(-6deg);
-            opacity: 0.85;
-            margin: 10px 0 16px;
-        }
-
-        /* BACK PAGE — terms & conditions */
-        .terms-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
+            color: #2563eb;
+            margin-bottom: 24px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #6c63ff;
-        }
-
-        .terms-header img {
-            width: 52px;
-            height: 52px;
-            border-radius: 0;
-            border: none;
-            object-fit: cover;
-        }
-
-        .terms-header .t {
-            font-size: 14px;
-            font-weight: 800;
-            color: #6c63ff;
-        }
-
-        .terms-header .d {
-            margin-left: auto;
-            font-size: 10px;
-            color: #aaa;
+            border-bottom: 2.5px solid #2563eb;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
         }
 
         .terms-body {
             flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            /* Distributes sections evenly */
         }
 
         .terms-section {
-            margin-bottom: 14px;
-            text-align: left;
+            margin-bottom: 20px;
         }
 
-        .terms-section h4 {
-            font-size: 11.5px;
+        .terms-section h4.blue-subhead {
+            font-size: 13.5px;
             font-weight: 800;
-            color: #1a4fe0;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #2563eb;
+            margin-bottom: 12px;
+            line-height: 1.7;
+            text-align: justify;
         }
 
         .terms-section ol,
         .terms-section ul {
-            padding-left: 18px;
-            text-align: left;
+            padding-left: 22px;
         }
 
         .terms-section li {
-            font-size: 11.5px;
-            line-height: 1.6;
-            color: #444;
-            margin-bottom: 5px;
-            text-align: left;
+            font-size: 12.5px;
+            line-height: 1.75;
+            color: #222;
+            margin-bottom: 10px;
+            text-align: justify;
         }
 
         .terms-ack {
             margin-top: auto;
-            padding-top: 14px;
-            border-top: 1px dashed #ddd;
+            padding-top: 20px;
+            border-top: 1.5px dashed #ccc;
         }
 
         .terms-ack p.ack-note {
-            font-size: 10px;
-            color: #1a4fe0;
+            font-size: 12px;
+            color: #2563eb;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
         }
 
         .terms-sign-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            font-size: 10.5px;
-            color: #888;
+            gap: 24px;
+            font-size: 12px;
+            color: #333;
             text-align: left;
         }
 
         .terms-sign-row .line {
-            border-top: 1px solid #ccc;
-            margin-top: 28px;
-            padding-top: 4px;
+            border-top: 1.5px solid #888;
+            margin-top: 40px;
+            padding-top: 6px;
         }
 
         .loading-spinner {
             text-align: center;
             padding: 30px;
-            color: #888;
+            color: #666;
             display: none;
         }
 
@@ -554,14 +562,22 @@
             }
         }
 
+        /* STRICT A4 PRINT OPTIMIZATIONS */
         @media print {
             @page {
-                size: A4;
-                margin: 12mm;
+                size: A4 portrait;
+                margin: 0;
             }
 
+            html,
             body {
-                background: white;
+                width: 210mm;
+                height: 100%;
+                background: #fff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
 
             .app-bar,
@@ -571,27 +587,59 @@
                 display: none !important;
             }
 
+            .container {
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
             .invoice-wrap {
                 display: block !important;
             }
 
-            .container {
-                padding: 0;
-                max-width: 100%;
-            }
-
             .a4-page {
-                box-shadow: none;
-                border-radius: 0;
-                max-width: 100%;
-                padding: 0;
-                margin: 0;
-                min-height: 273mm;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                width: 210mm !important;
+                max-width: 210mm !important;
+                min-height: 297mm !important;
+                height: 297mm !important;
+                padding: 18mm 20mm !important;
+                margin: 0 !important;
+                box-sizing: border-box !important;
+                position: relative !important;
             }
 
-            /* front page ends, back page (terms) starts on a fresh sheet */
             .a4-page.front {
-                page-break-after: always;
+                page-break-after: always !important;
+                break-after: page !important;
+            }
+
+            .a4-page.back {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+
+            /* Adjust print spacing specifically for Back Page */
+            .a4-page.back .terms-section li {
+                font-size: 13px !important;
+                line-height: 1.5 !important;
+                margin-bottom: 12px !important;
+            }
+
+            .a4-page.back .terms-main-title {
+                font-size: 18px !important;
+                margin-bottom: 28px !important;
+            }
+
+            .a4-page.back .terms-sign-row .line {
+                margin-top: 50px !important;
+            }
+
+            .watermark {
+                font-size: 90px !important;
+                opacity: 0.15 !important;
             }
         }
     </style>
@@ -624,6 +672,9 @@
                 <input type="text" id="ceir-number" placeholder="CEIR (ရှိပါက)" />
             </div>
             <div class="buyer-row" style="margin-top:8px">
+                <input type="text" id="ios-version" placeholder="iOS Version (ဥပမာ - iOS 17.5.1)" />
+            </div>
+            <div class="buyer-row" style="margin-top:8px">
                 <input type="number" id="discount-amount" placeholder="Discount (Ks)" />
                 <input type="number" id="paid-mmk" placeholder="Total Paid MMK (Ks)" />
             </div>
@@ -632,7 +683,11 @@
                 <input type="number" id="paid-banking" placeholder="Paid by Banking (Ks)" />
             </div>
             <div class="buyer-row" style="margin-top:8px">
-                <input type="text" id="foc-item" placeholder="FOC ပါ Item (ဥပမာ - Case, Screen Protector)" />
+                <div class="foc-check-row">
+                    <label><input type="checkbox" id="foc-charger" /> Charger ခေါင်း</label>
+                    <label><input type="checkbox" id="foc-glass" /> မှန်မကွဲ (Tempered Glass)</label>
+                    <label><input type="checkbox" id="foc-cable" /> Cable</label>
+                </div>
             </div>
             <div class="error-msg" id="error-msg"></div>
         </div>
@@ -665,8 +720,8 @@
         const KEY = 'sb_publishable_kBWsQDvwBd5oixD5FxLu8w_062sRH_C';
 
         // ---- SHOP INFO ----
-        const SHOP_NAME    = 'iCrave';
-        const SHOP_SUB     = 'Premium Second Hand iPhones';
+        const SHOP_NAME = 'iCrave';
+        const SHOP_SUB = 'Premium Second Hand iPhones';
         const SHOP_ADDRESS = 'No.6, Paw Taw Mu 2<sup>nd</sup> Street, 2 Quarter, Thamine Junction, Mayangone Township, Yangon.';
         const SHOP_HOTLINE = '09789156464';
         const SHOP_CS_NUMBERS = ['09789156464', '09256423922', '09975038285', '09420158811'];
@@ -731,84 +786,93 @@
 
             const blank = (v) => v ? v : '_______';
             const warrantyPeriod = blank(document.getElementById('warranty-period').value.trim());
-            const refundPct      = blank(document.getElementById('refund-pct').value.trim());
-            const exchangePct    = blank(document.getElementById('exchange-pct').value.trim());
-            const ceirNumber     = document.getElementById('ceir-number').value.trim();
-            const focItem        = document.getElementById('foc-item').value.trim();
+            const refundPct = blank(document.getElementById('refund-pct').value.trim());
+            const exchangePct = blank(document.getElementById('exchange-pct').value.trim());
+            const ceirNumber = document.getElementById('ceir-number').value.trim();
+            const iosVersion = document.getElementById('ios-version').value.trim();
+
+            const focItems = [];
+            if (document.getElementById('foc-charger').checked) focItems.push('Charger ခေါင်း');
+            if (document.getElementById('foc-glass').checked) focItems.push('မှန်မကွဲ (Tempered Glass)');
+            if (document.getElementById('foc-cable').checked) focItems.push('Cable');
 
             const discount = Number(document.getElementById('discount-amount').value) || 0;
-            const paidMMK  = Number(document.getElementById('paid-mmk').value) || 0;
-            const paidQR   = Number(document.getElementById('paid-qr').value) || 0;
+            const paidMMK = Number(document.getElementById('paid-mmk').value) || 0;
+            const paidQR = Number(document.getElementById('paid-qr').value) || 0;
             const paidBank = Number(document.getElementById('paid-banking').value) || 0;
-            const paidSum  = paidMMK + paidQR + paidBank;
+            const paidSum = paidMMK + paidQR + paidBank;
             const totalReceived = paidSum > 0 ? paidSum : (price - discount);
 
             const ks = (n) => n ? Number(n).toLocaleString() : '—';
+
+            const focRows = focItems.map((item, i) => `
+          <div class="item-list-row foc">
+            <span>${i + 2}</span>
+            <span>${item}</span>
+            <span>—</span>
+            <span>—</span>
+            <span class="num">1</span>
+            <span class="num">FOC</span>
+          </div>`).join('');
 
             // ---- FRONT PAGE ----
             document.getElementById('invoice-front').innerHTML = `
     <div class="page-tag">FRONT — A4</div>
     <div class="watermark">${SHOP_NAME}</div>
     <div class="voucher-body">
-    <div class="voucher-header">
-      <img class="voucher-logo" src="/favicon.png" alt="${SHOP_NAME}" />
-      <div class="voucher-shopname">${SHOP_NAME}</div>
-    </div>
+      <div>
+        <div class="voucher-header">
+          <img class="voucher-logo" src="/favicon.png" alt="${SHOP_NAME}" />
+        </div>
 
-    <div class="voucher-top-row">
-      <div class="voucher-field"><span class="lbl">Invoice No</span><span class="val">${invNo}</span></div>
-      <div class="voucher-field"><span class="lbl">Invoice Date</span><span class="val">${today}</span></div>
-      <div class="voucher-field"><span class="lbl">Invoice Time</span><span class="val">${timeNow}</span></div>
-    </div>
+        <div class="voucher-top-row">
+          <div class="voucher-field"><span class="lbl">Invoice No</span><span class="val">${invNo}</span></div>
+          <div class="voucher-field"><span class="lbl">Invoice Date</span><span class="val">${today}</span></div>
+          <div class="voucher-field"><span class="lbl">Invoice Time</span><span class="val">${timeNow}</span></div>
+        </div>
 
-    <div class="voucher-cust-row">
-      <div class="voucher-field wide"><span class="lbl">Customer Name</span><span class="val">${buyer}</span></div>
-    </div>
-    <div class="voucher-cust-row">
-      <div class="voucher-field wide"><span class="lbl">Mobile</span><span class="val">${buyerPhone}</span></div>
-    </div>
+        <div class="voucher-cust-row">
+          <div class="voucher-field wide"><span class="lbl">Customer Name</span><span class="val">${buyer}</span></div>
+        </div>
+        <div class="voucher-cust-row">
+          <div class="voucher-field wide"><span class="lbl">Mobile</span><span class="val">${buyerPhone}</span></div>
+        </div>
 
-    <div class="item-list">
-      <div class="item-list-head">
-        <span>No</span><span>Model</span><span>IMEI</span><span>CEIR</span><span class="num">Qty</span><span class="num">Unit Price</span>
+        <div class="item-list">
+          <div class="item-list-head">
+            <span>No</span><span>Model</span><span>IMEI</span><span>CEIR</span><span class="num">Qty</span><span class="num">Unit Price</span>
+          </div>
+          <div class="item-list-row">
+            <span>1</span>
+            <span>${p.model || '—'}${p.storage ? ' ' + p.storage : ''}${p.color ? ' / ' + p.color : ''}${iosVersion ? `<span class="item-opts">iOS Version: ${iosVersion}</span>` : ''}</span>
+            <span style="font-family:monospace;font-size:10px">${p.imei || '—'}</span>
+            <span>${ceirNumber || '—'}</span>
+            <span class="num">1</span>
+            <span class="num">${ks(price)}</span>
+          </div>${focRows}
+        </div>
+
+        <div class="voucher-totals">
+          <div class="row"><span>Product Cost</span><span>Ks ${ks(price)}</span></div>
+          <div class="row"><span>Discount</span><span>${discount ? 'Ks ' + ks(discount) : '—'}</span></div>
+          <div class="row"><span>Total Paid (MMK)</span><span>${paidMMK ? 'Ks ' + ks(paidMMK) : '—'}</span></div>
+          <div class="row sub"><span>(MMK QR)</span><span>${paidQR ? 'Ks ' + ks(paidQR) : '—'}</span></div>
+          <div class="row sub"><span>(Banking)</span><span>${paidBank ? 'Ks ' + ks(paidBank) : '—'}</span></div>
+          <div class="row grand"><span>Total received</span><span>Ks ${ks(totalReceived)}</span></div>
+        </div>
       </div>
-      <div class="item-list-row">
-        <span>1</span>
-        <span>${p.model || '—'}${p.storage ? ' ' + p.storage : ''}${p.color ? ' / ' + p.color : ''}</span>
-        <span style="font-family:monospace;font-size:10px">${p.imei || '—'}</span>
-        <span>${ceirNumber || '—'}</span>
-        <span class="num">1</span>
-        <span class="num">${ks(price)}</span>
+
+      <div>
+        <div class="voucher-field wide voucher-remark-section">
+          <span class="lbl">မှတ်ချက်</span>
+          <span class="val">&nbsp;</span>
+        </div>
+
+        <div class="voucher-sign-row">
+          <div><div class="line">Invoice issued by</div></div>
+          <div><div class="line">Received by</div></div>
+        </div>
       </div>
-      ${focItem ? `
-      <div class="item-list-row foc">
-        <span>2</span>
-        <span>${focItem}</span>
-        <span>—</span>
-        <span>—</span>
-        <span class="num">1</span>
-        <span class="num">FOC</span>
-      </div>` : ''}
-    </div>
-
-    <div class="voucher-totals">
-      <div class="row"><span>Product Cost</span><span>Ks ${ks(price)}</span></div>
-      <div class="row"><span>Discount</span><span>${discount ? 'Ks ' + ks(discount) : '—'}</span></div>
-      <div class="row"><span>Total Paid (MMK)</span><span>${paidMMK ? 'Ks ' + ks(paidMMK) : '—'}</span></div>
-      <div class="row sub"><span>(MMK QR)</span><span>${paidQR ? 'Ks ' + ks(paidQR) : '—'}</span></div>
-      <div class="row sub"><span>(Banking)</span><span>${paidBank ? 'Ks ' + ks(paidBank) : '—'}</span></div>
-      <div class="row grand"><span>Total received</span><span>Ks ${ks(totalReceived)}</span></div>
-    </div>
-
-    <div class="voucher-field wide" style="margin-bottom:14px">
-      <span class="lbl">မှတ်ချက်</span>
-      <span class="val">&nbsp;</span>
-    </div>
-
-    <div class="voucher-sign-row">
-      <div><div class="line">Invoice issued by</div></div>
-      <div><div class="line">Received by</div></div>
-    </div>
     </div>
 
     <div class="voucher-footer">
@@ -823,14 +887,18 @@
     <div class="page-tag">BACK — A4</div>
     <div class="watermark">${SHOP_NAME}</div>
     <div class="terms-body">
-    <div class="terms-header">
-      <img src="/favicon.png" alt="${SHOP_NAME}" />
-      <div class="t">Warranty Terms and Conditions</div>
-      <div class="d">#${invNo}</div>
+
+    <div>
+      <div class="terms-header-row">
+        <img src="/favicon.png" alt="${SHOP_NAME}" />
+        <div class="inv-num">Invoice No: #${invNo}</div>
+      </div>
+
+      <div class="terms-main-title">Warranty Terms and Conditions</div>
     </div>
 
     <div class="terms-section">
-      <p style="font-size:11.5px;line-height:1.6;color:#444;margin-bottom:10px">
+      <p style="font-size:13px;line-height:1.75;color:#222;margin-bottom:14px;text-align:justify;">
         ${SHOP_NAME} သည် Customer များ နစ်နာမှုမရှိရလေအောင် ${SHOP_NAME} မှ ဝယ်ယူထားသော Products များအပေါ် အောက်ပါ အာမခံစနစ်များအတိုင်း ရောင်းချပေးပါသည်။
       </p>
       <ol>
@@ -845,13 +913,12 @@
     </div>
 
     <div class="terms-section">
-      <h4>Warranty ကိစ္စများဆောင်ရွက်ရာတွင် Customer ဘက်မှလည်း အောက်ပါအချက်အလက်များကို မဖြစ်မနေ လိုက်နာပေးရပါမည်။</h4>
+      <h4 class="blue-subhead">Warranty ကိစ္စများဆောင်ရွက်ရာတွင် Customer ဘက်မှလည်း အောက်ပါအချက်အလက်များကို မဖြစ်မနေ လိုက်နာပေးရပါမည်။</h4>
       <ol>
         <li>Device အတွင်းရှိ မိမိ Data များကို Backup လုပ်ထားပေးပါရန်။ ဆုံးရှုံးမှုများ ဖြစ်ပေါ်လာပါက ${SHOP_NAME} မှ တာဝန်ယူမည် မဟုတ်ပါ။</li>
         <li>အမျိုးအစားတူ အသစ်တစ်လုံး လဲပေးရာတွင် ပစ္စည်း ပြတ်လပ်မှုရှိနေပါက လဲလှယ်ပေးမည့်အချိန်ကို Customer ဘက်မှ စောင့်ဆိုင်းပေးရပါမည်။ ထိုသို့ မဟုတ်ပါက ဝယ်ယူစဉ်ကအတိုင်း ပစ္စည်းဖိုးငွေ အပြည့် ပြန်အမ်းပေးပါသည်။</li>
         <li><b>User Fault</b> ဆိုသည်မှာ Customer ပေါ့ဆမှုကြောင့် မှန်ကွဲခြင်း၊ လွတ်ကျခြင်း၊ ရေဝင်ခြင်း၊ ရေငွေ့ရိုက်ခြင်း၊ Shock ဖြစ်ခြင်း၊ မီးလောင်ခြင်းနှင့် ရာသီဥတုကြောင့် ဖြစ်ပေါ်လာသော ချို့ယွင်းချက်များ စသည်တို့ ဖြစ်ပါသည်။ </li>
       </ol>
-    </div>
     </div>
 
     <div class="terms-ack">
@@ -860,6 +927,8 @@
         <div><div class="line">Customer Name — ${buyer}</div></div>
         <div><div class="line">Customer Sign</div></div>
       </div>
+    </div>
+
     </div>
   `;
 
@@ -879,7 +948,10 @@
             document.getElementById('paid-mmk').value = '';
             document.getElementById('paid-qr').value = '';
             document.getElementById('paid-banking').value = '';
-            document.getElementById('foc-item').value = '';
+            document.getElementById('ios-version').value = '';
+            document.getElementById('foc-charger').checked = false;
+            document.getElementById('foc-glass').checked = false;
+            document.getElementById('foc-cable').checked = false;
             document.getElementById('error-msg').style.display = 'none';
             document.getElementById('invoice-wrap').style.display = 'none';
             document.getElementById('imei-input').focus();
