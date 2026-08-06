@@ -220,7 +220,7 @@
             max-width: 480px;
             margin: 0 auto 20px;
             border-radius: 16px;
-            padding: 24px 20px;
+            padding: 28px 22px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             position: relative;
             overflow: hidden;
@@ -266,17 +266,17 @@
             opacity: 0.10;
         }
 
-        /* FRONT PAGE */
+        /* FRONT PAGE — typography matched to back page scale */
         .voucher-header {
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            margin-bottom: 14px;
+            margin-bottom: 20px;
         }
 
         .voucher-logo {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 0;
             border: none;
             object-fit: cover;
@@ -287,22 +287,22 @@
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
         }
 
         .voucher-field {
-            font-size: 12px;
-            line-height: 1.3;
+            font-size: 12.5px;
+            line-height: 1.6;
         }
 
         .voucher-field .lbl {
             display: block;
             color: #666;
-            font-size: 10px;
+            font-size: 10.5px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.4px;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         .voucher-field .val {
@@ -310,8 +310,8 @@
             font-weight: 700;
             color: #222;
             border-bottom: 1px dashed #bbb;
-            padding-bottom: 3px;
-            min-height: 14px;
+            padding-bottom: 5px;
+            min-height: 18px;
         }
 
         .voucher-field.wide {
@@ -321,7 +321,7 @@
         .voucher-top-row .voucher-field .val {
             color: #333;
             font-weight: 800;
-            font-size: 12.5px;
+            font-size: 13px;
             border-bottom: none;
         }
 
@@ -333,13 +333,13 @@
         .voucher-cust-row {
             display: grid;
             grid-template-columns: 1fr;
-            margin-bottom: 8px;
+            margin-bottom: 14px;
         }
 
         .item-list {
-            margin: 12px 0 10px;
-            font-size: 12px;
-            line-height: 1.3;
+            margin: 20px 0 16px;
+            font-size: 12.5px;
+            line-height: 1.6;
             border-radius: 6px;
             overflow: hidden;
         }
@@ -349,14 +349,14 @@
             display: grid;
             grid-template-columns: 0.5fr 2fr 2fr 1fr 0.6fr 1fr;
             gap: 4px;
-            padding: 7px 6px;
+            padding: 9px 6px;
             align-items: center;
             text-align: left;
         }
 
         .item-list .item-list-head {
             background: #ececec;
-            font-size: 10px;
+            font-size: 10.5px;
             text-transform: uppercase;
             letter-spacing: 0.4px;
             color: #222;
@@ -374,10 +374,10 @@
 
         .item-list .item-opts {
             display: block;
-            font-size: 9.5px;
+            font-size: 10px;
             color: #888;
             font-weight: 400;
-            margin-top: 1px;
+            margin-top: 2px;
         }
 
         .item-list .num {
@@ -385,31 +385,31 @@
         }
 
         .voucher-totals {
-            margin: 10px 0 14px;
-            font-size: 12px;
-            line-height: 1.3;
+            margin: 16px 0 24px;
+            font-size: 12.5px;
+            line-height: 1.6;
         }
 
         .voucher-totals .row {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            padding: 4px 0;
+            font-size: 12.5px;
+            padding: 6px 0;
             border-bottom: 1px dashed #e2e2e2;
         }
 
         .voucher-totals .row.sub {
             padding-left: 14px;
             color: #666;
-            font-size: 11px;
+            font-size: 11.5px;
         }
 
         .voucher-totals .row.grand {
             border-top: 1.5px solid #222;
             border-bottom: none;
-            margin-top: 4px;
-            padding-top: 8px;
-            font-size: 13.5px;
+            margin-top: 6px;
+            padding-top: 12px;
+            font-size: 14px;
             font-weight: 800;
             color: #111;
         }
@@ -436,57 +436,57 @@
             grid-template-columns: 1fr 1fr;
             gap: 16px;
             margin-top: auto;
-            padding-top: 14px;
-            padding-bottom: 8px;
-            font-size: 12px;
-            line-height: 1.3;
+            padding-top: 20px;
+            padding-bottom: 12px;
+            font-size: 12.5px;
+            line-height: 1.6;
             color: #333;
             text-align: left;
         }
 
         .voucher-sign-row .line {
             border-top: 1px solid #777;
-            margin-top: 26px;
-            padding-top: 4px;
+            margin-top: 36px;
+            padding-top: 5px;
             width: 50%;
         }
 
         .voucher-footer {
             margin-top: 0;
-            padding-top: 10px;
+            padding-top: 14px;
             border-top: 1px solid #ddd;
-            font-size: 10.5px;
+            font-size: 11.5px;
             color: #555;
-            line-height: 1.35;
+            line-height: 1.6;
             text-align: left;
         }
 
-        /* BACK PAGE */
+        /* BACK PAGE — EXPANDED TO FILL FULL A4 */
         .terms-header-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 14px;
+            margin-bottom: 20px;
         }
 
         .terms-header-row img {
-            width: 60px;
-            height: 60px;
+            width: 75px;
+            height: 75px;
             object-fit: cover;
         }
 
         .terms-header-row .inv-num {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             color: #333;
         }
 
         .terms-main-title {
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 800;
             color: #2563eb;
-            margin-bottom: 14px;
-            padding-bottom: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 10px;
             border-bottom: 2.5px solid #2563eb;
             text-transform: uppercase;
             letter-spacing: 0.6px;
@@ -497,61 +497,62 @@
             display: flex;
             flex-direction: column;
             justify-content: space-around;
+            /* Distributes sections evenly */
         }
 
         .terms-section {
-            margin-bottom: 12px;
+            margin-bottom: 20px;
         }
 
         .terms-section h4.blue-subhead {
-            font-size: 12px;
+            font-size: 13.5px;
             font-weight: 800;
             color: #2563eb;
-            margin-bottom: 8px;
-            line-height: 1.35;
+            margin-bottom: 12px;
+            line-height: 1.7;
             text-align: justify;
         }
 
         .terms-section ol,
         .terms-section ul {
-            padding-left: 18px;
+            padding-left: 22px;
         }
 
         .terms-section li {
-            font-size: 11px;
-            line-height: 1.35;
+            font-size: 12.5px;
+            line-height: 1.75;
             color: #222;
-            margin-bottom: 6px;
+            margin-bottom: 10px;
             text-align: justify;
         }
 
         .terms-ack {
             margin-top: auto;
-            padding-top: 12px;
+            padding-top: 20px;
             border-top: 1.5px dashed #ccc;
         }
 
         .terms-ack p.ack-note {
-            font-size: 11px;
+            font-size: 12px;
             color: #2563eb;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 24px;
         }
 
         .terms-sign-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-            font-size: 11px;
+            font-size: 12px;
             color: #333;
             text-align: left;
         }
 
         .terms-sign-row .line {
             border-top: 1.5px solid #888;
-            margin-top: 28px;
-            padding-top: 5px;
+            margin-top: 40px;
+            padding-top: 6px;
             width: 50%;
         }
 
@@ -588,6 +589,7 @@
             html,
             body {
                 width: 210mm;
+                height: 100%;
                 background: #fff !important;
                 margin: 0 !important;
                 padding: 0 !important;
@@ -613,16 +615,14 @@
                 display: block !important;
             }
 
-            /* No fixed/min height here on purpose — a forced 297mm height
-               causes iOS Safari's mm-to-px rounding to overflow onto a
-               spillover page. Letting the box size to its own content and
-               only capping width keeps everything on exactly one sheet. */
             .a4-page {
                 box-shadow: none !important;
                 border-radius: 0 !important;
                 width: 210mm !important;
                 max-width: 210mm !important;
-                padding: 14mm 16mm !important;
+                min-height: 297mm !important;
+                height: 297mm !important;
+                padding: 18mm 20mm 22mm 20mm !important;
                 margin: 0 !important;
                 box-sizing: border-box !important;
                 position: relative !important;
@@ -631,15 +631,27 @@
             .a4-page.front {
                 page-break-after: always !important;
                 break-after: page !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
             }
 
             .a4-page.back {
                 page-break-after: avoid !important;
                 break-after: avoid !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
+            }
+
+            /* Adjust print spacing specifically for Back Page */
+            .a4-page.back .terms-section li {
+                font-size: 13px !important;
+                line-height: 1.5 !important;
+                margin-bottom: 12px !important;
+            }
+
+            .a4-page.back .terms-main-title {
+                font-size: 18px !important;
+                margin-bottom: 28px !important;
+            }
+
+            .a4-page.back .terms-sign-row .line {
+                margin-top: 50px !important;
             }
 
             .watermark {
@@ -648,8 +660,8 @@
             }
 
             .watermark img {
-                width: 200px !important;
-                height: 200px !important;
+                width: 220px !important;
+                height: 220px !important;
             }
         }
     </style>
@@ -855,7 +867,7 @@
           <div class="item-list-row">
             <span>1</span>
             <span>${p.model || '—'}${p.storage ? ' ' + p.storage : ''}${p.color ? ' / ' + p.color : ''}${iosVersion ? `<span class="item-opts">iOS Version: ${iosVersion}</span>` : ''}</span>
-            <span style="font-family:monospace;font-size:11px">${p.imei || '—'}</span>
+            <span style="font-family:monospace;font-size:13px">${p.imei || '—'}</span>
             <span>${ceirNumber || '—'}</span>
             <span class="num">1</span>
             <span class="num">${ks(price)}</span>
@@ -908,7 +920,7 @@
     </div>
 
     <div class="terms-section">
-      <p style="font-size:11px;line-height:1.35;color:#222;margin-bottom:8px;text-align:justify;">
+      <p style="font-size:13px;line-height:1.75;color:#222;margin-bottom:14px;text-align:justify;">
         ${SHOP_NAME} သည် Customer များ နစ်နာမှုမရှိရလေအောင် ${SHOP_NAME} မှ ဝယ်ယူထားသော Products များအပေါ် အောက်ပါ အာမခံစနစ်များအတိုင်း ရောင်းချပေးပါသည်။
       </p>
       <ol>
