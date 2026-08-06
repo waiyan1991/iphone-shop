@@ -244,7 +244,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-32deg);
-            font-size: 78px;
+            font-size: 56px;
             font-weight: 800;
             letter-spacing: 4px;
             color: rgba(108, 99, 255, 0.12);
@@ -252,21 +252,31 @@
             pointer-events: none;
             user-select: none;
             z-index: -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .watermark img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            opacity: 0.10;
         }
 
         /* FRONT PAGE — typography matched to back page scale */
         .voucher-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1.5px solid #222;
+            justify-content: flex-start;
+            margin-bottom: 20px;
         }
 
         .voucher-logo {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 0;
             border: none;
             object-fit: cover;
@@ -312,7 +322,7 @@
             color: #333;
             font-weight: 800;
             font-size: 13px;
-            border-bottom: 1.5px solid #666;
+            border-bottom: none;
         }
 
         .voucher-top-row .voucher-field .lbl {
@@ -411,15 +421,15 @@
             flex: 1 0 auto;
         }
 
-       .voucher-remark-section {
-    margin-top: 4px;
-    margin-bottom: 4px;
-}
+        .voucher-remark-section {
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
 
-.voucher-remark-section .val {
-    min-height: 4px;
-    padding-bottom: 1px;
-}
+        .voucher-remark-section .val {
+            min-height: 4px;
+            padding-bottom: 1px;
+        }
 
         .voucher-sign-row {
             display: grid;
@@ -438,6 +448,7 @@
             border-top: 1px solid #777;
             margin-top: 36px;
             padding-top: 5px;
+            width: 50%;
         }
 
         .voucher-footer {
@@ -542,6 +553,7 @@
             border-top: 1.5px solid #888;
             margin-top: 40px;
             padding-top: 6px;
+            width: 50%;
         }
 
         .loading-spinner {
@@ -610,7 +622,7 @@
                 max-width: 210mm !important;
                 min-height: 297mm !important;
                 height: 297mm !important;
-              padding: 18mm 20mm 22mm 20mm !important; 
+                padding: 18mm 20mm 22mm 20mm !important;
                 margin: 0 !important;
                 box-sizing: border-box !important;
                 position: relative !important;
@@ -643,8 +655,13 @@
             }
 
             .watermark {
-                font-size: 90px !important;
+                font-size: 64px !important;
                 opacity: 0.15 !important;
+            }
+
+            .watermark img {
+                width: 220px !important;
+                height: 220px !important;
             }
         }
     </style>
@@ -823,7 +840,7 @@
             // ---- FRONT PAGE ----
             document.getElementById('invoice-front').innerHTML = `
     <div class="page-tag">FRONT — A4</div>
-    <div class="watermark">${SHOP_NAME}</div>
+    <div class="watermark"><img src="/favicon.png" alt="${SHOP_NAME}" />${SHOP_NAME}</div>
     <div class="voucher-body">
       <div>
         <div class="voucher-header">
@@ -850,7 +867,7 @@
           <div class="item-list-row">
             <span>1</span>
             <span>${p.model || '—'}${p.storage ? ' ' + p.storage : ''}${p.color ? ' / ' + p.color : ''}${iosVersion ? `<span class="item-opts">iOS Version: ${iosVersion}</span>` : ''}</span>
-            <span style="font-family:monospace;font-size:10px">${p.imei || '—'}</span>
+            <span style="font-family:monospace;font-size:13px">${p.imei || '—'}</span>
             <span>${ceirNumber || '—'}</span>
             <span class="num">1</span>
             <span class="num">${ks(price)}</span>
@@ -890,7 +907,7 @@
             // ---- BACK PAGE: terms & conditions ----
             document.getElementById('invoice-back').innerHTML = `
     <div class="page-tag">BACK — A4</div>
-    <div class="watermark">${SHOP_NAME}</div>
+    <div class="watermark"><img src="/favicon.png" alt="${SHOP_NAME}" />${SHOP_NAME}</div>
     <div class="terms-body">
 
     <div>
