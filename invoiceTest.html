@@ -546,10 +546,10 @@
         }
 
         /* PRINT STYLES */
-      @media print {
+     @media print {
     @page {
         size: A4 portrait;
-        margin: 4mm 6mm !important; /* Mobile AirPrint အတွက် Margin ခပ်ကျဉ်းကျဉ်းထားပေးရပါမည် */
+        margin: 0 !important; /* System Header/Footer (URL & Date) များကို စာရွက်ဘောင်အပြင်တွန်းထုတ်ရန် */
     }
 
     html, body {
@@ -557,7 +557,7 @@
         height: auto !important;
         background: #fff !important;
         margin: 0 !important;
-        padding: 0 !important;
+        padding: 4mm 6mm !important; /* Margin 0 ဖြစ်သွား၍ စာရွက်ဘောင်မကပ်အောင် Body ကို Padding ပေးခြင်း */
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
@@ -590,7 +590,7 @@
         box-sizing: border-box !important;
         position: relative !important;
         overflow: visible !important;
-        display: block !important; /* Flex ကို Block ပြောင်းမှ iOS Safari မှာ Page Break မမှားမှာဖြစ်ပါတယ် */
+        display: block !important;
     }
 
     .a4-page.front {
@@ -642,14 +642,14 @@
     .terms-section h4.blue-subhead { font-size: 13px !important; margin-bottom: 4px !important; }
     .terms-section li { font-size: 12px !important; line-height: 1.5 !important; margin-bottom: 4px !important; }
 
-    /* ပြင်ဆင်ထားသော BACK PAGE ACKNOWLEDGEMENT & SIGN SECTION */
+    /* BACK PAGE ACKNOWLEDGEMENT & SIGN SECTION */
     .terms-ack { 
-        margin-top: 75px !important; /* အောက်သို့ အနည်းငယ် ပိုကျသွားစေရန် Margin တိုးထားပါသည် */
+        margin-top: 75px !important; 
         padding-top: 12px !important; 
     }
     .terms-ack p.ack-note { 
         font-size: 12.5px !important; 
-        margin-bottom: 24px !important; /* စာသားနှင့် Sign ထိုးရမည့်နေရာ ကြားအကွာအဝေး ညှိထားပါသည် */
+        margin-bottom: 24px !important; 
     }
 }
     </style>
