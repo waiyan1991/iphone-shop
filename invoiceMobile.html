@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Print System</title>
+
+    <!-- html2pdf.js Library (Safari URL ဖျောက်ရန် အဓိက script) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        /* Base Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif, 'Pyidaungsu';
+        }
+
+        body {
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        /* Action Bar / Print Button Wrapper */
+        .print-btn-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-pdf {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-pdf:hover {
+            background-color: #0056b3;
+        }
+
+        /* Invoice Main Container */
+        #invoice-wrap {
+            width: 210mm; /* Standard A4 Width */
+            margin: 0 auto;
+            background: #ffffff;
+        }
+
+        /* Individual A4 Page Layout */
+        .a4-page {
+            width: 210mm;
+            height: 297mm; /* Fixed A4 Height to prevent 3rd/4th extra pages */
+            padding: 12mm 15mm;
+            box-sizing: border-box;
+            position: relative;
+            background: #ffffff;
+            overflow: hidden;
+            page-break-after: always;
+            break-after: page;
+        }
+
+        /* 1. FRONT PAGE STYLES */
+        .voucher-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .voucher-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .voucher-logo {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        .voucher-cust-row {
+            margin-bottom: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .item-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .item-list th, .item-list td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .item-list th {
+            background-color: #f8f9fa;
+        }
+
+        .voucher-totals {
+            margin-left: auto;
+            width: 40%;
+            margin-bottom: 15px;
+        }
+
+        .voucher-totals .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 13px;
+        }
+
+        .voucher-sign-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+
+        .sign-box {
+            text-align: center;
+            font-size: 13px;
+            border-top: 1px dashed #333;
+            width: 150px;
+            padding-top: 5px;
+        }
+
+        .voucher-footer {
+            margin-top: auto; /* Flexbox pushed to bottom */
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            font-size: 11px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* 2. BACK PAGE STYLES */
+        .terms-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .terms-main-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #007bff;
+            padding-bottom: 4px;
+        }
+
+        .terms-section {
+            margin-bottom: 12px;
+        }
+
+        .terms-section h4.blue-subhead {
+            font-size: 13.5px;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .terms-section ul {
+            padding-left: 20px;
+        }
+
+        .terms-section li {
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 4px;
+            color: #444;
+        }
+
+        /* Acknowledgement & Sign Section (Fixed at Bottom) */
+        .terms-ack {
+            margin-top: auto; /* Flexbox push down to bottom */
+            padding-top: 15px;
+        }
+
+        .terms-ack p.ack-note {
+            font-size: 12.5px;
+            font-weight: bold;
+            margin-bottom: 40px; /* Space between Note and Customer Sign */
+            color: #222;
+        }
+
+        .terms-sign-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Download PDF Button -->
+    <div class="print-btn-row">
+        <button class="btn-pdf" onclick="downloadInvoicePDF()">📄 PDF ဒေါင်းလုဒ်ဆွဲမည် (URL မပါပါ)</button>
+    </div>
+
+    <!-- Printable Invoice Container -->
+    <div id="invoice-wrap">
+
+        <!-- Page 1: Front Page (Voucher) -->
+        <div class="a4-page front">
+            <div class="voucher-body">
+                <div class="voucher-header">
+                    <div>
+                        <h2 style="color: #007bff;">COMPANY NAME</h2>
+                        <p style="font-size: 12px; color: #555;">Sales Invoice / Voucher</p>
+                    </div>
+                    <img src="https://via.placeholder.com/70" alt="Logo" class="voucher-logo">
+                </div>
+
+                <div class="voucher-cust-row">
+                    <p><strong>Customer Name:</strong> U Ba</p>
+                    <p><strong>Phone:</strong> 09-123456789</p>
+                    <p><strong>Address:</strong> Yangon, Myanmar</p>
+                    <p><strong>Date:</strong> 07/08/2026</p>
+                </div>
+
+                <table class="item-list">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Description</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Product Item A</td>
+                            <td>1</td>
+                            <td>100,000 MMK</td>
+                            <td>100,000 MMK</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Product Item B</td>
+                            <td>2</td>
+                            <td>50,000 MMK</td>
+                            <td>100,000 MMK</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="voucher-totals">
+                    <div class="row">
+                        <span>Subtotal:</span>
+                        <span>200,000 MMK</span>
+                    </div>
+                    <div class="row">
+                        <span>Discount:</span>
+                        <span>0 MMK</span>
+                    </div>
+                    <div class="row" style="font-weight: bold; border-top: 1px solid #ccc; padding-top: 4px;">
+                        <span>Total:</span>
+                        <span>200,000 MMK</span>
+                    </div>
+                </div>
+
+                <div class="voucher-sign-row">
+                    <div class="sign-box">Issued By</div>
+                    <div class="sign-box">Authorized Signature</div>
+                </div>
+
+                <div class="voucher-footer">
+                    <p>Thank you for your business! | Phone: 09-000000000 | Website: www.example.com</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: Back Page (Terms & Conditions) -->
+        <div class="a4-page back">
+            <div class="terms-body">
+                <div class="terms-header-row">
+                    <h3 class="terms-main-title">Warranty & Sales Terms & Conditions</h3>
+                </div>
+
+                <div class="terms-section">
+                    <h4 class="blue-subhead">၁။ အာမခံဆိုင်ရာ စည်းကမ်းချက်များ</h4>
+                    <ul>
+                        <li>ဝယ်ယူထားသော ပစ္စည်းများအား အာမခံသက်တမ်းအတွင်း စက်ရုံထုတ် ချို့ယွင်းချက်များအတွက်သာ အာမခံပေးပါသည်။</li>
+                        <li>ရေဝင်ခြင်း၊ မီးလောင်ခြင်း၊ ပြုတ်ကျခြင်းနှင့် သုံးစွဲသူ၏ ပေါ့ဆမှုကြောင့် ပျက်စီးခြင်းများအား အာမခံမပါဝင်ပါ။</li>
+                        <li>အာမခံကတ် သို့မဟုတ် ဒီဘောက်ချာအား ပြသနိုင်မှသာ အာမခံ ဝန်ဆောင်မှုကို ရရှိမည်ဖြစ်ပါသည်။</li>
+                    </ul>
+                </div>
+
+                <div class="terms-section">
+                    <h4 class="blue-subhead">၂။ ပစ္စည်းလဲလှယ်ခြင်းနှင့် ငွေပြန်အမ်းခြင်း</h4>
+                    <ul>
+                        <li>ဝယ်ယူပြီးသော ပစ္စည်းများကို ငွေပြန်အမ်းပေးမည်မဟုတ်ပါ။</li>
+                        <li>ပစ္စည်းအတိုင်းအတာ ချို့ယွင်းချက်ရှိပါက ဝယ်ယူပြီး (၇) ရက်အတွင်း လဲလှယ်နိုင်ပါသည်။</li>
+                    </ul>
+                </div>
+
+                <!-- Customer Sign Section (Automatically Pushed to Bottom) -->
+                <div class="terms-ack">
+                    <p class="ack-note">အထက်ပါ Warranty ဆိုင်ရာစည်းကမ်းချက်များကို သေချာစွာ ဖတ်ရှုပြီး နားလည်လက်ခံပါသည်၊၊</p>
+                    <div class="terms-sign-row">
+                        <div class="sign-box">Customer Name</div>
+                        <div class="sign-box">Customer Signature</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Function -->
+    <script>
+        function downloadInvoicePDF() {
+            const element = document.getElementById('invoice-wrap');
+            
+            // html2pdf Options Configuration
+            const opt = {
+                margin:       0,
+                filename:     'Invoice_Document.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true,
+                    logging: false
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['css', 'legacy'] }
+            };
+
+            // Generate and Save PDF Directly
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+</html>
