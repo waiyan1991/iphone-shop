@@ -546,7 +546,7 @@
         }
 
         /* PRINT STYLES */
-       @media print {
+      @media print {
     @page {
         size: A4 portrait;
         margin: 4mm 6mm !important; /* Mobile AirPrint အတွက် Margin ခပ်ကျဉ်းကျဉ်းထားပေးရပါမည် */
@@ -590,7 +590,7 @@
         box-sizing: border-box !important;
         position: relative !important;
         overflow: visible !important;
-        display: block !important; /* Flex ကို Block ပြောင်းမှ iOS Safari မှာ Page Break မမှားမှာဖြစ်ပါတယ် */
+        display: block !important;
     }
 
     .a4-page.front {
@@ -607,10 +607,13 @@
         break-inside: avoid !important;
     }
 
-    .voucher-body, .terms-body {
-        display: block !important;
-        height: auto !important;
-        min-height: 0 !important;
+    /* 1. FRONT PAGE - Flex height ချိန်ပြီး Footer မရွေ့အောင် ထိန်းခြင်း */
+    .voucher-body {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        height: 270mm !important; /* Fixed Height ထားပေးသဖြင့် FOC မပါလည်း Address အောက်မှာ အမြဲငြိမ်နေမည် */
+        box-sizing: border-box !important;
     }
 
     /* FRONT PAGE SPACING FOR SAFARI */
@@ -629,10 +632,19 @@
     .voucher-sign-row { margin-top: 10px !important; padding-bottom: 4px !important; }
     
     .voucher-footer {
-        margin-top: 8px !important;
+        margin-top: auto !important; /* Footer ကို အောက်ဆုံးသို့ တွန်းပို့ပေးမည် */
         padding-top: 6px !important;
         font-size: 11.5px !important;
         line-height: 1.5 !important;
+    }
+
+    /* 2. BACK PAGE - Flex height ချိန်ပြီး Sign Section ကို အောက်ဆုံးတွန်းချခြင်း */
+    .terms-body {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        height: 270mm !important; /* Back page ကိုလည်း Height သေချာ ထိန်းပေးထားပါသည် */
+        box-sizing: border-box !important;
     }
 
     /* BACK PAGE SPACING FOR SAFARI */
@@ -641,10 +653,21 @@
     .terms-section { margin-bottom: 8px !important; }
     .terms-section h4.blue-subhead { font-size: 13px !important; margin-bottom: 4px !important; }
     .terms-section li { font-size: 12px !important; line-height: 1.5 !important; margin-bottom: 4px !important; }
-    .terms-ack { margin-top: 8px !important; padding-top: 8px !important; }
-    .terms-ack p.ack-note { font-size: 12.5px !important; margin-bottom: 12px !important; }
+
+    .terms-ack {
+        margin-top: auto !important; /* အထက်ပါ Warranty စည်းကမ်းချက်များ... နဲ့ Sign Row ကို အောက်ဆုံးတွန်းချပါမည် */
+        padding-top: 10px !important;
+    }
+    
+    .terms-ack p.ack-note {
+        font-size: 12.5px !important;
+        margin-bottom: 25px !important; /* Sign Row မရောက်မီ Gap ပိုကျယ်အောင် တိုးထားပါသည် */
+    }
+
+    .terms-sign-row {
+        margin-bottom: 10px !important; /* Sign နေရာကို အောက်ခြေနားအထိ တွန်းချပေးထားပါသည် */
+    }
 }
-    </style>
 </head>
 
 <body>
