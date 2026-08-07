@@ -5,7 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>iCrave — Invoice</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Pyidaungsu:wght@400;700&display=swap"
         rel="stylesheet" />
     <style>
         *,
@@ -17,7 +18,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Pyidaungsu', 'Inter', sans-serif;
             background: #f0f0f5;
             min-height: 100vh;
             color: #111;
@@ -45,13 +46,13 @@
         }
 
         .app-bar span {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             color: #111;
         }
 
         .container {
-            max-width: 480px;
+            max-width: 520px;
             margin: 0 auto;
             padding: 20px 16px;
         }
@@ -65,7 +66,7 @@
         }
 
         .search-card h2 {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             color: #111;
             margin-bottom: 14px;
@@ -87,12 +88,6 @@
             font-weight: 600;
             color: #111;
             outline: none;
-            letter-spacing: 1px;
-            transition: border-color 0.2s;
-        }
-
-        .input-row input:focus {
-            border-color: #6c63ff;
         }
 
         .btn-search {
@@ -103,14 +98,7 @@
             padding: 12px 18px;
             font-size: 14px;
             font-weight: 700;
-            font-family: inherit;
             cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .btn-search:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
 
         .buyer-row {
@@ -125,15 +113,9 @@
             border: 1.5px solid #e5e5ea;
             border-radius: 10px;
             padding: 11px 13px;
-            font-size: 13px;
-            font-family: inherit;
+            font-size: 14px;
             color: #111;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .buyer-row input:focus {
-            border-color: #6c63ff;
         }
 
         .foc-check-row {
@@ -146,8 +128,7 @@
             border: 1.5px solid #e5e5ea;
             border-radius: 10px;
             padding: 11px 13px;
-            font-size: 13px;
-            color: #333;
+            font-size: 14px;
         }
 
         .foc-check-row label {
@@ -158,10 +139,9 @@
         }
 
         .foc-check-row input[type="checkbox"] {
-            width: 15px;
-            height: 15px;
+            width: 16px;
+            height: 16px;
             accent-color: #6c63ff;
-            cursor: pointer;
         }
 
         .error-msg {
@@ -170,12 +150,12 @@
             border-radius: 10px;
             padding: 12px 14px;
             color: #ef4444;
-            font-size: 13px;
+            font-size: 14px;
             margin-top: 12px;
             display: none;
         }
 
-        /* INVOICE */
+        /* INVOICE WRAP */
         .invoice-wrap {
             display: none;
         }
@@ -192,13 +172,9 @@
             border: none;
             border-radius: 10px;
             padding: 12px 20px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
-            font-family: inherit;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .btn-reset {
@@ -207,26 +183,24 @@
             border: 1.5px solid #6c63ff;
             border-radius: 10px;
             padding: 12px 16px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
-            font-family: inherit;
             cursor: pointer;
         }
 
-        /* A4 PAGE — Shared by Screen and Print */
         .a4-page {
             background: #fff;
             width: 100%;
-            max-width: 480px;
+            max-width: 520px;
             margin: 0 auto 20px;
             border-radius: 16px;
-            padding: 28px 22px;
+            padding: 24px 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             position: relative;
-            overflow: hidden;
             z-index: 0;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
         .page-tag {
@@ -236,49 +210,36 @@
             font-size: 10px;
             color: #999;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
         .watermark {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(-32deg);
-            font-size: 56px;
-            font-weight: 800;
-            letter-spacing: 4px;
-            color: rgba(108, 99, 255, 0.12);
-            white-space: nowrap;
+            transform: translate(-50%, -50%) rotate(-30deg);
             pointer-events: none;
             user-select: none;
             z-index: -1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
 
         .watermark img {
-            width: 180px;
-            height: 180px;
+            width: 420px;
+            height: 420px;
             object-fit: contain;
-            opacity: 0.10;
+            opacity: 0.08;
         }
 
-        /* FRONT PAGE — typography matched to back page scale */
+        /* FRONT PAGE STYLES */
         .voucher-header {
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .voucher-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 0;
-            border: none;
+            width: 150px;
+            height: 150px;
             object-fit: cover;
         }
 
@@ -287,30 +248,29 @@
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
 
         .voucher-field {
-            font-size: 12.5px;
+            font-size: 14px;
             line-height: 1.6;
         }
 
         .voucher-field .lbl {
             display: block;
-            color: #666;
-            font-size: 10.5px;
+            color: #555;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .voucher-field .val {
             display: block;
             font-weight: 700;
-            color: #222;
+            color: #111;
             border-bottom: 1px dashed #bbb;
-            padding-bottom: 5px;
+            padding-bottom: 2px;
             min-height: 18px;
         }
 
@@ -319,26 +279,21 @@
         }
 
         .voucher-top-row .voucher-field .val {
-            color: #333;
+            color: #222;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 14px;
             border-bottom: none;
-        }
-
-        .voucher-top-row .voucher-field .lbl {
-            color: #555;
-            font-weight: 700;
         }
 
         .voucher-cust-row {
             display: grid;
             grid-template-columns: 1fr;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
         }
 
         .item-list {
-            margin: 20px 0 16px;
-            font-size: 12.5px;
+            margin: 14px 0;
+            font-size: 15px;
             line-height: 1.6;
             border-radius: 6px;
             overflow: hidden;
@@ -347,19 +302,18 @@
         .item-list .item-list-head,
         .item-list .item-list-row {
             display: grid;
-            grid-template-columns: 0.5fr 2fr 2fr 1fr 0.6fr 1fr;
+            grid-template-columns: 0.5fr 2fr 2fr 1fr 0.6fr 1.2fr;
             gap: 4px;
-            padding: 9px 6px;
+            padding: 8px 6px;
             align-items: center;
             text-align: left;
         }
 
         .item-list .item-list-head {
             background: #ececec;
-            font-size: 10.5px;
+            font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
-            color: #222;
+            color: #111;
             font-weight: 700;
         }
 
@@ -367,17 +321,12 @@
             border-bottom: 1px solid #eee;
         }
 
-        .item-list .item-list-row.foc {
-            color: #111;
-            font-weight: 400;
-        }
-
         .item-list .item-opts {
             display: block;
-            font-size: 10px;
-            color: #888;
+            font-size: 12px;
+            color: #777;
             font-weight: 400;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
         .item-list .num {
@@ -385,31 +334,30 @@
         }
 
         .voucher-totals {
-            margin: 16px 0 24px;
-            font-size: 12.5px;
-            line-height: 1.6;
+            margin: 12px 0;
+            font-size: 14px;
+            line-height: 1.8;
         }
 
         .voucher-totals .row {
             display: flex;
             justify-content: space-between;
-            font-size: 12.5px;
-            padding: 6px 0;
+            padding: 4px 0;
             border-bottom: 1px dashed #e2e2e2;
         }
 
         .voucher-totals .row.sub {
-            padding-left: 14px;
-            color: #666;
-            font-size: 11.5px;
+            padding-left: 16px;
+            color: black;
+            font-size: 13px;
         }
 
         .voucher-totals .row.grand {
             border-top: 1.5px solid #222;
             border-bottom: none;
             margin-top: 6px;
-            padding-top: 12px;
-            font-size: 14px;
+            padding-top: 8px;
+            font-size: 14.5px;
             font-weight: 800;
             color: #111;
         }
@@ -418,142 +366,172 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            flex: 1 0 auto;
+            min-height: 100%;
         }
 
+        /* .voucher-remark-section {
+            margin-top: -12px;
+            margin-bottom: 12px;
+        } */
         .voucher-remark-section {
-            margin-top: 4px;
-            margin-bottom: 4px;
-        }
-
-        .voucher-remark-section .val {
-            min-height: 4px;
-            padding-bottom: 1px;
+            position: relative;
+            top: -25px;
         }
 
         .voucher-sign-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: auto;
-            padding-top: 20px;
-            padding-bottom: 12px;
-            font-size: 12.5px;
-            line-height: 1.6;
-            color: #333;
-            text-align: left;
+            gap: 20px;
+            margin-top: 15px;
+            padding-bottom: 10px;
+            font-size: 13px;
         }
 
-        .voucher-sign-row .line {
-            border-top: 1px solid #777;
-            margin-top: 36px;
-            padding-top: 5px;
-            width: 50%;
+        .voucher-sign-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .voucher-sign-col .name-above {
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 4px;
+            min-height: 18px;
+        }
+
+        .voucher-sign-col .line {
+            border-top: 1.5px solid #666;
+            padding-top: 4px;
+            width: 70%;
+            font-weight: 600;
         }
 
         .voucher-footer {
-            margin-top: 0;
-            padding-top: 14px;
+            margin-top: 15px;
+            padding-top: 10px;
             border-top: 1px solid #ddd;
-            font-size: 11.5px;
-            color: #555;
-            line-height: 1.6;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.8;
             text-align: left;
         }
 
-        /* BACK PAGE — EXPANDED TO FILL FULL A4 */
+        /* BACK PAGE STYLES */
         .terms-header-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .terms-header-row img {
-            width: 75px;
-            height: 75px;
+            width: 70px;
+            height: 70px;
             object-fit: cover;
         }
 
         .terms-header-row .inv-num {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
-            color: #333;
+            color: #222;
         }
 
         .terms-main-title {
             font-size: 17px;
             font-weight: 800;
             color: #2563eb;
-            margin-bottom: 24px;
-            padding-bottom: 10px;
-            border-bottom: 2.5px solid #2563eb;
+            margin-bottom: 14px;
+            padding-bottom: 6px;
+            border-bottom: 3px solid #2563eb;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
         }
 
         .terms-body {
-            flex: 1 0 auto;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
-            /* Distributes sections evenly */
+            justify-content: space-between;
         }
 
         .terms-section {
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
 
         .terms-section h4.blue-subhead {
-            font-size: 13.5px;
-            font-weight: 800;
+            font-size: 14px;
+            font-weight: 700;
             color: #2563eb;
-            margin-bottom: 12px;
-            line-height: 1.7;
+            margin-bottom: 8px;
+            line-height: 1.6;
             text-align: justify;
         }
 
-        .terms-section ol,
-        .terms-section ul {
-            padding-left: 22px;
+        .terms-section ol {
+            padding-left: 18px;
         }
 
         .terms-section li {
-            font-size: 12.5px;
-            line-height: 1.75;
-            color: #222;
-            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #111;
+            margin-bottom: 8px;
             text-align: justify;
         }
 
+        /* .terms-ack {
+            margin-top: -12px;
+            padding-top: 8px;
+            border-top: 1.5px dashed #bbb;
+        } */
         .terms-ack {
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 1.5px dashed #ccc;
+            position: relative;
+            top: -30px;
+            /* -20, -25, -35 စိတ်ကြိုက်ညှိ */
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1.5px dashed #bbb;
         }
 
         .terms-ack p.ack-note {
-            font-size: 12px;
+            font-size: 13.5px;
             color: #2563eb;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 25px;
         }
 
         .terms-sign-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            font-size: 12px;
-            color: #333;
-            text-align: left;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            gap: 20px;
+            font-size: 13.5px;
+            color: #222;
+        }
+
+        .terms-sign-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .terms-sign-row .name-above {
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 6px;
+            min-height: 20px;
+            width: 100%;
         }
 
         .terms-sign-row .line {
-            border-top: 1.5px solid #888;
-            margin-top: 40px;
+            border-top: 1.5px solid #444;
             padding-top: 6px;
-            width: 50%;
+            width: 65%;
+            max-width: 180px;
+            font-weight: 700;
         }
 
         .loading-spinner {
@@ -579,17 +557,17 @@
             }
         }
 
-        /* STRICT A4 PRINT OPTIMIZATIONS */
+        /* PRINT STYLES */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 0;
+                margin: 10mm 12mm;
             }
 
             html,
             body {
-                width: 210mm;
-                height: 100%;
+                width: 100% !important;
+                height: auto !important;
                 background: #fff !important;
                 margin: 0 !important;
                 padding: 0 !important;
@@ -618,50 +596,55 @@
             .a4-page {
                 box-shadow: none !important;
                 border-radius: 0 !important;
-                width: 210mm !important;
-                max-width: 210mm !important;
-                min-height: 297mm !important;
-                height: 297mm !important;
-                padding: 18mm 20mm 22mm 20mm !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+                /* Fixed height ဖြုတ်လိုက်ပါပြီ */
+                min-height: 265mm !important;
+                padding: 0 !important;
                 margin: 0 !important;
                 box-sizing: border-box !important;
                 position: relative !important;
+                overflow: visible !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
             }
 
             .a4-page.front {
                 page-break-after: always !important;
                 break-after: page !important;
+                page-break-inside: avoid !important;
             }
 
             .a4-page.back {
                 page-break-after: avoid !important;
                 break-after: avoid !important;
+                page-break-inside: avoid !important;
             }
 
-            /* Adjust print spacing specifically for Back Page */
-            .a4-page.back .terms-section li {
-                font-size: 13px !important;
+            .voucher-body,
+            .terms-body {
+                display: flex !important;
+                flex-direction: column !important;
+                min-height: 265mm !important;
+                justify-content: space-between !important;
+            }
+
+            .voucher-footer {
+                display: block !important;
+                visibility: visible !important;
+                margin-top: auto !important;
+                padding-top: 8px !important;
+                border-top: 1px solid #ddd !important;
+                font-size: 11px !important;
                 line-height: 1.5 !important;
-                margin-bottom: 12px !important;
-            }
-
-            .a4-page.back .terms-main-title {
-                font-size: 18px !important;
-                margin-bottom: 28px !important;
-            }
-
-            .a4-page.back .terms-sign-row .line {
-                margin-top: 50px !important;
-            }
-
-            .watermark {
-                font-size: 64px !important;
-                opacity: 0.15 !important;
             }
 
             .watermark img {
-                width: 220px !important;
-                height: 220px !important;
+                width: 430px !important;
+                height: 430px !important;
+                opacity: 0.08 !important;
             }
         }
     </style>
@@ -725,12 +708,10 @@
                 <button class="btn-reset" onclick="resetForm()">↺ အသစ်ထုတ်မည်</button>
             </div>
 
-            <!-- FRONT: invoice details -->
             <div class="a4-page front" id="invoice-front">
                 <div class="page-tag">FRONT — A4</div>
             </div>
 
-            <!-- BACK: terms & conditions -->
             <div class="a4-page back" id="invoice-back">
                 <div class="page-tag">BACK — A4</div>
             </div>
@@ -741,18 +722,10 @@
         const SURL = 'https://bilowmtnmfymccbgvafz.supabase.co';
         const KEY = 'sb_publishable_kBWsQDvwBd5oixD5FxLu8w_062sRH_C';
 
-        // ---- SHOP INFO ----
         const SHOP_NAME = 'iCrave';
-        const SHOP_SUB = 'Premium Second Hand iPhones';
         const SHOP_ADDRESS = 'No.6, Paw Taw Mu 2<sup>nd</sup> Street, 2 Quarter, Thamine Junction, Mayangone Township, Yangon.';
         const SHOP_HOTLINE = '09789156464';
         const SHOP_CS_NUMBERS = ['09789156464', '09256423922', '09975038285', '09420158811'];
-        // ------------------------------------
-
-        function fmt(num) {
-            if (!num && num !== 0) return '—';
-            return Number(num).toLocaleString() + ' Ks';
-        }
 
         document.getElementById('imei-input').addEventListener('keydown', e => {
             if (e.key === 'Enter') searchPhone();
@@ -798,7 +771,8 @@
         }
 
         function renderInvoice(p) {
-            const buyer = document.getElementById('buyer-name').value.trim() || '—';
+            const buyerRaw = document.getElementById('buyer-name').value.trim();
+            const buyer = buyerRaw || '—';
             const buyerPhone = document.getElementById('buyer-phone').value.trim() || '—';
             const now = new Date();
             const today = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -837,10 +811,10 @@
             <span class="num">FOC</span>
           </div>`).join('');
 
-            // ---- FRONT PAGE ----
+            // FRONT PAGE
             document.getElementById('invoice-front').innerHTML = `
     <div class="page-tag">FRONT — A4</div>
-    <div class="watermark"><img src="/favicon.png" alt="${SHOP_NAME}" />${SHOP_NAME}</div>
+    <div class="watermark"><img src="/favicon.png" alt="${SHOP_NAME}" /></div>
     <div class="voucher-body">
       <div>
         <div class="voucher-header">
@@ -867,7 +841,7 @@
           <div class="item-list-row">
             <span>1</span>
             <span>${p.model || '—'}${p.storage ? ' ' + p.storage : ''}${p.color ? ' / ' + p.color : ''}${iosVersion ? `<span class="item-opts">iOS Version: ${iosVersion}</span>` : ''}</span>
-            <span style="font-family:monospace;font-size:13px">${p.imei || '—'}</span>
+            <span style="font-family:monospace;font-size:12px">${p.imei || '—'}</span>
             <span>${ceirNumber || '—'}</span>
             <span class="num">1</span>
             <span class="num">${ks(price)}</span>
@@ -891,23 +865,29 @@
         </div>
 
         <div class="voucher-sign-row">
-          <div><div class="line"> Issued by</div></div>
-          <div><div class="line">Received by</div></div>
+          <div class="voucher-sign-col">
+            <div class="name-above">&nbsp;</div>
+            <div class="line">Issued by</div>
+          </div>
+          <div class="voucher-sign-col">
+            ${buyerRaw ? `<div class="name-above">${buyerRaw}</div>` : `<div class="name-above">&nbsp;</div>`}
+            <div class="line">Received by</div>
+          </div>
+        </div>
+
+        <div class="voucher-footer">
+          Address : ${SHOP_ADDRESS}<br>
+          Phone No. : Hotline ${SHOP_HOTLINE}<br>
+          Customer Service ${SHOP_CS_NUMBERS.join(', ')}
         </div>
       </div>
     </div>
-
-    <div class="voucher-footer">
-      Address : ${SHOP_ADDRESS}<br>
-      Phone No. : Hotline ${SHOP_HOTLINE}<br>
-      Customer Service ${SHOP_CS_NUMBERS.join(', ')}
-    </div>
   `;
 
-            // ---- BACK PAGE: terms & conditions ----
+            // BACK PAGE
             document.getElementById('invoice-back').innerHTML = `
     <div class="page-tag">BACK — A4</div>
-    <div class="watermark"><img src="/favicon.png" alt="${SHOP_NAME}" />${SHOP_NAME}</div>
+    <div class="watermark"><img src="/favicon.png" alt="${SHOP_NAME}" /></div>
     <div class="terms-body">
 
     <div>
@@ -917,37 +897,43 @@
       </div>
 
       <div class="terms-main-title">Warranty Terms and Conditions</div>
-    </div>
 
-    <div class="terms-section">
-      <p style="font-size:13px;line-height:1.75;color:#222;margin-bottom:14px;text-align:justify;">
-        ${SHOP_NAME} သည် Customer များ နစ်နာမှုမရှိရလေအောင် ${SHOP_NAME} မှ ဝယ်ယူထားသော Products များအပေါ် အောက်ပါ အာမခံစနစ်များအတိုင်း ရောင်းချပေးပါသည်။
-      </p>
-      <ol>
-        <li>ဝယ်ယူပြီး တစ်ပတ်အတွင်း Factory Error ဖြစ်ပါက အမျိုးအစားတူ နောက်ထပ်တစ်လုံး လဲပေးပါသည် (သို့မဟုတ်) ငွေအပြည့် ပြန်အမ်းပေးပါမည်။</li>
-        <li>ဝယ်ယူပြီး တစ်ပတ်ကျော်သွားသည့် အချိန် Warranty ကာလ (<b>${warrantyPeriod}</b>) အတွင်း Factory Error ဖြစ်ပါက Error ဖြစ်သည့် Parts အား အခမဲ့ ပြန်လည်ပြုပြင်ပေးပါသည်။ အချိန်ယူ၍ စစ်ဆေးရသောကြောင့် (3 ရက် - 7 ရက်) ခန့် ကြာမြင့်နိုင်ပါသည်။</li>
-        <li>System Update ကြောင့် ဖြစ်ပေါ်လာသော (Software & Hardware) Error များအား ဆိုင်မှ အာမခံပေးမည် မဟုတ်ပါ။</li>
-        <li>Touch, LCD, Display ကို မိမိစိတ်ကြိုက် စစ်ဆေး၍ ဝယ်ယူနိုင်ပါသည်။ Display ပျက်ခြင်း၊ Touch ပျက်ခြင်းများအတွက် ဆိုင်မှ အာမခံပေးမည် မဟုတ်ပါ။</li>
-        <li>Warranty ကာလအတွင်း User Fault ကြောင့် ဖြစ်ပေါ်လာသော Error များကို ဆိုင်မှ တာဝန်ယူ ဖြေရှင်းပေးမည် မဟုတ်ပါ။</li>
-        <li>ဆိုင်မှ ကပ်ပေးထားသော အာမခံစည်း၊ တံဆိပ်စည်း ပျက်စီးသွားလျှင်၊ Warranty ရက် ကျော်လွန်သွားလျှင် ဆိုင်မှ တာဝန်ယူမည် မဟုတ်ပါ။</li>
-        <li>Warranty (<b>${warrantyPeriod}</b>) ကာလအတွင်း ပြန်လည် ရောင်းချလိုပါက <b>${refundPct}%</b> နုတ်၍ ပြန်လည် ဝယ်ယူပေးပါသည်။ အလဲအထပ် လုပ်မည်ဆိုပါက <b>${exchangePct}%</b> နုတ်၍ လဲလှယ်ပေးပါသည်။</li>
-      </ol>
-    </div>
+      <div class="terms-section">
+        <p style="font-size:13.5px;line-height:1.6;color:#111;margin-bottom:10px;text-align:justify;">
+          ${SHOP_NAME} သည် Customer များ နစ်နာမှုမရှိရလေအောင် ${SHOP_NAME} မှ ဝယ်ယူထားသော Products များအပေါ် အောက်ပါ အာမခံစနစ်များအတိုင်း ရောင်းချပေးပါသည်။
+        </p>
+        <ol>
+          <li>ဝယ်ယူပြီး တစ်ပတ်အတွင်း Factory Error ဖြစ်ပါက အမျိုးအစားတူ နောက်ထပ်တစ်လုံး လဲပေးပါသည် (သို့မဟုတ်) ငွေအပြည့် ပြန်အမ်းပေးပါမည်။</li>
+          <li>ဝယ်ယူပြီး တစ်ပတ်ကျော်သွားသည့် အချိန် Warranty ကာလ (<b>${warrantyPeriod}</b>) အတွင်း Factory Error ဖြစ်ပါက Error ဖြစ်သည့် Parts အား အခမဲ့ ပြန်လည်ပြုပြင်ပေးပါသည်။ အချိန်ယူ၍ စစ်ဆေးရသောကြောင့် (3 ရက် - 7 ရက်) ခန့် ကြာမြင့်နိုင်ပါသည်။</li>
+          <li>System Update ကြောင့် ဖြစ်ပေါ်လာသော (Software & Hardware) Error များအား ဆိုင်မှ အာမခံပေးမည် မဟုတ်ပါ။</li>
+          <li>Touch, LCD, Display ကို မိမိစိတ်ကြိုက် စစ်ဆေး၍ ဝယ်ယူနိုင်ပါသည်။ Display ပျက်ခြင်း၊ Touch ပျက်ခြင်းများအတွက် ဆိုင်မှ အာမခံပေးမည် မဟုတ်ပါ။</li>
+          <li>Warranty ကာလအတွင်း User Fault ကြောင့် ဖြစ်ပေါ်လာသော Error များကို ဆိုင်မှ တာဝန်ယူ ဖြေရှင်းပေးမည် မဟုတ်ပါ။</li>
+          <li>ဆိုင်မှ ကပ်ပေးထားသော အာမခံစည်း၊ တံဆိပ်စည်း ပျက်စီးသွားလျှင်၊ Warranty ရက် ကျော်လွန်သွားလျှင် ဆိုင်မှ တာဝန်ယူမည် မဟုတ်ပါ။</li>
+          <li>Warranty (<b>${warrantyPeriod}</b>) ကာလအတွင်း ပြန်လည် ရောင်းချလိုပါက <b>${refundPct}%</b> နုတ်၍ ပြန်လည် ဝယ်ယူပေးပါသည်။ အလဲအထပ် လုပ်မည်ဆိုပါက <b>${exchangePct}%</b> နုတ်၍ လဲလှယ်ပေးပါသည်။</li>
+        </ol>
+      </div>
 
-    <div class="terms-section">
-      <h4 class="blue-subhead">Warranty ကိစ္စများဆောင်ရွက်ရာတွင် Customer ဘက်မှလည်း အောက်ပါအချက်အလက်များကို မဖြစ်မနေ လိုက်နာပေးရပါမည်။</h4>
-      <ol>
-        <li>Device အတွင်းရှိ မိမိ Data များကို Backup လုပ်ထားပေးပါရန်။ ဆုံးရှုံးမှုများ ဖြစ်ပေါ်လာပါက ${SHOP_NAME} မှ တာဝန်ယူမည် မဟုတ်ပါ။</li>
-        <li>အမျိုးအစားတူ အသစ်တစ်လုံး လဲပေးရာတွင် ပစ္စည်း ပြတ်လပ်မှုရှိနေပါက လဲလှယ်ပေးမည့်အချိန်ကို Customer ဘက်မှ စောင့်ဆိုင်းပေးရပါမည်။ ထိုသို့ မဟုတ်ပါက ဝယ်ယူစဉ်ကအတိုင်း ပစ္စည်းဖိုးငွေ အပြည့် ပြန်အမ်းပေးပါသည်။</li>
-        <li><b>User Fault</b> ဆိုသည်မှာ Customer ပေါ့ဆမှုကြောင့် မှန်ကွဲခြင်း၊ လွတ်ကျခြင်း၊ ရေဝင်ခြင်း၊ ရေငွေ့ရိုက်ခြင်း၊ Shock ဖြစ်ခြင်း၊ မီးလောင်ခြင်းနှင့် ရာသီဥတုကြောင့် ဖြစ်ပေါ်လာသော ချို့ယွင်းချက်များ စသည်တို့ ဖြစ်ပါသည်။ </li>
-      </ol>
+      <div class="terms-section">
+        <h4 class="blue-subhead">Warranty ကိစ္စများဆောင်ရွက်ရာတွင် Customer ဘက်မှလည်း အောက်ပါအချက်အလက်များကို မဖြစ်မနေ လိုက်နာပေးရပါမည်။</h4>
+        <ol>
+          <li>Device အတွင်းရှိ မိမိ Data များကို Backup လုပ်ထားပေးပါရန်။ ဆုံးရှုံးမှုများ ဖြစ်ပေါ်လာပါက ${SHOP_NAME} မှ တာဝန်ယူမည် မဟုတ်ပါ။</li>
+          <li>အမျိုးအစားတူ အသစ်တစ်လုံး လဲပေးရာတွင် ပစ္စည်း ပြတ်လပ်မှုရှိနေပါက လဲလှယ်ပေးမည့်အချိန်ကို Customer ဘက်မှ စောင့်ဆိုင်းပေးရပါမည်။ ထိုသို့ မဟုတ်ပါက ဝယ်ယူစဉ်ကအတိုင်း ပစ္စည်းဖိုးငွေ အပြည့် ပြန်အမ်းပေးပါသည်။</li>
+          <li><b>User Fault</b> ဆိုသည်မှာ Customer ပေါ့ဆမှုကြောင့် မှန်ကွဲခြင်း၊ လွတ်ကျခြင်း၊ ရေဝင်ခြင်း၊ ရေငွေ့ရိုက်ခြင်း၊ Shock ဖြစ်ခြင်း၊ မီးလောင်ခြင်းနှင့် ရာသီဥတုကြောင့် ဖြစ်ပေါ်လာသော ချို့ယွင်းချက်များ စသည်တို့ ဖြစ်ပါသည်။ </li>
+        </ol>
+      </div>
     </div>
 
     <div class="terms-ack">
       <p class="ack-note">အထက်ပါ Warranty ဆိုင်ရာ စည်းကမ်းချက်များကို နားလည်လက်ခံပါသည်။</p>
       <div class="terms-sign-row">
-        <div><div class="line">Customer Name — ${buyer}</div></div>
-        <div><div class="line">Customer Sign</div></div>
+        <div class="terms-sign-col">
+          ${buyerRaw ? `<div class="name-above">${buyerRaw}</div>` : `<div class="name-above">&nbsp;</div>`}
+          <div class="line">Customer Name</div>
+        </div>
+        <div class="terms-sign-col">
+          <div class="name-above">&nbsp;</div>
+          <div class="line">Customer Sign</div>
+        </div>
       </div>
     </div>
 
